@@ -300,18 +300,21 @@ const CalendarContainer = styled.div<{ active: boolean }>`
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     height: 600px;
     border-radius: 10px;
-    transform: ${props => (props.active ? 'translateX(0%)' : 'translateX(100%)')};
+    transform: ${props => (props.active ? 'translateX(0%)' : 'translateX(103%)')};
     user-select: none;
     transition: 0.35s ease-in-out;
     position: fixed;
-    right: 0;
-
+    right: 10px;
     top: 80px;
     margin: 0 0 0 50px;
     .calendar-container{
         overflow-y: auto;
         margin-bottom: 50px;
     }
+    .calendar-container::-webkit-scrollbar {
+        width: 50px;
+    }
+
     .flexContainer{
         display: flex;
     }
@@ -445,6 +448,7 @@ const CalendarContainer = styled.div<{ active: boolean }>`
         position: fixed;
         top: 50px;
         margin: 0;
+        right: 0;
 
         .calendar-container{
             //height: 800px;
