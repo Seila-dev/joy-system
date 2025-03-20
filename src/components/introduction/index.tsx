@@ -6,25 +6,28 @@ export const Introduction = () => {
     return (
         <Section>
             <div className="greetings">
-                <h2 className="paragraph">Olá, nomeDaPessoa! <br /> O que você quer <span className="yellow">aprender</span> hoje?</h2>
+                <h2 className="paragraph">Olá, Erick! <br /> O que você quer <span className="yellow">aprender</span> hoje?</h2>
                 <span className="lowOpacity afterParagraph">Invista em você para alcançar seus objetivos dia após dia</span>    
             </div>   
-            {/* <div className="highlightedQuests">
-                <div className="item">
-                    <div className="image-prompt flexContainer">
-                        <h3 className="logo">🚀</h3>
+            <div className="highlightedQuests">
+                <h2 className="paragraph">Sugestões para você</h2>
+                <div className="item-list">
+                    <div className="item">
+                        <div className="image-prompt flexContainer">
+                            <h3 className="logo">🚀</h3>
+                        </div>
+                        <h3 className="title">Data Research</h3>
+                        <span className="lowOpacity madeby">Estudos</span>
                     </div>
-                    <h3 className="title">Data Research</h3>
-                    <span className="lowOpacity madeby">Erick Rodrigues</span>
-                </div>
-                <div className="item">
-                    <div className="image-prompt flexContainer">
-                        <h3 className="logo">🏋️‍♂️</h3>
+                    <div className="item">
+                        <div className="image-prompt flexContainer">
+                            <h3 className="logo">🏋️‍♂️</h3>
+                        </div>
+                        <h3 className="title">Academia</h3>
+                        <span className="lowOpacity madeby">Esportes</span>
                     </div>
-                    <h3 className="title">Academia</h3>
-                    <span className="lowOpacity madeby">Erick Rodrigues</span>
                 </div>
-            </div>      */}
+            </div>     
         </Section>
     )
 }
@@ -32,8 +35,14 @@ export const Introduction = () => {
 const Section = styled.section`
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 20px;
+    background: black;
+    color: white;
+    width: 100%;
+    min-height: 400px;
+    padding: 80px 0 0 50px;
+
     .lowOpacity{
         opacity: 0.7;
     }
@@ -56,22 +65,31 @@ const Section = styled.section`
     }
     .highlightedQuests{
         display: flex;
-        max-height: 200px;
         width: 100%;
-        justify-content: flex-end;
+        margin: 0 20px;
+        flex-direction: column;
+    }
+    .highlightedQuests .item-list{
+        width: 100%;
+        display: flex;
+        min-height: 100%;
     }
     .highlightedQuests .item{
         height: 100%;
+        min-height: 150px;
         width: 100%;
-        max-width: 250px;
-        margin: 10px;
+        max-width: 150px;
+        margin: 10px 10px 0 0;
         padding: 10px;
         border-radius: 5px;
-        background: #ccc6;
+        background: transparent;
+        color: white;
+        border: 1px solid var(--secondary);
         cursor: pointer;
-        transition: 0.15s ease-out;
+        transition: 0.25s ease-out;
         &:hover{
-            background: #b3b3b3;
+            background: var(--secondary);
+            color: black;
         }
     }
     .highlightedQuests .item .image-prompt{
@@ -81,9 +99,13 @@ const Section = styled.section`
         padding: 10px;
         border-radius: 5px;
         margin-bottom: 5px;
+        transition: 0.15s ease-out;
+    }
+    .highlightedQuests .item:hover .image-prompt{
+        opacity: 1;
     }
     .highlightedQuests .item .image-prompt .logo{
-        font-size: 50px;
+        font-size: 30px;
     }
     .highlightedQuests .item .title{
         font-size: 16px;
@@ -93,19 +115,34 @@ const Section = styled.section`
     }
 
     @media(max-width: 768px){
+        display: flex;
+        flex-direction: column;
+        .highlightedQuests{
+            margin: 40px 0;
+        }
         .greetings .paragraph{
             font-size: 30px;
         }
         .greetings .afterParagraph{
             font-size: 13px;
         }
+        .highlightedQuests .paragraph{
+            font-size: 18px;
+        }
     }
     @media(max-width: 450px){
+        padding: 20px;
         .greetings .paragraph{
             font-size: 20px;
         }
         .greetings .afterParagraph{
             font-size: 10px;
+        }
+        .highlightedQuests .paragraph{
+            font-size: 14px;
+        }
+        .highlightedQuests .item-list .item .title{
+            font-size: 14px;
         }
     }
 `

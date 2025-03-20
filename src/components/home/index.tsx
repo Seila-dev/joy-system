@@ -26,18 +26,14 @@ export const Home = () => {
 }
 
 const Main = styled.main`
-    padding: 20px 50px;
     overflow-x: hidden;
-
-    @media(max-width: 450px){
-        padding: 15px;
-    }
 `
 
 const Dashboard = styled.section`
     gap: 30px;
     display: flex;
     justify-content: space-between;
+    padding: 20px 50px;
     
 
     width: 100%;
@@ -51,5 +47,7 @@ const Dashboard = styled.section`
         width: 100%;
     }
 
-
+    @media(max-width: 450px){
+        padding: 20px;
+    }
 `

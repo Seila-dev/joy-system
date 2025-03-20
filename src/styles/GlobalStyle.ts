@@ -19,7 +19,7 @@ export const GlobalStyle = createGlobalStyle`
 
     body{
         font-family: "Inter", sans-serif;
-        overflow: hidden;
+        overflow-x: hidden;
         max-width: 100vw;
     }
 `
