@@ -19,19 +19,8 @@ export const Calendar = () => {
 
     const toggleMenu = () => {
         setOpenMenu(!openMenu);
-    }
+    } 
 
-    useEffect(() => {
-        if (openMenu) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'auto';
-        }
-
-        return () => {
-            document.body.style.overflow = 'auto';
-        };
-    }, [openMenu]);
     let date = new Date;
     const today = date.getDate()
     const currentMonthDate = date.getMonth()
@@ -314,7 +303,7 @@ const CalendarContainer = styled.div<{ active: boolean }>`
     transform: ${props => (props.active ? 'translateX(0%)' : 'translateX(100%)')};
     user-select: none;
     transition: 0.35s ease-in-out;
-    position: absolute;
+    position: fixed;
     right: 0;
 
     top: 80px;

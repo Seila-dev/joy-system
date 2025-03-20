@@ -10,17 +10,6 @@ export const Header = () => {
         setOpenMenu(!openMenu);
     }
 
-    useEffect(() => {
-        if (openMenu) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'auto';
-        }
-
-        return () => {
-            document.body.style.overflow = 'auto';
-        };
-    }, [openMenu]);
 
     return (
         <>
