@@ -9,7 +9,7 @@ export const Introduction = () => {
                 <h2 className="paragraph">Olá, nomeDaPessoa! <br /> O que você quer <span className="yellow">aprender</span> hoje?</h2>
                 <span className="lowOpacity afterParagraph">Invista em você para alcançar seus objetivos dia após dia</span>    
             </div>   
-            <div className="highlightedQuests">
+            {/* <div className="highlightedQuests">
                 <div className="item">
                     <div className="image-prompt flexContainer">
                         <h3 className="logo">🚀</h3>
@@ -24,7 +24,7 @@ export const Introduction = () => {
                     <h3 className="title">Academia</h3>
                     <span className="lowOpacity madeby">Erick Rodrigues</span>
                 </div>
-            </div>     
+            </div>      */}
         </Section>
     )
 }
@@ -90,5 +90,22 @@ const Section = styled.section`
     }
     .highlightedQuests .item span.madeby{
         font-size: 12px;
+    }
+
+    @media(max-width: 768px){
+        .greetings .paragraph{
+            font-size: 30px;
+        }
+        .greetings .afterParagraph{
+            font-size: 13px;
+        }
+    }
+    @media(max-width: 450px){
+        .greetings .paragraph{
+            font-size: 20px;
+        }
+        .greetings .afterParagraph{
+            font-size: 10px;
+        }
     }
 `

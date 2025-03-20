@@ -5,14 +5,22 @@ export const TodoList = () => {
     return (
         <TodoComponent>
             <div className="header">
-                <h2>Quests</h2>
+                <h2>Quest - Esta semana</h2>
 
-                <button className="btn editBtn">
-                    <span className="material-symbols-outlined editIcon">
-                        edit_square
-                    </span>
-                    <span className="editText">Edit</span>
-                </button>
+                <div className="flexContainer">
+                    <button className="btn viewAllBtn">
+                        <span className="material-symbols-outlined viewAllIcon icon">
+                            stack
+                        </span>
+                        <span className="text viewAllText">View all</span>
+                    </button>
+                    <button className="btn editBtn">
+                        <span className="material-symbols-outlined editIcon icon">
+                            edit_square
+                        </span>
+                        <span className="text editText">Edit</span>
+                    </button>
+                </div>
             </div>
             <div className="tasks">
                 <div className="task">
@@ -24,6 +32,36 @@ export const TodoList = () => {
                         <span className="category">Programação</span>
                         <button className="finishTask">Finalizou?</button>
                     </div>
+                </div>               
+                <div className="task">
+                    <div className="flexContainer">
+                        <h3>Assistir todo o módulo do meu curso DevQuest</h3>
+                        <span className="limit">3d</span>
+                    </div>
+                    <div className="flexContainer bottom">
+                        <span className="category">Programação</span>
+                        <button className="finishTask">Finalizou?</button>
+                    </div>
+                </div>
+                <div className="task">
+                    <div className="flexContainer">
+                        <h3>Assistir todo o módulo do meu curso DevQuest</h3>
+                        <span className="limit">3d</span>
+                    </div>
+                    <div className="flexContainer bottom">
+                        <span className="category">Programação</span>
+                        <button className="finishTask">Finalizou?</button>
+                    </div>
+                </div>
+                <div className="task">
+                    <div className="flexContainer">
+                        <h3>Assistir todo o módulo do meu curso DevQuest</h3>
+                        <span className="limit">3d</span>
+                    </div>
+                    <div className="flexContainer bottom">
+                        <span className="category">Programação</span>
+                        <button className="finishTask">Finalizou?</button>
+                    </div>
                 </div>
                 <div className="task">
                     <div className="flexContainer">
@@ -55,15 +93,46 @@ export const TodoList = () => {
                         <button className="finishTask">Finalizou?</button>
                     </div>
                 </div>
-
+                <div className="task">
+                    <div className="flexContainer">
+                        <h3>Assistir todo o módulo do meu curso DevQuest</h3>
+                        <span className="limit">3d</span>
+                    </div>
+                    <div className="flexContainer bottom">
+                        <span className="category">Programação</span>
+                        <button className="finishTask">Finalizou?</button>
+                    </div>
+                </div>
+                <div className="task">
+                    <div className="flexContainer">
+                        <h3>Assistir todo o módulo do meu curso DevQuest</h3>
+                        <span className="limit">3d</span>
+                    </div>
+                    <div className="flexContainer bottom">
+                        <span className="category">Programação</span>
+                        <button className="finishTask">Finalizou?</button>
+                    </div>
+                </div>
+                <div className="task">
+                    <div className="flexContainer">
+                        <h3>Assistir todo o módulo do meu curso DevQuest</h3>
+                        <span className="limit">3d</span>
+                    </div>
+                    <div className="flexContainer bottom">
+                        <span className="category">Programação</span>
+                        <button className="finishTask">Finalizou?</button>
+                    </div>
+                </div>
             </div>
         </TodoComponent>
     )
 }
 
 const TodoComponent = styled.div`
-    max-width: 800px;
+    max-width: 780px;
     width: 100%;
+    max-height: 100%;
+    
     .btn{
         background: none;
         border: none;
@@ -77,14 +146,15 @@ const TodoComponent = styled.div`
         justify-content: space-between;
         margin-bottom: 10px;
     }
-    .header .editBtn{
+    .header .btn{
         opacity: 0.7;
         gap: 5px;
+        margin-left: 10px;
         &:hover{
             opacity: 1;
         }
     }
-    .header .editBtn .editIcon{
+    .header .btn .icon{
         font-size: 18px;
     }
 
@@ -125,8 +195,8 @@ const TodoComponent = styled.div`
         overflow-x: auto;
         overflow-y: hidden;
         width: 100%;
-        padding: 20px;
-        border: 2px solid #ccc;
+        padding: 20px 0;
+        //border: 2px solid #ccc;
         border-radius: 10px;
     }
     .tasks .task{
@@ -134,6 +204,7 @@ const TodoComponent = styled.div`
         width: 40%;
         min-height: 100%;
         min-width: 250px;
+        max-width: 250px;
         cursor: pointer;
         height: 100%;
         padding: 20px;
@@ -158,6 +229,23 @@ const TodoComponent = styled.div`
     .tasks .task h3{
         width: 100%;
         margin-right: 10px;
+    }
+
+    @media(max-width: 768px){
+        .header h2{
+            font-size: 20px;
+        } 
+    }
+    @media(max-width: 450px){
+        .header h2{
+            font-size: 15px;
+        }
+        .header .btn{
+            font-size: 10px;
+        }
+        .header .btn .text{
+            display: none;
+        }
     }
 
 `

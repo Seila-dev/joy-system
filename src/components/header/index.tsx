@@ -96,4 +96,15 @@ const HeaderElement = styled.header`
         border: none;
         cursor: pointer;
     }
+
+    @media(max-width: 450px){
+        padding: 15px;
+
+        .headerTitle{
+            font-size: 20px;
+        }
+        .logo{
+            font-size: 10px;
+        }
+    }
 `

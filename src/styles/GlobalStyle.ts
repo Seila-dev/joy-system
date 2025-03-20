@@ -4,6 +4,7 @@ export const GlobalStyle = createGlobalStyle`
     :root{
         --secondary: #f2d04c;
         --secondary-hover: #ffb938;
+        --tertiary: #6a93f8;
     }
     * {
         margin: 0;
