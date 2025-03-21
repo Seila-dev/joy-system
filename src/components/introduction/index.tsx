@@ -158,6 +158,10 @@ const Section = styled.section`
         .greetings .afterParagraph{
             font-size: 13px;
         }
+        .greetings .btn{
+            padding: 10px;
+            font-size: 10px;
+        }
         .highlightedQuests .paragraph{
             font-size: 18px;
         }
