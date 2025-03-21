@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 
 
@@ -8,6 +9,10 @@ export const Introduction = () => {
             <div className="greetings">
                 <h2 className="paragraph">Olá, Erick! <br /> O que você quer <span className="yellow">aprender</span> hoje?</h2>
                 <span className="lowOpacity afterParagraph">Invista em você para alcançar seus objetivos dia após dia</span>    
+                <div className="ctaSection">
+                    <Link to="/quests" className="btn cta">Ir para sistema de Quests</Link>
+                    <Link to="/quests" className="btn noCta">Ir para anotações</Link>
+                </div>
             </div>   
             <div className="highlightedQuests">
                 <h2 className="paragraph">Sugestões para você</h2>
@@ -37,7 +42,7 @@ const Section = styled.section`
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 20px;
-    background: black;
+    background: var(--background);
     color: white;
     width: 100%;
     min-height: 400px;
@@ -57,11 +62,37 @@ const Section = styled.section`
     }
     .greetings{
         width: 100%;
+        display: flex;
+        flex-direction: column;
     }
     .greetings .paragraph{
         font-size: 40px;
         font-weight: 700;
         margin-bottom: 10px;
+    }
+    .greetings .btn{
+        padding: 12px 20px;
+        font-size: 0.8rem;
+        border: none;
+        border-radius: 5px;
+        width: fit-content;
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 30px;
+        background: var(--tertiary);
+    }
+    .greetings .btn.noCta{
+        background: transparent;
+        border: 1px solid var(--tertiary);
+        transition: 0.15s ease-out;
+        &:hover{
+            background: var(--tertiary);
+        }
+    }
+    .greetings .ctaSection{
+        display: flex;
+        gap: 20px;
     }
     .highlightedQuests{
         display: flex;
@@ -79,7 +110,7 @@ const Section = styled.section`
         min-height: 150px;
         width: 100%;
         max-width: 150px;
-        margin: 10px 10px 0 0;
+        margin: 30px 10px 0 0;
         padding: 10px;
         border-radius: 5px;
         background: transparent;
@@ -117,6 +148,7 @@ const Section = styled.section`
     @media(max-width: 768px){
         display: flex;
         flex-direction: column;
+        padding: 50px;
         .highlightedQuests{
             margin: 40px 0;
         }
