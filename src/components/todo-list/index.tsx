@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 
 export const TodoList = () => {
@@ -8,18 +9,18 @@ export const TodoList = () => {
                 <h2>Quest - Esta semana</h2>
 
                 <div className="flexContainer">
-                    <button className="btn viewAllBtn">
-                        <span className="material-symbols-outlined viewAllIcon icon">
-                            stack
-                        </span>
-                        <span className="text viewAllText">View all</span>
-                    </button>
-                    <button className="btn editBtn">
-                        <span className="material-symbols-outlined editIcon icon">
-                            edit_square
-                        </span>
-                        <span className="text editText">Edit</span>
-                    </button>
+                    <Link to="/quests" className="btn viewAllBtn">
+                            <span className="material-symbols-outlined viewAllIcon icon">
+                                stack
+                            </span>
+                            <span className="text viewAllText">View all</span>
+                    </Link>
+                    <Link to="/quests" className="btn editBtn">
+                            <span className="material-symbols-outlined editIcon icon">
+                                edit_square
+                            </span>
+                            <span className="text editText">Edit</span>
+                    </Link>
                 </div>
             </div>
             <div className="tasks">
@@ -139,6 +140,7 @@ const TodoComponent = styled.div`
         cursor: pointer;
         display: flex;
         align-items: center;
+        font-size: 12px;
     }
     .header{
         display: flex;

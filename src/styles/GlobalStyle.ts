@@ -5,6 +5,7 @@ export const GlobalStyle = createGlobalStyle`
         --secondary: #f2d04c;
         --secondary-hover: #ffb938;
         --tertiary: #6a93f8;
+        --background: #09090b;
     }
     * {
         margin: 0;

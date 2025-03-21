@@ -80,7 +80,7 @@ const HeaderElement = styled.header`
     .rightColumn .signIn{
         background: black;
         color: white;
-        padding: 10px 30px;
+        padding: 12px 30px;
         border-radius: 5px;
         border: none;
         cursor: pointer;

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components"
 
 export const Notes = () => {
@@ -11,18 +12,18 @@ export const Notes = () => {
                 <h2>Notas recentes</h2>
 
                 <div className="flexContainer">
-                    <button className="btn viewAllBtn">
+                    <Link to="/quests" className="btn viewAllBtn">
                         <span className="material-symbols-outlined viewAllIcon icon">
                             stack
                         </span>
                         <span className="text viewAllText">View all</span>
-                    </button>
-                    <button className="btn editBtn" >
+                    </Link>
+                    <Link to="/quests" className="btn editBtn" >
                         <span className="material-symbols-outlined editIcon icon">
                             edit_square
                         </span>
                         <span className="text editText">Edit</span>
-                    </button>
+                    </Link>
                 </div>
             </div>
             <div className="notes">
@@ -70,6 +71,7 @@ const NotesComponent = styled.div`
         opacity: 0.7;
         gap: 5px;
         margin-left: 10px;
+        font-size: 12px;
         &:hover{
             opacity: 1;
         }
