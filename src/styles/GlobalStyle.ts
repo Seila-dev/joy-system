@@ -61,4 +61,12 @@ export const GlobalStyle = createGlobalStyle`
         font-size: var(--description-fontsize);
         opacity: var(--description-opacity);
     }
+    span.secondary{
+        color: var(--secondary);
+    }
+    .error{
+        color: red;
+        text-align: start;
+        font-size: 10px;
+    }
 `

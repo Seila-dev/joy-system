@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components"
 import { MenuBurguer } from "../menuburguer";
+import { Link } from "react-router-dom";
 
 
 export const Header = () => {
@@ -27,7 +28,7 @@ export const Header = () => {
                     <span className="material-symbols-outlined icon">
                         settings
                     </span>
-                    <button className="signIn">Sign In</button>
+                    <Link className="signIn" to="/login">Sign In</Link>
                 </nav>
 
                 <MenuBurguer active={openMenu} toggleMenu={toggleMenu} />
@@ -80,7 +81,8 @@ const HeaderElement = styled.header`
     .rightColumn .signIn{
         background: black;
         color: white;
-        padding: 12px 30px;
+        padding: 10px 28px;
+        font-size: 14px;
         border-radius: 5px;
         border: none;
         cursor: pointer;
