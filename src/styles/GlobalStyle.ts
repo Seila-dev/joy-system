@@ -6,6 +6,15 @@ export const GlobalStyle = createGlobalStyle`
         --secondary-hover: #ffb938;
         --tertiary: #6a93f8;
         --background: #09090b;
+        --description-fontsize: 14px;
+        --description-opacity: 0.6;
+        --h3-desktop-fontsize: 18px;
+        --h2-desktop-fontsize: 25px;
+        --h2-tablet-fontsize: 20px;
+        --h2-mobile-fontsize: 15px; 
+        --h1-desktop-fontsize: 38px;
+        --h1-tablet-fontsize: 30px;
+        --h1-mobile-fontsize: 20px; 
     }
     * {
         margin: 0;
@@ -22,5 +31,34 @@ export const GlobalStyle = createGlobalStyle`
         font-family: "Inter", sans-serif;
         overflow-x: hidden;
         max-width: 100vw;
+    }
+
+    h1{
+        font-size: var(--h1-desktop-fontsize);
+        @media(max-width: 768px){
+            font-size: var(--h1-tablet-fontsize);
+        }
+        @media(max-width: 450px){
+            font-size: var(--h1-mobile-fontsize);
+        }
+    }
+
+    h2{
+        font-size: var(--h2-desktop-fontsize);
+        @media(max-width: 768px){
+            font-size: var(--h2-tablet-fontsize);
+        }
+        @media(max-width: 450px){
+            font-size: var(--h2-mobile-fontsize);
+        }
+    }
+    
+    h3{
+        font-size: var(--h3-desktop-fontsize);
+    }
+    
+    p.description{
+        font-size: var(--description-fontsize);
+        opacity: var(--description-opacity);
     }
 `

@@ -130,7 +130,7 @@ export const TodoList = () => {
 }
 
 const TodoComponent = styled.div`
-    max-width: 780px;
+    max-width: 100vw;
     width: 100%;
     max-height: 100%;
     
@@ -200,27 +200,40 @@ const TodoComponent = styled.div`
         padding: 20px 0;
         //border: 2px solid #ccc;
         border-radius: 10px;
+        gap: 10px;
     }
     .tasks .task{
-        border-radius: 10px;
-        width: 40%;
-        min-height: 100%;
-        min-width: 250px;
-        max-width: 250px;
-        cursor: pointer;
-        height: 100%;
-        padding: 20px;
-        margin-right: 10px;
+        // border-radius: 10px;
+        // width: 40%;
+        // min-height: 100%;
+        // min-width: 250px;
+        // max-width: 250px;
+        // cursor: pointer;
+        // height: 100%;
+        // padding: 20px;
+        // margin-right: 10px;
+        // flex-shrink: 0;
+        // box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+                background: white;
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+        padding: 25px;
+        border: 1px solid var(--tertiary);
+        min-width: 200px;
         flex-shrink: 0;
-        box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+        height: 300px;
+        color: black;
+        display: flex;
+        flex-direction: column;
+        border-radius: 10px;
+
     }
     .tasks .task:nth-child(even){
-        background: black;
-        color: white;
+       
+
     }
     .tasks .task:nth-child(odd){
-        background: var(--secondary);
-        color: black;
+       
+
         .flexContainer .limit{
             color: black;
         }
@@ -233,15 +246,7 @@ const TodoComponent = styled.div`
         margin-right: 10px;
     }
 
-    @media(max-width: 768px){
-        .header h2{
-            font-size: 20px;
-        } 
-    }
     @media(max-width: 450px){
-        .header h2{
-            font-size: 15px;
-        }
         .header .btn{
             font-size: 10px;
         }

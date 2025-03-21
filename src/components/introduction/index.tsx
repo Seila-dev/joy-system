@@ -7,7 +7,7 @@ export const Introduction = () => {
     return (
         <Section>
             <div className="greetings">
-                <h2 className="paragraph">Olá, Erick! <br /> O que você quer <span className="yellow">aprender</span> hoje?</h2>
+                <h1 className="paragraph">Olá, Erick! <br /> O que você quer <span className="yellow">aprender</span> hoje?</h1>
                 <span className="lowOpacity afterParagraph">Invista em você para alcançar seus objetivos dia após dia</span>    
                 <div className="ctaSection">
                     <Link to="/quests" className="btn cta">Ir para sistema de Quests</Link>

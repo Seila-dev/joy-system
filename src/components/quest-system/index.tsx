@@ -57,7 +57,7 @@ export const QuestSystem = () => {
                         </div>
                     </div>
                     <div className="body">
-                        <h2 className="title">Completar o treino da academia</h2>
+                        <h3 className="title">Completar o treino da academia</h3>
                         <p className="description">30 minutos de exercicios matinais para continuar saúdavel e energizado para o dia todo.</p>
                         <div className="limit">
                             <span className="material-symbols-outlined icon">
@@ -89,7 +89,7 @@ export const QuestSystem = () => {
                         </div>
                     </div>
                     <div className="body">
-                        <h2 className="title">Aplicar para o total de 70 vagas</h2>
+                        <h3 className="title">Aplicar para o total de 70 vagas</h3>
                         <p className="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, deleniti. Id, totam aspernatur numquam ratione voluptatum molestiae ut consequatur reiciendis iure, ullam possimus, delectus tenetur ducimus repudiandae iusto deleniti at!</p>
                         <div className="limit">
                             <span className="material-symbols-outlined icon">
@@ -121,7 +121,7 @@ export const QuestSystem = () => {
                         </div>
                     </div>
                     <div className="body">
-                        <h2 className="title">Passar de ano</h2>
+                        <h3 className="title">Passar de ano</h3>
                         <p className="description">Estudar o suficiente para a escola e conseguir passar de ano para obter meu diploma.</p>
                         <div className="limit">
                             <span className="material-symbols-outlined icon">
@@ -153,7 +153,7 @@ export const QuestSystem = () => {
                         </div>
                     </div>
                     <div className="body">
-                        <h2 className="title">Comprar whey protein e colocar o treino 3X2 em prática</h2>
+                        <h3 className="title">Comprar whey protein e colocar o treino 3X2 em prática</h3>
                         <p className="description">30 minutos de exercicios matinais para continuar saúdavel e energizado para o dia todo.</p>
                         <div className="limit">
                             <span className="material-symbols-outlined icon">
@@ -185,7 +185,7 @@ export const QuestSystem = () => {
                         </div>
                     </div>
                     <div className="body">
-                        <h2 className="title">Completar o treino da academia</h2>
+                        <h3 className="title">Completar o treino da academia</h3>
                         <p className="description">30 minutos de exercicios matinais para continuar saúdavel e energizado para o dia todo.</p>
                         <div className="limit">
                             <span className="material-symbols-outlined icon">
@@ -245,8 +245,6 @@ const Introduction = styled.header`
     align-items: flex-start;
     width: 100%;
     .description{
-        font-size: 14px;
-        opacity: 0.6;
         margin-right: 20px;
     }
     .btn{
@@ -292,7 +290,6 @@ const Introduction = styled.header`
 
 const Filters = styled.div`
     width: 100%;
-    
     
     .filterByDate{
         margin: 30px 0;
@@ -366,12 +363,7 @@ const CardsContainer = styled.section`
     .card .header .options .icon{
         cursor: pointer;
     }
-    .card .body .title{
-        font-size: 18px;
-    }
     .card .body .description{
-        font-size: 12px;
-        opacity: 0.6;
         margin: 10px 0;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -470,7 +462,7 @@ const CardsContainer = styled.section`
         color: violet;
     }
 
-    @media(max-width: 768px){
+    @media(max-width: 900px){
         grid-template-columns: 1fr 1fr;
         .card .footer .status{
             font-size: 12px;
