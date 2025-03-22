@@ -1,12 +1,18 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
+import { QuestItem } from "../quest"
+import { useContext, useState } from "react"
+import { QuestContext } from "../../contexts/QuestContext"
 
 export const TodoList = () => {
+    const [selectedTimeline, setSelectedTimeline]  = useState<string | null>(null)
+    const { quests } = useContext(QuestContext)
+
 
     return (
         <TodoComponent>
             <div className="header">
-                <h2>Quest - Esta semana</h2>
+                <h2>Quests Recentes</h2>
 
                 <div className="flexContainer">
                     <Link to="/quests" className="btn viewAllBtn">
@@ -24,106 +30,7 @@ export const TodoList = () => {
                 </div>
             </div>
             <div className="tasks">
-                <div className="task">
-                    <div className="flexContainer">
-                        <h3>Assistir todo o módulo do meu curso DevQuest</h3>
-                        <span className="limit">3d</span>
-                    </div>
-                    <div className="flexContainer bottom">
-                        <span className="category">Programação</span>
-                        <button className="finishTask">Finalizou?</button>
-                    </div>
-                </div>               
-                <div className="task">
-                    <div className="flexContainer">
-                        <h3>Assistir todo o módulo do meu curso DevQuest</h3>
-                        <span className="limit">3d</span>
-                    </div>
-                    <div className="flexContainer bottom">
-                        <span className="category">Programação</span>
-                        <button className="finishTask">Finalizou?</button>
-                    </div>
-                </div>
-                <div className="task">
-                    <div className="flexContainer">
-                        <h3>Assistir todo o módulo do meu curso DevQuest</h3>
-                        <span className="limit">3d</span>
-                    </div>
-                    <div className="flexContainer bottom">
-                        <span className="category">Programação</span>
-                        <button className="finishTask">Finalizou?</button>
-                    </div>
-                </div>
-                <div className="task">
-                    <div className="flexContainer">
-                        <h3>Assistir todo o módulo do meu curso DevQuest</h3>
-                        <span className="limit">3d</span>
-                    </div>
-                    <div className="flexContainer bottom">
-                        <span className="category">Programação</span>
-                        <button className="finishTask">Finalizou?</button>
-                    </div>
-                </div>
-                <div className="task">
-                    <div className="flexContainer">
-                        <h3>Assistir todo o módulo do meu curso DevQuest</h3>
-                        <span className="limit">3d</span>
-                    </div>
-                    <div className="flexContainer bottom">
-                        <span className="category">Programação</span>
-                        <button className="finishTask">Finalizou?</button>
-                    </div>
-                </div>
-                <div className="task">
-                    <div className="flexContainer">
-                        <h3>Assistir todo o módulo do meu curso DevQuest</h3>
-                        <span className="limit">3d</span>
-                    </div>
-                    <div className="flexContainer bottom">
-                        <span className="category">Programação</span>
-                        <button className="finishTask">Finalizou?</button>
-                    </div>
-                </div>
-                <div className="task">
-                    <div className="flexContainer">
-                        <h3>Assistir todo o módulo do meu curso DevQuest</h3>
-                        <span className="limit">3d</span>
-                    </div>
-                    <div className="flexContainer bottom">
-                        <span className="category">Programação</span>
-                        <button className="finishTask">Finalizou?</button>
-                    </div>
-                </div>
-                <div className="task">
-                    <div className="flexContainer">
-                        <h3>Assistir todo o módulo do meu curso DevQuest</h3>
-                        <span className="limit">3d</span>
-                    </div>
-                    <div className="flexContainer bottom">
-                        <span className="category">Programação</span>
-                        <button className="finishTask">Finalizou?</button>
-                    </div>
-                </div>
-                <div className="task">
-                    <div className="flexContainer">
-                        <h3>Assistir todo o módulo do meu curso DevQuest</h3>
-                        <span className="limit">3d</span>
-                    </div>
-                    <div className="flexContainer bottom">
-                        <span className="category">Programação</span>
-                        <button className="finishTask">Finalizou?</button>
-                    </div>
-                </div>
-                <div className="task">
-                    <div className="flexContainer">
-                        <h3>Assistir todo o módulo do meu curso DevQuest</h3>
-                        <span className="limit">3d</span>
-                    </div>
-                    <div className="flexContainer bottom">
-                        <span className="category">Programação</span>
-                        <button className="finishTask">Finalizou?</button>
-                    </div>
-                </div>
+                <QuestItem selectedTimeline={selectedTimeline} filterQuantity={3} />
             </div>
         </TodoComponent>
     )

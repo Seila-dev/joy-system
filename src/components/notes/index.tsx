@@ -52,7 +52,6 @@ export const Notes = () => {
 }
 
 const NotesComponent = styled.div`
-    max-width: 800px;
     width: 100%;
     .btn{
         background: none;
@@ -101,7 +100,8 @@ const NotesComponent = styled.div`
         height: 100%;
         min-height: 250px;
         min-width: 250px;
-        width: 30%;
+        max-width: 300px;
+        width: 100% ;
         display: flex;
         flex-direction: column;
         padding: 15px;

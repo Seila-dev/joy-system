@@ -44,6 +44,8 @@ const Dashboard = styled.section`
         display: flex;
         flex-direction: column;
         gap: 20px;
+    }
+    .leftContent{
         width: 100%;
     }
 
