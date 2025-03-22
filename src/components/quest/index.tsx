@@ -1,7 +1,6 @@
 import { useContext } from "react"
 import styled from "styled-components"
 import { QuestContext } from "../../contexts/QuestContext"
-import { QuestTypeData } from "../../interfaces/QuestData"
 
 interface QuestItemProps {
     selectedTimeline: string | null;

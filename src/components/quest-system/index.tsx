@@ -1,11 +1,9 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
-import { useContext, useState } from "react"
-import { QuestContext } from "../../contexts/QuestContext";
+import { useState } from "react"
 import { QuestItem } from "../quest";
 
 export const QuestSystem = () => {
-    const { quests } = useContext(QuestContext)
 
     const [selectedTimeline, setSelectedTimeline] = useState<string | null>(null);
 

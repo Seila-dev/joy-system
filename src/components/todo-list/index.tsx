@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { QuestItem } from "../quest"
-import { useContext, useState } from "react"
-import { QuestContext } from "../../contexts/QuestContext"
+import { useState } from "react"
 
 export const TodoList = () => {
-    const [selectedTimeline, setSelectedTimeline]  = useState<string | null>(null)
-    const { quests } = useContext(QuestContext)
+    const [selectedTimeline, _]  = useState<string | null>(null)
 
 
     return (
