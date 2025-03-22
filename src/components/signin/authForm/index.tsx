@@ -5,18 +5,21 @@ import styled from "styled-components"
 import z from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { SubmitHandler, useForm } from "react-hook-form"
+import { useContext } from "react"
+import { AuthContext } from "../../../contexts/AuthContext"
 
 interface formTypeProps {
     formType: string
 }
 
-const signInUserFormSchema = z.object({
+const signUpUserFormSchema = z.object({
+    username: z.string().nonempty("Nome é obrigatório"),
     email: z.string().email("Email Inválido").nonempty("Email é obrigatório"),
     password: z.string().min(6, "A senha deve ter no mínimo 6 caracteres").nonempty("Senha é obrigatória")
 })
 
-const signUpUserFormSchema = z.object({
-    name: z.string().nonempty("Nome é obrigatório"),
+const signInUserFormSchema = z.object({
+    username: z.string(),
     email: z.string().email("Email Inválido").nonempty("Email é obrigatório"),
     password: z.string().min(6, "A senha deve ter no mínimo 6 caracteres").nonempty("Senha é obrigatória")
 })
@@ -25,36 +28,39 @@ type signInUserFormData = z.infer<typeof signInUserFormSchema>;
 type signUpUserFormData = z.infer<typeof signUpUserFormSchema>;
 
 export const AuthForm = ({ formType }: formTypeProps) => {
-    const schema = formType === "login" ? signUpUserFormSchema : signUpUserFormSchema
+    const schema = formType === "login" ? signUpUserFormSchema : signInUserFormSchema 
 
     const {
         register,
         handleSubmit,
+        setError,
         formState: { errors, isSubmitting }
     } = useForm({
         resolver: zodResolver(schema),
         mode: 'onBlur'
     })
 
-    const onSubmit: SubmitHandler<signInUserFormData | signUpUserFormData> = async (data: any) => {
-        // try {
-        //     await signIn(data);
-        // } catch (error: any) {
-        //     // setLoginError("Invalid email or password");
+    const { signIn, registerAccount, isAuthenticated } = useContext(AuthContext)
 
-        //     setError("email", {
-        //         type: "manual",
-        //         message: "Invalid email or password",
-        //     });
-        //     setError("password", {
-        //         type: "manual",
-        //         message: "Invalid email or password",
-        //     });
-        // }
-        console.log(data)
-        return data
+    async function a(){
+        console.log(isAuthenticated)
+    }
+    a()
+
+    const onSubmit: SubmitHandler<signInUserFormData | signUpUserFormData> = async (data) => {
+        try {
+            if (formType === "login") {
+                console.log('problem')
+                console.log(data)
+                await signIn(data as signInUserFormData);
+            } else {
+                console.log("need help")
+                await registerAccount(data);
+            }
+        } catch (error: any) {
+            console.error("erro ao submit", error.message)
+        }
     };
-
 
     return (
         <SignInComponent>
@@ -65,10 +71,10 @@ export const AuthForm = ({ formType }: formTypeProps) => {
                     {formType === "register" && (
                         <InputField 
                             type="text"
-                            name="name"
+                            name="username"  // Alteração aqui: nome do campo foi alterado de "name" para "username"
                             placeholder="Seu nome"
                             label="Nome"
-                            error={errors.name}
+                            error={errors.username}  // Usando o campo correto de erro
                             register={register}
                         />
                     )}
