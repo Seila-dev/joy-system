@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components"
 import { MenuBurguer } from "../menuburguer";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
 
 
 export const Header = () => {
@@ -11,6 +12,7 @@ export const Header = () => {
         setOpenMenu(!openMenu);
     }
 
+    const { isAuthenticated, user } = useContext(AuthContext)
 
     return (
         <>
@@ -28,7 +30,11 @@ export const Header = () => {
                     <span className="material-symbols-outlined icon">
                         settings
                     </span>
-                    <Link className="signIn" to="/login">Sign In</Link>
+                    {isAuthenticated ? (
+                        <p>{user?.username}</p>
+                    ) : (
+                        <Link className="signIn" to="/login">Sign In</Link>
+                    )}
                 </nav>
 
                 <MenuBurguer active={openMenu} toggleMenu={toggleMenu} />
@@ -64,7 +70,6 @@ const HeaderElement = styled.header`
     .menuBtn{
         cursor: pointer;
     }
-
     .leftColumn{
         display: flex;
         align-items: center;

@@ -1,7 +1,15 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
+import { useState } from "react"
+import { QuestItem } from "../quest";
 
 export const QuestSystem = () => {
+
+    const [selectedTimeline, setSelectedTimeline] = useState<string | null>(null);
+
+    const handleTimelineChange = (timeline: string | null) => {
+        setSelectedTimeline(timeline);
+    }
 
     return (
         <QuestComponent>
@@ -22,11 +30,36 @@ export const QuestSystem = () => {
             </Introduction>
             <Filters>
                 <div className="filterByDate">
-                    <button className="filterItem selected">Todas</button>
-                    <button className="filterItem">Diária</button>
-                    <button className="filterItem">Semanal</button>
-                    <button className="filterItem">Mensal</button>
-                    <button className="filterItem">Anual</button>
+                    <button
+                        className={`filterItem ${selectedTimeline === null ? "selected" : ""}`}
+                        onClick={() => handleTimelineChange(null)}
+                    >
+                        Todas
+                    </button>
+                    <button 
+                        className={`filterItem ${selectedTimeline === "DIARIO" ? "selected" : ""}`} 
+                        onClick={() => handleTimelineChange("DIARIO")}
+                    >
+                        Diária
+                    </button>
+                    <button 
+                        className={`filterItem ${selectedTimeline === "SEMANAL" ? "selected" : ""}`} 
+                        onClick={() => handleTimelineChange("SEMANAL")}
+                    >
+                        Semanal
+                    </button>
+                    <button 
+                        className={`filterItem ${selectedTimeline === "MENSAL" ? "selected" : ""}`} 
+                        onClick={() => handleTimelineChange("MENSAL")}
+                    >
+                        Mensal
+                    </button>
+                    <button 
+                        className={`filterItem ${selectedTimeline === "ANUAL" ? "selected" : ""}`} 
+                        onClick={() => handleTimelineChange("ANUAL")}
+                    >
+                        Anual
+                    </button>
                 </div>
                 <div className="searchFilter">
                     <span className="material-symbols-outlined icon">
@@ -41,169 +74,7 @@ export const QuestSystem = () => {
                     />
                 </div>
             </Filters>
-            <CardsContainer>
-                <div className="card">
-                    <div className="header">
-                        <div className="category daily">
-                            <span className="material-symbols-outlined icon">
-                                calendar_clock
-                            </span>
-                            <p>Daily</p>
-                        </div>
-                        <div className="options">
-                            <span className="material-symbols-outlined icon">
-                                more_vert
-                            </span>
-                        </div>
-                    </div>
-                    <div className="body">
-                        <h3 className="title">Completar o treino da academia</h3>
-                        <p className="description">30 minutos de exercicios matinais para continuar saúdavel e energizado para o dia todo.</p>
-                        <div className="limit">
-                            <span className="material-symbols-outlined icon">
-                                calendar_clock
-                            </span>
-                            <p>Até: Março 20, 2025</p>
-                        </div>
-                    </div>
-                    <div className="footer completed">
-                        <div className="status" >
-                            <span className="circleProgress"></span>
-                            <p >Completed</p>
-                        </div>
-                        <button className="setStatus"><span className="material-symbols-outlined icon">check_circle</span>Status</button>
-                    </div>
-                </div>
-                <div className="card">
-                    <div className="header">
-                        <div className="category weekly">
-                            <span className="material-symbols-outlined icon">
-                                calendar_clock
-                            </span>
-                            <p>Weekly</p>
-                        </div>
-                        <div className="options">
-                            <span className="material-symbols-outlined icon">
-                                more_vert
-                            </span>
-                        </div>
-                    </div>
-                    <div className="body">
-                        <h3 className="title">Aplicar para o total de 70 vagas</h3>
-                        <p className="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, deleniti. Id, totam aspernatur numquam ratione voluptatum molestiae ut consequatur reiciendis iure, ullam possimus, delectus tenetur ducimus repudiandae iusto deleniti at!</p>
-                        <div className="limit">
-                            <span className="material-symbols-outlined icon">
-                                calendar_clock
-                            </span>
-                            <p>Até: Março 27, 2025</p>
-                        </div>
-                    </div>
-                    <div className="footer pending">
-                        <div className="status" >
-                            <span className="circleProgress"></span>
-                            <p>Pending</p>
-                        </div>
-                        <button className="setStatus"><span className="material-symbols-outlined icon">check_circle</span>Status</button>
-                    </div>
-                </div>
-                <div className="card">
-                    <div className="header">
-                        <div className="category yearly">
-                            <span className="material-symbols-outlined icon">
-                                calendar_clock
-                            </span>
-                            <p>Yearly</p>
-                        </div>
-                        <div className="options">
-                            <span className="material-symbols-outlined icon">
-                                more_vert
-                            </span>
-                        </div>
-                    </div>
-                    <div className="body">
-                        <h3 className="title">Passar de ano</h3>
-                        <p className="description">Estudar o suficiente para a escola e conseguir passar de ano para obter meu diploma.</p>
-                        <div className="limit">
-                            <span className="material-symbols-outlined icon">
-                                calendar_clock
-                            </span>
-                            <p>Até: Dezembro 25, 2025</p>
-                        </div>
-                    </div>
-                    <div className="footer pending">
-                        <div className="status" >
-                            <span className="circleProgress"></span>
-                            <p>Pending</p>
-                        </div>
-                        <button className="setStatus"><span className="material-symbols-outlined icon">check_circle</span>Status</button>
-                    </div>
-                </div>
-                <div className="card">
-                    <div className="header">
-                        <div className="category monthly">
-                            <span className="material-symbols-outlined icon">
-                                calendar_clock
-                            </span>
-                            <p>Monthly</p>
-                        </div>
-                        <div className="options">
-                            <span className="material-symbols-outlined icon">
-                                more_vert
-                            </span>
-                        </div>
-                    </div>
-                    <div className="body">
-                        <h3 className="title">Comprar whey protein e colocar o treino 3X2 em prática</h3>
-                        <p className="description">30 minutos de exercicios matinais para continuar saúdavel e energizado para o dia todo.</p>
-                        <div className="limit">
-                            <span className="material-symbols-outlined icon">
-                                calendar_clock
-                            </span>
-                            <p>Até: Abril 12, 2025</p>
-                        </div>
-                    </div>
-                    <div className="footer">
-                        <div className="status" >
-                            <span className="circleProgress"></span>
-                            <p >Not working</p>
-                        </div>
-                        <button className="setStatus"><span className="material-symbols-outlined icon">check_circle</span>Status</button>
-                    </div>
-                </div>
-                <div className="card">
-                    <div className="header">
-                        <div className="category daily">
-                            <span className="material-symbols-outlined icon">
-                                calendar_clock
-                            </span>
-                            <p>Daily</p>
-                        </div>
-                        <div className="options">
-                            <span className="material-symbols-outlined icon">
-                                more_vert
-                            </span>
-                        </div>
-                    </div>
-                    <div className="body">
-                        <h3 className="title">Completar o treino da academia</h3>
-                        <p className="description">30 minutos de exercicios matinais para continuar saúdavel e energizado para o dia todo.</p>
-                        <div className="limit">
-                            <span className="material-symbols-outlined icon">
-                                calendar_clock
-                            </span>
-                            <p>Até: Março 20, 2025</p>
-                        </div>
-                    </div>
-                    <div className="footer completed">
-                        <div className="status" >
-                            <span className="circleProgress"></span>
-                            <p >Completed</p>
-                        </div>
-                        <button className="setStatus"><span className="material-symbols-outlined icon">check_circle</span>Status</button>
-                    </div>
-                </div>
-                
-            </CardsContainer>
+            <QuestItem selectedTimeline={selectedTimeline} filterQuantity={null} />
         </QuestComponent>
     )
 }
@@ -212,7 +83,6 @@ const QuestComponent = styled.main`
     padding: 10px 50px;
     .prevPage{
         width: fit-content;
-
         margin: 20px 0;
         padding: 5px;
         display: flex;
@@ -327,152 +197,3 @@ const Filters = styled.div`
     }
 `
 
-const CardsContainer = styled.section`
-    display: grid;
-    //background: orangered;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
-    height: 100%;
-    .card{
-        background: white;
-        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-        padding: 25px;
-        width: 100%;
-        height: 300px;
-        display: flex;
-        flex-direction: column;
-        border-radius: 10px;
-    }
-    .card .header{
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 15px;
-        width: 100%;
-    }
-    .card .header .category{
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        padding: 5px 10px;
-        font-size: 12px;
-        border-radius: 30px;
-    }
-    .card .header .category .icon{
-        font-size: 18px;
-    }
-    .card .header .options .icon{
-        cursor: pointer;
-    }
-    .card .body .description{
-        margin: 10px 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-                line-clamp: 2; 
-        -webkit-box-orient: vertical;
-    }
-    .card .body .limit{
-        display: flex;
-        font-size: 12px;
-        align-items: center;
-        gap: 5px;
-        opacity: 0.6;
-    }
-    .card .body .limit .icon{
-        font-size: 18px;
-    }
-    .card .footer{
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        height: 100%;
-    }
-    .card .footer .status{
-        display: flex;
-        align-items: center;
-        font-size: 15px;
-        color: gray;
-        margin-bottom: 3px;
-    }
-    .card .footer .status .circleProgress{
-        width: 10px;
-        height: 10px;
-        background: gray;
-        display: flex;
-        border-radius: 50%;
-        margin-right: 5px;
-    }
-    .card .footer .setStatus{
-        display: flex;
-        align-items: center;
-        padding: 5px 10px;
-        border: 1px solid gray;
-        border-radius: 10px;
-        background: transparent;
-        cursor: pointer;
-    }
-    .card .footer .setStatus .icon{
-        font-size: 14px;
-        margin-right: 5px;
-    }
-
-    //vars
-    .card .footer.completed .setStatus{
-        color: green;
-    }
-    .footer.completed p{
-        color: green;
-    }
-    .card .footer.completed .circleProgress{
-        background: green;
-    }
-    .card .footer.pending .setStatus{
-        color: orangered;
-    }
-    .footer.pending p{
-        color: orangered;
-    }
-    .card .footer.pending .circleProgress{
-        background: orangered;
-    }
-    .card .footer.incomplete .setStatus{
-        color: red;
-    }
-    .footer.incomplete p{
-        color: red;
-    }
-    .card .footer.incomplete .circleProgress{
-        background: red;
-    }
-    .category.daily{
-        background: lightblue;
-        color: darkblue;
-    }
-    .category.weekly{
-        background: lightgreen;
-        color: green;
-    }
-    .category.monthly{
-        background: orange;
-        color: red;
-    }
-    .category.yearly{
-        background: purple;
-        color: violet;
-    }
-
-    @media(max-width: 900px){
-        grid-template-columns: 1fr 1fr;
-        .card .footer .status{
-            font-size: 12px;
-            margin-bottom: 5px;
-        }
-        .card .footer .setStatus{
-            padding: 5px;
-        }
-    }
-    @media(max-width: 530px){
-        grid-template-columns: 1fr;
-    }
-`
