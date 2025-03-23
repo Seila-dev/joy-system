@@ -10,7 +10,7 @@ export const TodoList = () => {
     const [selectedTimeline, _]  = useState<string | null>(null)
     const { theme } = useContext(ThemeContext)
 
-    const [searchParams, setSearchParams] = useSearchParams({ q: ''})
+    const [searchParams] = useSearchParams({ q: ''})
     const q: string = searchParams.get('q') || ''
 
     const { quests } = useContext(QuestContext)

@@ -2,12 +2,10 @@ import { useContext } from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { AuthContext } from "../../contexts/AuthContext"
-import { ThemeContext } from "../../contexts/ThemeContext"
 
 
 export const Introduction = () => {
     const { user } = useContext(AuthContext)
-    const { theme } = useContext(ThemeContext)
 
     return (
         <Section >
