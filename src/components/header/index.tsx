@@ -30,7 +30,7 @@ export const Header = () => {
                     <span className="material-symbols-outlined icon">
                         settings
                     </span>
-                    {isAuthenticated ? (
+                    {isAuthenticated && user?.username ? (
                         <p>{user?.username}</p>
                     ) : (
                         <Link className="signIn" to="/login">Sign In</Link>

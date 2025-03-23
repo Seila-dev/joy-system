@@ -1,27 +1,24 @@
-import { useContext } from "react"
 import styled from "styled-components"
-import { QuestContext } from "../../contexts/QuestContext"
+import { QuestTypeData } from "../../interfaces/QuestData";
 
 interface QuestItemProps {
     selectedTimeline: string | null;
     filterQuantity: number | null
+    filterQuery: QuestTypeData[] | null
 }
 
-export const QuestItem = ({ selectedTimeline, filterQuantity }: QuestItemProps) => {
-    const { quests } = useContext(QuestContext)
+export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: QuestItemProps) => {
 
-    const filteredQuests = selectedTimeline === null
-    ? quests?.slice(0, filterQuantity ?? quests?.length) 
-    : quests?.filter(quest => quest.timeline === selectedTimeline)
-    
+    const filterByTimeline = selectedTimeline === null
+    ? filterQuery?.slice(0, filterQuantity ?? filterQuery?.length) 
+    : filterQuery?.filter(quest => quest.timeline === selectedTimeline)
 
 
-
-    const hasQuests = filteredQuests && filteredQuests.length > 0;
+    const hasQuests = filterByTimeline && filterByTimeline.length > 0;
 
     return (
         <CardsContainer>
-            {hasQuests ?  (filteredQuests.map(quest => (
+            {hasQuests ?  ( filterByTimeline.map(quest => (
                 <div className="card" key={quest.id}>
                     <div className="header">
                         <div className={`category ${quest.timeline}`}>

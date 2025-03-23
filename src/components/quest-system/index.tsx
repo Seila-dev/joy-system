@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import styled from "styled-components"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { QuestItem } from "../quest";
+import { QuestContext } from "../../contexts/QuestContext";
+import { QuestTypeData } from "../../interfaces/QuestData";
 
 export const QuestSystem = () => {
 
@@ -10,6 +12,17 @@ export const QuestSystem = () => {
     const handleTimelineChange = (timeline: string | null) => {
         setSelectedTimeline(timeline);
     }
+
+    const [searchParams, setSearchParams] = useSearchParams({ q: ''})
+    const q: string = searchParams.get('q') || ''
+
+    const { quests } = useContext(QuestContext)
+
+    const filteredBySearch: QuestTypeData[] = quests?.filter(item => {
+        return item.title.toLowerCase().includes(q.toLowerCase())
+    }) || [];
+
+    console.log(filteredBySearch)
 
     return (
         <QuestComponent>
@@ -36,26 +49,26 @@ export const QuestSystem = () => {
                     >
                         Todas
                     </button>
-                    <button 
-                        className={`filterItem ${selectedTimeline === "DIARIO" ? "selected" : ""}`} 
+                    <button
+                        className={`filterItem ${selectedTimeline === "DIARIO" ? "selected" : ""}`}
                         onClick={() => handleTimelineChange("DIARIO")}
                     >
                         Diária
                     </button>
-                    <button 
-                        className={`filterItem ${selectedTimeline === "SEMANAL" ? "selected" : ""}`} 
+                    <button
+                        className={`filterItem ${selectedTimeline === "SEMANAL" ? "selected" : ""}`}
                         onClick={() => handleTimelineChange("SEMANAL")}
                     >
                         Semanal
                     </button>
-                    <button 
-                        className={`filterItem ${selectedTimeline === "MENSAL" ? "selected" : ""}`} 
+                    <button
+                        className={`filterItem ${selectedTimeline === "MENSAL" ? "selected" : ""}`}
                         onClick={() => handleTimelineChange("MENSAL")}
                     >
                         Mensal
                     </button>
-                    <button 
-                        className={`filterItem ${selectedTimeline === "ANUAL" ? "selected" : ""}`} 
+                    <button
+                        className={`filterItem ${selectedTimeline === "ANUAL" ? "selected" : ""}`}
                         onClick={() => handleTimelineChange("ANUAL")}
                     >
                         Anual
@@ -71,10 +84,15 @@ export const QuestSystem = () => {
                         placeholder="Pesquisar Quests.."
                         accept="abnt"
                         name="search"
+                        value={q}
+                        onChange={e => setSearchParams(prev => {
+                            prev.set('q', e.target.value)
+                            return prev
+                        }, { replace: true })}
                     />
                 </div>
             </Filters>
-            <QuestItem selectedTimeline={selectedTimeline} filterQuantity={null} />
+            <QuestItem selectedTimeline={selectedTimeline} filterQuantity={null} filterQuery={filteredBySearch} />
         </QuestComponent>
     )
 }

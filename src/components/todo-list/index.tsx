@@ -1,11 +1,21 @@
-import { Link } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import styled from "styled-components"
 import { QuestItem } from "../quest"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { QuestContext } from "../../contexts/QuestContext"
+import { QuestTypeData } from "../../interfaces/QuestData"
 
 export const TodoList = () => {
     const [selectedTimeline, _]  = useState<string | null>(null)
 
+    const [searchParams, setSearchParams] = useSearchParams({ q: ''})
+    const q: string = searchParams.get('q') || ''
+
+    const { quests } = useContext(QuestContext)
+
+    const filteredBySearch: QuestTypeData[] = quests?.filter(item => {
+        return item.title.toLowerCase().includes(q.toLowerCase())
+    }) || [];
 
     return (
         <TodoComponent>
@@ -28,7 +38,7 @@ export const TodoList = () => {
                 </div>
             </div>
             <div className="tasks">
-                <QuestItem selectedTimeline={selectedTimeline} filterQuantity={3} />
+                <QuestItem selectedTimeline={selectedTimeline} filterQuantity={3} filterQuery={filteredBySearch} />
             </div>
         </TodoComponent>
     )

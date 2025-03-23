@@ -5,7 +5,6 @@ import { Notes } from "../notes"
 import { Calendar } from "../calendar"
 import { JoyPoints } from "../joy-points"
 
-
 export const Home = () => {
 
     return (

@@ -1,13 +1,16 @@
+import { useContext } from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
+import { AuthContext } from "../../contexts/AuthContext"
 
 
 export const Introduction = () => {
+    const { user } = useContext(AuthContext)
 
     return (
         <Section>
             <div className="greetings">
-                <h1 className="paragraph">Olá, Erick! <br /> O que você quer <span className="yellow">aprender</span> hoje?</h1>
+                <h1 className="paragraph">Olá, {user?.username ? user?.username : "Aluno Joy"}! <br /> O que você quer <span className="yellow">aprender</span> hoje?</h1>
                 <span className="lowOpacity afterParagraph">Invista em você para alcançar seus objetivos dia após dia</span>    
                 <div className="ctaSection">
                     <Link to="/quests" className="btn cta">Ir para sistema de Quests</Link>

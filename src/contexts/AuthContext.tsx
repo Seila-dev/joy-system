@@ -108,7 +108,7 @@ export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
             const response = await request.json()
     
             setCookie(response, 'joysystem.token', response.token, {
-                maxAge: 60 * 60 * 1 // 1h
+                maxAge: 60 * 60 * 4 // 4h
             })
     
             setUser(response.user)
@@ -124,7 +124,7 @@ export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
         destroyCookie(null, 'joysystem.token')
         setUser(null)
 
-        window.location.reload()
+        navigate("/login")
     }, [])
 
 

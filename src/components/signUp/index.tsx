@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import z from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useContext } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
+import api from "../../services/api"
 
 const signUpUserFormSchema = z.object({
   username: z.string().nonempty("O nome é obrigatório"),
@@ -19,6 +20,7 @@ export const SignUp = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting }
   } = useForm({
     resolver: zodResolver(signUpUserFormSchema),
@@ -26,14 +28,30 @@ export const SignUp = () => {
   })
 
   const { registerAccount } = useContext(AuthContext)
+  const navigate = useNavigate()
 
   const onSubmit: SubmitHandler<signUpUserFormData> = async (data) => {
+
     try {
-      await registerAccount(data);
+        // Chama o backend para verificar se o e-mail já existe
+        const response = await api.post("/users", data);  // Aqui você envia os dados para criar o usuário
+
+        console.log("Usuário criado com sucesso:", response.data);
+        await registerAccount(data);  
+        navigate("/login")
+
     } catch (error: any) {
-      console.error('Got an error', error)
+        if (error.response?.status === 409) {
+            setError("email", {
+                type: "manual",
+                message: "Este e-mail já está em uso" 
+            });
+        } else {
+            console.error("Erro ao registrar usuário:", error);
+        }
     }
-  };
+};
+
 
   return (
     <SignUpComponent>
@@ -48,8 +66,8 @@ export const SignUp = () => {
             placeholder="Seu nome"
             {...register("username")}
           />
-          {errors?.email && (
-            <ErrorFormMessage>{errors?.email?.message}</ErrorFormMessage>
+          {errors?.username && (
+            <ErrorFormMessage>{errors?.username?.message}</ErrorFormMessage>
           )}
           <label htmlFor="email">Email</label>
           <input
