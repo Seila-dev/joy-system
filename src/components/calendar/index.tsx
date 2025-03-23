@@ -21,6 +21,7 @@ export const Calendar = () => {
         setOpenMenu(!openMenu);
     } 
 
+
     let date = new Date;
     const today = date.getDate()
     const currentMonthDate = date.getMonth()

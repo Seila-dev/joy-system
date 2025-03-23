@@ -3,10 +3,13 @@ import styled from "styled-components"
 import { MenuBurguer } from "../menuburguer";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import { ThemeContext, themes } from "../../contexts/ThemeContext";
+import Switch from 'react-switch'
 
 
 export const Header = () => {
     const [openMenu, setOpenMenu] = useState<boolean>(false);
+    const { theme, setTheme } = useContext(ThemeContext)
 
     const toggleMenu = () => {
         setOpenMenu(!openMenu);
@@ -14,10 +17,14 @@ export const Header = () => {
 
     const { isAuthenticated, user } = useContext(AuthContext)
 
+    const themeToggle = () => {
+        setTheme(theme === 'light' ? 'dark' : 'light')
+    }
+
     return (
         <>
         {openMenu && <Overlay onClick={toggleMenu} />}
-            <HeaderElement>
+            <HeaderElement style={{background: themes[theme].background, color: themes[theme].paragraph}}>
                 <div className="leftColumn">
                     <div className="menuBtn" onClick={toggleMenu}>
                         <span className="material-symbols-outlined icon">
@@ -27,6 +34,16 @@ export const Header = () => {
                     <h1 className="headerTitle">JOY <span className="logo">System</span></h1>
                 </div>
                 <nav className="rightColumn">
+                    <Switch 
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        onColor={'#eee'}
+                        onChange={themeToggle}
+                        checked={theme === 'dark'}
+                        width={50}
+                        height={20}
+                    />
+                    {/* <button className="toggleTheme" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>Mudar tema</button> */}
                     <span className="material-symbols-outlined icon">
                         settings
                     </span>
@@ -59,6 +76,7 @@ const HeaderElement = styled.header`
     justify-content: space-between;
     align-items: center;
     padding: 20px 50px;
+    transition: 0.25s ease-in-out;
 
     .headerTitle{
         font-size: 1.5rem;

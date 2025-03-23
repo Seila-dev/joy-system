@@ -1,15 +1,19 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components"
+import { ThemeContext, themes } from "../../contexts/ThemeContext";
 
 export const Notes = () => {
     const truncateDescription = (text: string, limit: number) => {
         return text.length > limit ? text.substring(0, limit) + "..." : text;
     }
 
+    const { theme } = useContext(ThemeContext)
+
     return (
-        <NotesComponent>
+        <NotesComponent common={themes[theme].common} filter={themes[theme].filter}>
             <div className="header">
-                <h2>Notas recentes</h2>
+                <h2>Notas recentes (In Development)</h2>
 
                 <div className="flexContainer">
                     <Link to="/quests" className="btn viewAllBtn">
@@ -51,8 +55,9 @@ export const Notes = () => {
     )
 }
 
-const NotesComponent = styled.div`
+const NotesComponent = styled.div<{ common: string, filter: string }>`
     width: 100%;
+    
     .btn{
         background: none;
         border: none;
@@ -65,6 +70,7 @@ const NotesComponent = styled.div`
         align-items: center;
         justify-content: space-between;
         margin-bottom: 10px;
+        color: ${({ common }) => common};
     }
     .header .btn{
         opacity: 0.7;
@@ -91,12 +97,12 @@ const NotesComponent = styled.div`
         width: 100%;
         padding: 20px 0;
         border-radius: 10px;
-        background: white;
+        background: transparent;
     }
 
     .note{
-        background: white;
-        color: black;
+        background: ${({ filter }) => filter};
+        color: ${({ common }) => common};
         height: 100%;
         min-height: 250px;
         min-width: 250px;

@@ -2,13 +2,15 @@ import { useContext } from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { AuthContext } from "../../contexts/AuthContext"
+import { ThemeContext } from "../../contexts/ThemeContext"
 
 
 export const Introduction = () => {
     const { user } = useContext(AuthContext)
+    const { theme } = useContext(ThemeContext)
 
     return (
-        <Section>
+        <Section >
             <div className="greetings">
                 <h1 className="paragraph">Olá, {user?.username ? user?.username : "Aluno Joy"}! <br /> O que você quer <span className="yellow">aprender</span> hoje?</h1>
                 <span className="lowOpacity afterParagraph">Invista em você para alcançar seus objetivos dia após dia</span>    
@@ -18,7 +20,7 @@ export const Introduction = () => {
                 </div>
             </div>   
             <div className="highlightedQuests">
-                <h2 className="paragraph">Sugestões para você</h2>
+                <h2 className="paragraph">Sugestões para você (In Dev.)</h2>
                 <div className="item-list">
                     <div className="item">
                         <div className="image-prompt flexContainer">
@@ -44,7 +46,6 @@ const Section = styled.section`
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 20px;
     background: var(--background);
     color: white;
     width: 100%;

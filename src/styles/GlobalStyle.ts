@@ -6,6 +6,8 @@ export const GlobalStyle = createGlobalStyle`
         --secondary-hover: #ffb938;
         --tertiary: #6a93f8;
         --background: #09090b;
+        --light-background: #1a1a1a;
+        --input-background: #09090b;
         --description-fontsize: 14px;
         --description-opacity: 0.6;
         --h3-desktop-fontsize: 18px;

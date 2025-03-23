@@ -4,13 +4,16 @@ import { TodoList } from "../todo-list"
 import { Notes } from "../notes"
 import { Calendar } from "../calendar"
 import { JoyPoints } from "../joy-points"
+import { useContext } from "react"
+import { ThemeContext, themes } from "../../contexts/ThemeContext"
 
 export const Home = () => {
+    const {theme} = useContext(ThemeContext)
 
     return (
-        <Main>
+        <Main background={themes[theme].background}>
             <Introduction />
-            <Dashboard>
+            <Dashboard >
                 <div className="leftContent">
                     <TodoList />
                     <Notes />
@@ -24,8 +27,10 @@ export const Home = () => {
     )
 }
 
-const Main = styled.main`
+const Main = styled.main<{ background: string}>`
     overflow-x: hidden;
+    transition: 0.25s ease-in-out;
+    background: ${({ background }) => background};
 `
 
 const Dashboard = styled.section`
@@ -33,6 +38,7 @@ const Dashboard = styled.section`
     display: flex;
     justify-content: space-between;
     padding: 20px 50px;
+
     
 
     width: 100%;

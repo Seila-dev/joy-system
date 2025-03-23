@@ -4,6 +4,7 @@ import { useContext, useState } from "react"
 import { QuestItem } from "../quest";
 import { QuestContext } from "../../contexts/QuestContext";
 import { QuestTypeData } from "../../interfaces/QuestData";
+import { ThemeContext, themes } from "../../contexts/ThemeContext";
 
 export const QuestSystem = () => {
 
@@ -17,22 +18,21 @@ export const QuestSystem = () => {
     const q: string = searchParams.get('q') || ''
 
     const { quests } = useContext(QuestContext)
-
+    const { theme } = useContext(ThemeContext)
     const filteredBySearch: QuestTypeData[] = quests?.filter(item => {
         return item.title.toLowerCase().includes(q.toLowerCase())
     }) || [];
 
-    console.log(filteredBySearch)
 
     return (
-        <QuestComponent>
+        <QuestComponent background={themes[theme].background} color={themes[theme].common}>
             <Link to="/" className="prevPage">
                 <span className="material-symbols-outlined arrowBack">
                     arrow_back
                 </span>
                 <p>Back to Home</p>
             </Link>
-            <Introduction>
+            <Introduction color={themes[theme].paragraph} background={themes[theme].background}>
                 <div className="leftSide">
                     <h1 className="title">Quests</h1>
                     <p className="description">Gerencie e acompanhe suas tarefas em diferentes categorias.</p>
@@ -41,7 +41,7 @@ export const QuestSystem = () => {
                     <button className="addQuest btn cta"><span className="material-symbols-outlined icon">add</span> <span className="removeResponsive">New Quest</span></button>
                 </div>
             </Introduction>
-            <Filters>
+            <Filters filter={themes[theme].filter} background={themes[theme].background} paragraph={themes[theme].paragraph} common={themes[theme].common}>
                 <div className="filterByDate">
                     <button
                         className={`filterItem ${selectedTimeline === null ? "selected" : ""}`}
@@ -97,8 +97,13 @@ export const QuestSystem = () => {
     )
 }
 
-const QuestComponent = styled.main`
+const QuestComponent = styled.main<{ background: string, color: string }>`
     padding: 10px 50px;
+    min-height: 100vh;
+    height: 100%;
+    transition: 0.25s ease-in-out;
+    background: ${({ background }) => background};
+    color: ${({ color }) => color};
     .prevPage{
         width: fit-content;
         margin: 20px 0;
@@ -109,6 +114,7 @@ const QuestComponent = styled.main`
         transition: 0.15s ease-out;
         cursor: pointer;
         font-size: 14px;
+        color: ${({ color }) => color};
         &:hover{
             border-bottom: 1px solid var(--tertiary);
         }
@@ -126,7 +132,7 @@ const QuestComponent = styled.main`
 
 `
 
-const Introduction = styled.header`
+const Introduction = styled.header<{ color: string, background: string }>`
     margin-top: 50px;
     display: flex;
     justify-content: space-between;
@@ -138,13 +144,14 @@ const Introduction = styled.header`
     .btn{
         padding: 12px 16px;
         border: none;
-        color: white;
         cursor: pointer;
         display: flex;
         align-items: center;
         width: 130px;
         border-radius: 5px;
         background: var(--background);
+        background: ${({ color }) => color};
+        color: ${({ background }) => background};
         margin-top: 10px;
     }
     .btn .icon{
@@ -176,7 +183,7 @@ const Introduction = styled.header`
     }
 `
 
-const Filters = styled.div`
+const Filters = styled.div<{filter: string, background: string, paragraph: string, common: string}>`
     width: 100%;
     
     .filterByDate{
@@ -190,7 +197,8 @@ const Filters = styled.div`
         cursor: pointer;
         border: none;
         border-radius: 5px;
-        background: whitesmoke;
+        color: ${({ common }) => common};
+        background: ${({ filter }) => filter};
     }
     .filterItem.selected{
         border-bottom: 1px solid var(--tertiary);
@@ -212,6 +220,8 @@ const Filters = styled.div`
         border: none;
         width: 100%;
         outline: none;
+        background: ${({ background }) => background};
+        color: ${({ paragraph }) => paragraph};
     }
 `
 

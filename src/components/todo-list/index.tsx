@@ -4,9 +4,11 @@ import { QuestItem } from "../quest"
 import { useContext, useState } from "react"
 import { QuestContext } from "../../contexts/QuestContext"
 import { QuestTypeData } from "../../interfaces/QuestData"
+import { ThemeContext, themes } from "../../contexts/ThemeContext"
 
 export const TodoList = () => {
     const [selectedTimeline, _]  = useState<string | null>(null)
+    const { theme } = useContext(ThemeContext)
 
     const [searchParams, setSearchParams] = useSearchParams({ q: ''})
     const q: string = searchParams.get('q') || ''
@@ -18,8 +20,8 @@ export const TodoList = () => {
     }) || [];
 
     return (
-        <TodoComponent>
-            <div className="header">
+        <TodoComponent common={themes[theme].common}>
+            <div className="header" >
                 <h2>Quests Recentes</h2>
 
                 <div className="flexContainer">
@@ -44,10 +46,11 @@ export const TodoList = () => {
     )
 }
 
-const TodoComponent = styled.div`
+const TodoComponent = styled.div<{ common: string }>`
     max-width: 100vw;
     width: 100%;
     max-height: 100%;
+    margin-top: 20px;
     
     .btn{
         background: none;
@@ -62,6 +65,10 @@ const TodoComponent = styled.div`
         align-items: center;
         justify-content: space-between;
         margin-bottom: 10px;
+        color: 
+    }
+    .header, .header .btn, .header .btn .icon{
+        color: ${({ common }) => common}
     }
     .header .btn{
         opacity: 0.7;
