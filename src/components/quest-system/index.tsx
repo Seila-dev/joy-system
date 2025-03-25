@@ -12,7 +12,7 @@ export const QuestSystem = () => {
 
     const [selectedTimeline, setSelectedTimeline] = useState<string | null>(null);
     const [open, setOpen] = useState<boolean>(false)
-    const [editQuestData, setEditQuestData] = useState<Quest | null>(null)
+    const [_, setEditQuestData] = useState<Quest | null>(null)
 
     const openCreateForm = () => {
         setEditQuestData(null); // Limpa qualquer dado anterior de edição
@@ -24,10 +24,10 @@ export const QuestSystem = () => {
     }
 
     // Função para abrir o formulário no modo de edição
-    const openEditForm = (questData: any) => {
-        setEditQuestData(questData); // Passa os dados da quest para edição
-        setOpen(true); // Abre o formulário de edição
-    };
+    // const openEditForm = (questData: any) => {
+    //     setEditQuestData(questData); // Passa os dados da quest para edição
+    //     setOpen(true); // Abre o formulário de edição
+    // };
     
 
     const handleTimelineChange = (timeline: string | null) => {
@@ -37,16 +37,11 @@ export const QuestSystem = () => {
     const [searchParams, setSearchParams] = useSearchParams({ q: ''})
     const q: string = searchParams.get('q') || ''
 
-    const { quests, addQuest } = useContext(QuestContext)
+    const { quests } = useContext(QuestContext)
     const { theme } = useContext(ThemeContext)
     const filteredBySearch: Quest[] = quests?.filter(item => {
         return item.title.toLowerCase().includes(q.toLowerCase())
     }) || [];
-
-    const handleQuestSubmit = (newQuestData: any) => {
-        console.log(newQuestData)
-        return newQuestData
-    };
 
 
     return (
