@@ -70,7 +70,6 @@ const NotesComponent = styled.div<{ common: string, filter: string }>`
         align-items: center;
         justify-content: space-between;
         margin-bottom: 10px;
-        color: ${({ common }) => common};
     }
     .header .btn{
         opacity: 0.7;
@@ -84,7 +83,9 @@ const NotesComponent = styled.div<{ common: string, filter: string }>`
     .header .btn .icon{
         font-size: 18px;
     }
-
+    .header, .header .btn, .header .btn .icon{
+        color: ${({ common }) => common}
+    }
     .flexContainer{
         display: flex;
         align-items: center;

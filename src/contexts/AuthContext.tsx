@@ -81,6 +81,8 @@ export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
             setUser(response.user)
     
             navigate("/")
+
+            window.location.reload()
     
         } catch (error: any) {
             console.error('Something went wrong on sign up', error)

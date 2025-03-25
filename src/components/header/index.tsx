@@ -37,7 +37,7 @@ export const Header = () => {
                     <Switch 
                         uncheckedIcon={false}
                         checkedIcon={false}
-                        onColor={'#eee'}
+                        onColor={'#222'}
                         onChange={themeToggle}
                         checked={theme === 'dark'}
                         width={50}
