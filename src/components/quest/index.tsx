@@ -1,15 +1,22 @@
 import styled from "styled-components"
-import { QuestTypeData } from "../../interfaces/QuestData";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ThemeContext, themes } from "../../contexts/ThemeContext";
+import { Quest } from "../../types/questData";
+import { QuestContext } from "../../contexts/QuestContext";
 
 interface QuestItemProps {
     selectedTimeline: string | null;
     filterQuantity: number | null
-    filterQuery: QuestTypeData[] | null
+    filterQuery: Quest[] | null
 }
 
 export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: QuestItemProps) => {
+
+    const [activeMenuId, setActiveMenuId] = useState<number | null>(null)
+
+    const updateMenu = (id: number) => {
+        setActiveMenuId(activeMenuId === id ? null : id)
+    }
 
     const filterByTimeline = selectedTimeline === null
         ? filterQuery?.slice(0, filterQuantity ?? filterQuery?.length)
@@ -18,6 +25,7 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
 
     const hasQuests = filterByTimeline && filterByTimeline.length > 0;
     const { theme } = useContext(ThemeContext)
+    const { deleteQuest } = useContext(QuestContext)
 
 
     return (
@@ -32,7 +40,7 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
                             <p>{quest.timeline}</p>
                         </div>
                         <div className="options">
-                            <span className="material-symbols-outlined icon">
+                            <span className="material-symbols-outlined icon" onClick={() => updateMenu(quest.id)}>
                                 more_vert
                             </span>
                         </div>
@@ -40,11 +48,17 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
                     <div className="body">
                         <h3 className="title">{quest.title}</h3>
                         <p className="description">{quest.description}</p>
-                        <div className="limit">
+                        <div className="limit afterDescription">
                             <span className="material-symbols-outlined icon">
                                 calendar_clock
                             </span>
                             <p>Até: {quest.validation}</p>
+                        </div>
+                        <div className="afterDescription">
+                            <span className="material-symbols-outlined joyLogo">
+                                paid
+                            </span>
+                            <p className="joys">{quest.joys} Joys</p>
                         </div>
                     </div>
                     <div className={`footer ${quest.status}`}>
@@ -54,6 +68,18 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
                         </div>
                         <button className="setStatus"><span className="material-symbols-outlined icon">check_circle</span>Status</button>
                     </div>
+
+                    {activeMenuId === quest.id &&
+                        <EditPopup>
+                            <div onClick={() => deleteQuest(quest.id)}>
+
+                                <button className="delete-btn btn">Deletar</button>
+                            </div>
+                            <div >
+                                <button className="edit-btn btn">Editar</button>
+                            </div>
+                        </EditPopup>
+                    }
                 </Card>
             ))) : (
                 <span className="warn">Não há quests para o filtro selecionado.</span>
@@ -62,12 +88,13 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
     )
 }
 
-const CardsContainer = styled.section<{common: string}>`
+const CardsContainer = styled.section<{ common: string }>`
     display: grid;
     //background: orangered;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
     height: 100%;
+    width: 100%;
 
     .warn{
         color: ${({ common }) => common};
@@ -98,6 +125,7 @@ const Card = styled.div<{ filter: string, common: string }>`
     display: flex;
     flex-direction: column;
     border-radius: 10px;
+    position: relative;
 
     .header {
     display: flex;
@@ -105,6 +133,7 @@ const Card = styled.div<{ filter: string, common: string }>`
     margin-bottom: 15px;
     color: ${({ common }) => common};
     width: 100%;
+    user-select: none;
 }
 
 .header .category {
@@ -120,8 +149,19 @@ const Card = styled.div<{ filter: string, common: string }>`
     font-size: 18px;
 }
 
-.header .options .icon {
+.header .options{
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
     cursor: pointer;
+    user-select: none;
+}
+.header .options:hover{
+    background: #ccc2;
+
 }
 
 .body .description {
@@ -138,12 +178,26 @@ const Card = styled.div<{ filter: string, common: string }>`
     color: ${(props) => props.theme.paragraph};
 }
 
-.body .limit {
+.body .afterDescription {
     display: flex;
     font-size: 12px;
     align-items: center;
     gap: 5px;
+    margin-bottom: 10px;
+}
+
+.body .afterDescription.limit{
     opacity: 0.6;
+}
+
+.body .afterDescription .joys{
+    color: var(--secondary);
+    font-size: 15px;
+    opacity: 1;
+    
+}
+.body .afterDescription .joyLogo{
+    color: var(--secondary);
 }
 
 .body .limit .icon {
@@ -189,7 +243,6 @@ const Card = styled.div<{ filter: string, common: string }>`
     margin-right: 5px;
 }
 
-// Status color logic
 .footer.COMPLETO .setStatus {
     color: green;
 }
@@ -203,15 +256,15 @@ const Card = styled.div<{ filter: string, common: string }>`
 }
 
 .footer.PENDENTE .setStatus {
-    color: orangered;
+    color: #ffb752;
 }
 
 .footer.PENDENTE p {
-    color: orangered;
+    color: #ffb752;
 }
 
 .footer.PENDENTE .status .circleProgress{
-    background: orangered;
+    background: #ffb752;
 }
 
 .footer.INCOMPLETO .setStatus {
@@ -225,6 +278,31 @@ const Card = styled.div<{ filter: string, common: string }>`
 .footer.INCOMPLETO .status .circleProgress{
     background: red;
 }
-
-
 `;
+
+const EditPopup = styled.div`
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 60px;
+    background: var(--background);
+    border: 1px solid var(--tertiary);
+    border-radius: 5px 0 5px 5px;
+    padding: 5px 0;
+    div{
+        cursor: pointer;
+        display: flex;
+        padding: 10px 15px;
+        &:hover{
+            background: #ccf2;
+        }       
+    }
+
+    div .btn{
+        margin-left: 10px;
+        border: none;
+        cursor: pointer;
+        color: white;
+        background: none;
+    }
+`

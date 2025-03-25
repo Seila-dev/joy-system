@@ -3,12 +3,32 @@ import styled from "styled-components"
 import { useContext, useState } from "react"
 import { QuestItem } from "../quest";
 import { QuestContext } from "../../contexts/QuestContext";
-import { QuestTypeData } from "../../interfaces/QuestData";
 import { ThemeContext, themes } from "../../contexts/ThemeContext";
+import { QuestForm } from "../questForm";
+import { Quest } from "../../types/questData";
+
 
 export const QuestSystem = () => {
 
     const [selectedTimeline, setSelectedTimeline] = useState<string | null>(null);
+    const [open, setOpen] = useState<boolean>(false)
+    const [editQuestData, setEditQuestData] = useState<Quest | null>(null)
+
+    const openCreateForm = () => {
+        setEditQuestData(null); // Limpa qualquer dado anterior de edição
+        setOpen(true); // Abre o formulário de criação
+    };
+
+    const closeCreateForm = () => {
+        setOpen(false)
+    }
+
+    // Função para abrir o formulário no modo de edição
+    const openEditForm = (questData: any) => {
+        setEditQuestData(questData); // Passa os dados da quest para edição
+        setOpen(true); // Abre o formulário de edição
+    };
+    
 
     const handleTimelineChange = (timeline: string | null) => {
         setSelectedTimeline(timeline);
@@ -17,11 +37,16 @@ export const QuestSystem = () => {
     const [searchParams, setSearchParams] = useSearchParams({ q: ''})
     const q: string = searchParams.get('q') || ''
 
-    const { quests } = useContext(QuestContext)
+    const { quests, addQuest } = useContext(QuestContext)
     const { theme } = useContext(ThemeContext)
-    const filteredBySearch: QuestTypeData[] = quests?.filter(item => {
+    const filteredBySearch: Quest[] = quests?.filter(item => {
         return item.title.toLowerCase().includes(q.toLowerCase())
     }) || [];
+
+    const handleQuestSubmit = (newQuestData: any) => {
+        console.log(newQuestData)
+        return newQuestData
+    };
 
 
     return (
@@ -38,7 +63,7 @@ export const QuestSystem = () => {
                     <p className="description">Gerencie e acompanhe suas tarefas em diferentes categorias.</p>
                 </div>
                 <div className="rightSide">
-                    <button className="addQuest btn cta"><span className="material-symbols-outlined icon">add</span> <span className="removeResponsive">New Quest</span></button>
+                    <button className="addQuest btn cta" onClick={() => openCreateForm()}><span className="material-symbols-outlined icon">add</span> <span className="removeResponsive">New Quest</span></button>
                 </div>
             </Introduction>
             <Filters filter={themes[theme].filter} background={themes[theme].background} paragraph={themes[theme].paragraph} common={themes[theme].common}>
@@ -92,10 +117,27 @@ export const QuestSystem = () => {
                     />
                 </div>
             </Filters>
+            {open && <Overlay onClick={() => closeCreateForm()} />}
+            {open && (
+                <QuestForm
+                    onClose={() => setOpen(false)} 
+                />
+            )}
             <QuestItem selectedTimeline={selectedTimeline} filterQuantity={null} filterQuery={filteredBySearch} />
         </QuestComponent>
     )
 }
+
+const Overlay = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 4; 
+    pointer-events: all; 
+`
 
 const QuestComponent = styled.main<{ background: string, color: string }>`
     padding: 10px 50px;

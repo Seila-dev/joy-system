@@ -35,6 +35,10 @@ export const GlobalStyle = createGlobalStyle`
         max-width: 100vw;
     }
 
+    textarea, input{
+        font-family: "Inter", sans-serif;
+    }
+
     h1{
         font-size: var(--h1-desktop-fontsize);
         @media(max-width: 768px){
