@@ -3,8 +3,8 @@ import styled from "styled-components"
 import { QuestItem } from "../quest"
 import { useContext, useState } from "react"
 import { QuestContext } from "../../contexts/QuestContext"
-import { QuestTypeData } from "../../interfaces/QuestData"
 import { ThemeContext, themes } from "../../contexts/ThemeContext"
+import { Quest } from "../../types/questData"
 
 export const TodoList = () => {
     const [selectedTimeline, _]  = useState<string | null>(null)
@@ -15,7 +15,7 @@ export const TodoList = () => {
 
     const { quests } = useContext(QuestContext)
 
-    const filteredBySearch: QuestTypeData[] = quests?.filter(item => {
+    const filteredBySearch: Quest[] = quests?.filter(item => {
         return item.title.toLowerCase().includes(q.toLowerCase())
     }) || [];
 
@@ -124,49 +124,7 @@ const TodoComponent = styled.div<{ common: string }>`
         border-radius: 10px;
         gap: 10px;
     }
-    .tasks .task{
-        // border-radius: 10px;
-        // width: 40%;
-        // min-height: 100%;
-        // min-width: 250px;
-        // max-width: 250px;
-        // cursor: pointer;
-        // height: 100%;
-        // padding: 20px;
-        // margin-right: 10px;
-        // flex-shrink: 0;
-        // box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
-                background: white;
-        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-        padding: 25px;
-        border: 1px solid var(--tertiary);
-        min-width: 200px;
-        flex-shrink: 0;
-        height: 300px;
-        color: black;
-        display: flex;
-        flex-direction: column;
-        border-radius: 10px;
-
-    }
-    .tasks .task:nth-child(even){
-       
-
-    }
-    .tasks .task:nth-child(odd){
-       
-
-        .flexContainer .limit{
-            color: black;
-        }
-    }
-    .tasks .task h3, .tasks .task .limit, .tasks .task .category{
-        font-size: 15px;
-    }
-    .tasks .task h3{
-        width: 100%;
-        margin-right: 10px;
-    }
+    
 
     @media(max-width: 450px){
         .header .btn{
