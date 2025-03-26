@@ -8,6 +8,8 @@ export const GlobalStyle = createGlobalStyle`
         --background: #09090b;
         --light-background: #1a1a1a;
         --input-background: #09090b;
+        --yellow: #FFCE32;
+        --blue: #1D63FF;
         --description-fontsize: 14px;
         --description-opacity: 0.6;
         --h3-desktop-fontsize: 18px;

@@ -11,7 +11,7 @@ export const Notes = () => {
     const { theme } = useContext(ThemeContext)
 
     return (
-        <NotesComponent common={themes[theme].common} filter={themes[theme].filter}>
+        <NotesComponent black_to_white={themes[theme].black_to_white} object={themes[theme].object}>
             <div className="header">
                 <h2>Notas recentes (In Development)</h2>
 
@@ -55,7 +55,7 @@ export const Notes = () => {
     )
 }
 
-const NotesComponent = styled.div<{ common: string, filter: string }>`
+const NotesComponent = styled.div<{ black_to_white: string, object: string }>`
     width: 100%;
     
     .btn{
@@ -84,7 +84,7 @@ const NotesComponent = styled.div<{ common: string, filter: string }>`
         font-size: 18px;
     }
     .header, .header .btn, .header .btn .icon{
-        color: ${({ common }) => common}
+        color: ${({ black_to_white }) => black_to_white}
     }
     .flexContainer{
         display: flex;
@@ -102,8 +102,8 @@ const NotesComponent = styled.div<{ common: string, filter: string }>`
     }
 
     .note{
-        background: ${({ filter }) => filter};
-        color: ${({ common }) => common};
+        background: ${({ object }) => object};
+        color: ${({ black_to_white }) => black_to_white};
         height: 100%;
         min-height: 250px;
         min-width: 250px;

@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react"
 import styled from "styled-components"
 
-// interface CalendarProps {
-//     active: boolean;
-//     toggleMenu: () => void;
-// }
-
 export const Calendar = () => {
     const [currentDate, setCurrentDate] = useState<string>('');
     const [days, setDays] = useState<number[]>([])

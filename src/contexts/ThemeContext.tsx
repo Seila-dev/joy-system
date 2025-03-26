@@ -2,42 +2,49 @@ import { createContext, useState, ReactNode, useEffect } from "react";
 
 interface Themes {
     light: {
-        card: string;
-        paragraph: string;
         background: string;
-        painel: string;
-        common: string;
-        filter: string;
+        object: string;
+        emphasize_more: string;
+        emphasize_less: string;
+        black_to_white: string;
+        border: string;
     },
     dark: {
-        card: string;
-        paragraph: string;
         background: string;
-        painel: string;
-        common: string;
-        filter: string;
+        object: string;
+        emphasize_more: string;
+        emphasize_less: string;
+        black_to_white: string;
+        border: string;
     }
 }
 
 export const themes: Themes = {
     light: {
-        //card: "#23272A",
-        card: "#fff",
-        paragraph: "#000",
-        background: "#fff",
-        painel: "var(--background)",
-        common: "#000",
-        filter: "whitesmoke",
+        background: "#ffff",
+        object: "whitesmoke",
+        emphasize_more: "#29ffad",
+        emphasize_less: "#e3c847",
+        black_to_white: "#000",
+        border: "#f2f2f2",
+
     },
     dark: {
-        card: "#1a1a1a",
-        paragraph: "var(--secondary)",
         background: "var(--background)",
-        painel: "#fff",
-        common: "#fff",
-        filter: "#1a1a1a",
+        object: "#1a1a1a",
+        emphasize_more: "#e3c847",
+        emphasize_less: "var(--secondary)",
+        black_to_white: "#fff",
+        border: "#2b2b2b",
     }
 }
+
+// Background
+// Objects (notf, cards, filter buttons)
+// CTA Buttons, important details to view
+// Header Texts (Black, White)
+// Description Texts (Black opacity 0.6, white opacity 0.6) 
+// Borders (for black & white)
 
 type Theme = "light" | "dark";
 

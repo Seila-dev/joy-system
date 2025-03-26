@@ -13,6 +13,8 @@ interface QuestItemProps {
 export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: QuestItemProps) => {
 
     const [activeMenuId, setActiveMenuId] = useState<number | null>(null)
+    const [open, setOpen] = useState<boolean>(false)
+    const [_, setEditQuestData] = useState<Quest | null>(null)
 
     const updateMenu = (id: number) => {
         setActiveMenuId(activeMenuId === id ? null : id)
@@ -29,9 +31,9 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
 
 
     return (
-        <CardsContainer common={themes[theme].common}>
+        <CardsContainer black_to_white={themes[theme].black_to_white}>
             {hasQuests ? (filterByTimeline.map(quest => (
-                <Card className="card" key={quest.id} filter={themes[theme].filter} common={themes[theme].common}>
+                <Card className="card" key={quest.id} object={themes[theme].object} black_to_white={themes[theme].black_to_white} emphasize_more={themes[theme].emphasize_more}>
                     <div className="header">
                         <div className={`category ${quest.timeline}`}>
                             <span className="material-symbols-outlined icon">
@@ -72,10 +74,15 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
                     {activeMenuId === quest.id &&
                         <EditPopup>
                             <div onClick={() => deleteQuest(quest.id)}>
-
+                                <span className="material-symbols-outlined deleteIcon icon">
+                                    delete
+                                </span>
                                 <button className="delete-btn btn">Deletar</button>
                             </div>
                             <div >
+                                <span className="material-symbols-outlined editIcon icon">
+                                    edit_square
+                                </span>
                                 <button className="edit-btn btn">Editar</button>
                             </div>
                         </EditPopup>
@@ -88,16 +95,15 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
     )
 }
 
-const CardsContainer = styled.section<{ common: string }>`
+const CardsContainer = styled.section<{ black_to_white: string }>`
     display: grid;
-    //background: orangered;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
     height: 100%;
     width: 100%;
 
     .warn{
-        color: ${({ common }) => common};
+        color: ${({ black_to_white }) => black_to_white};
     }
 
     @media(max-width: 900px){
@@ -115,13 +121,13 @@ const CardsContainer = styled.section<{ common: string }>`
     }
 
 `
-const Card = styled.div<{ filter: string, common: string }>`
-    background: ${({ filter }) => filter};
+const Card = styled.div<{ object: string, black_to_white: string, emphasize_more: string }>`
+    background: ${({ object }) => object};
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
     padding: 25px;
     width: 100%;
     height: 300px;
-    color: ${({ common }) => common};
+    color: ${({ black_to_white }) => black_to_white};
     display: flex;
     flex-direction: column;
     border-radius: 10px;
@@ -131,7 +137,7 @@ const Card = styled.div<{ filter: string, common: string }>`
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
-    color: ${({ common }) => common};
+    color: ${({ black_to_white }) => black_to_white};
     width: 100%;
     user-select: none;
 }
@@ -161,7 +167,6 @@ const Card = styled.div<{ filter: string, common: string }>`
 }
 .header .options:hover{
     background: #ccc2;
-
 }
 
 .body .description {
@@ -171,7 +176,7 @@ const Card = styled.div<{ filter: string, common: string }>`
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    color: ${({ common }) => common};
+    color: ${({ black_to_white }) => black_to_white};
 }
 
 .body .title {
@@ -191,13 +196,14 @@ const Card = styled.div<{ filter: string, common: string }>`
 }
 
 .body .afterDescription .joys{
-    color: var(--secondary);
+    color: ${({ black_to_white }) => black_to_white};
     font-size: 15px;
     opacity: 1;
+    font-weight: 700;
     
 }
 .body .afterDescription .joyLogo{
-    color: var(--secondary);
+    color: ${({ black_to_white }) => black_to_white};
 }
 
 .body .limit .icon {
@@ -304,5 +310,9 @@ const EditPopup = styled.div`
         cursor: pointer;
         color: white;
         background: none;
+    }
+
+    div .icon{
+        font-size: 20px;
     }
 `

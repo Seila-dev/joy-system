@@ -20,7 +20,7 @@ export const TodoList = () => {
     }) || [];
 
     return (
-        <TodoComponent common={themes[theme].common}>
+        <TodoComponent black_to_white={themes[theme].black_to_white}>
             <div className="header" >
                 <h2>Quests Recentes</h2>
 
@@ -46,7 +46,7 @@ export const TodoList = () => {
     )
 }
 
-const TodoComponent = styled.div<{ common: string }>`
+const TodoComponent = styled.div<{ black_to_white: string }>`
     max-width: 100vw;
     width: 100%;
     max-height: 100%;
@@ -68,7 +68,7 @@ const TodoComponent = styled.div<{ common: string }>`
         color: 
     }
     .header, .header .btn, .header .btn .icon{
-        color: ${({ common }) => common}
+        color: ${({ black_to_white }) => black_to_white}
     }
     .header .btn{
         opacity: 0.7;
