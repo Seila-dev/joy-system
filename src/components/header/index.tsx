@@ -21,10 +21,12 @@ export const Header = () => {
         setTheme(theme === 'light' ? 'dark' : 'light')
     }
 
+    const allTheme = themes[theme]
+
     return (
         <>
         {openMenu && <Overlay onClick={toggleMenu} />}
-            <HeaderElement background={themes[theme].background} black_to_white={themes[theme].black_to_white}>
+            <HeaderElement background={allTheme.background} black_to_white={allTheme.black_to_white} emphasize_less={allTheme.emphasize_less} >
                 <div className="leftColumn">
                     <div className="menuBtn" onClick={toggleMenu}>
                         <span className="material-symbols-outlined icon">
@@ -71,14 +73,14 @@ const Overlay = styled.div`
     pointer-events: all; 
 `
 
-const HeaderElement = styled.header<{ background: string, black_to_white: string }>`
+const HeaderElement = styled.header<{ background: string, black_to_white: string, emphasize_less: string }>`
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 50px;
     transition: 0.25s ease-in-out;
     background: ${({ background }) => background};
-    color: ${({ black_to_white }) => black_to_white};
+    color: ${({ emphasize_less }) => emphasize_less};
 
     .headerTitle{
         font-size: 1.5rem;

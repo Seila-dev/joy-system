@@ -1,6 +1,6 @@
 import { Link, useSearchParams } from "react-router-dom"
 import styled from "styled-components"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { QuestItem } from "../quest";
 import { QuestContext } from "../../contexts/QuestContext";
 import { ThemeContext, themes } from "../../contexts/ThemeContext";
@@ -12,7 +12,8 @@ export const QuestSystem = () => {
 
     const [selectedTimeline, setSelectedTimeline] = useState<string | null>(null);
     const [open, setOpen] = useState<boolean>(false)
-    const [_, setEditQuestData] = useState<Quest | null>(null)
+    const [editQuestData, setEditQuestData] = useState<Quest | null>(null)
+    const [loading, setLoading] = useState<boolean>(false)
 
     const openCreateForm = () => {
         setEditQuestData(null); // Limpa qualquer dado anterior de edição
@@ -23,11 +24,12 @@ export const QuestSystem = () => {
         setOpen(false)
     }
 
-    // Função para abrir o formulário no modo de edição
-    // const openEditForm = (questData: any) => {
-    //     setEditQuestData(questData); // Passa os dados da quest para edição
-    //     setOpen(true); // Abre o formulário de edição
-    // };
+    useEffect(() => {
+        if (editQuestData) {
+            setLoading(false)
+            setOpen(true)
+        }
+    }, [editQuestData])
     
 
     const handleTimelineChange = (timeline: string | null) => {
@@ -39,9 +41,20 @@ export const QuestSystem = () => {
 
     const { quests } = useContext(QuestContext)
     const { theme } = useContext(ThemeContext)
+    console.log(quests)
     const filteredBySearch: Quest[] = quests?.filter(item => {
-        return item.title.toLowerCase().includes(q.toLowerCase())
+        return item?.title?.toLowerCase().includes(q.toLowerCase())
     }) || [];
+
+    useEffect(() => {
+        console.log(quests)
+    }, [quests])
+
+    if(!filteredBySearch){
+        throw new Error('error:',)
+    }
+
+    if(loading) return <p>Loading..</p>
 
 
     return (
@@ -116,9 +129,10 @@ export const QuestSystem = () => {
             {open && (
                 <QuestForm
                     onClose={() => setOpen(false)} 
+                    initialData={editQuestData}
                 />
             )}
-            <QuestItem selectedTimeline={selectedTimeline} filterQuantity={null} filterQuery={filteredBySearch} />
+            <QuestItem selectedTimeline={selectedTimeline} filterQuantity={null} filterQuery={filteredBySearch}/>
         </QuestComponent>
     )
 }

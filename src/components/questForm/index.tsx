@@ -1,158 +1,230 @@
-import React, { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { QuestContext } from '../../contexts/QuestContext';
-import { Quest, QuestCategory, Difficulty, QuestStatus } from '../../types/questData';
+import { Quest} from '../../types/questData';
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod';
 import styled from 'styled-components';
+import { useForm, Controller } from 'react-hook-form';
+import { ErrorMessage } from '../errorMessage';
+
+const questSchema = z.object({
+    title: z.string().min(1, { message: "Título é obrigatório" }),
+    description: z.string().min(1, { message: "Descrição é obrigatória" }),
+    timeline: z.enum(['DIARIO', 'SEMANAL', 'MENSAL', 'ANUAL']),
+    difficulty: z.enum(['FACIL', 'MEDIO', 'DIFICIL', 'MUITO_DIFICIL']),
+    validation: z.string().optional(),
+    joys: z.number().min(0),
+    highlight: z.boolean(),
+    status: z.enum(['PENDENTE', 'COMPLETO', 'INCOMPLETO', 'NULO'])
+});
+
+type QuestFormData = z.infer<typeof questSchema>;
 
 interface QuestFormProps {
     onClose?: () => void;
+    initialData?: Quest | null;
+    mode?: 'create' | 'edit';
 }
 
-export const QuestForm: React.FC<QuestFormProps> = ({ onClose }) => {
-    const { addQuest } = useContext(QuestContext);
-    
-    // Form state
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [timeline, setTimeline] = useState<QuestCategory>('DIARIO');
-    const [difficulty, setDifficulty] = useState<Difficulty>('FACIL');
-    const [validation, setValidation] = useState('');
-    const [joys, setJoys] = useState(0);
-    const [highlight, setHighlight] = useState(false);
-    const [status, setStatus]  = useState<QuestStatus>('PENDENTE');
+export const QuestForm: React.FC<QuestFormProps> = ({ 
+    onClose,
+    initialData = null,
+    mode = 'create'
+}) => {
+    const { addQuest, editQuest } = useContext(QuestContext);
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        // Basic validation
-        if (!title || !description) {
-            alert('Por favor, preencha todos os campos obrigatórios');
-            return;
+    const { 
+        control, 
+        handleSubmit, 
+        formState: { errors, isSubmitting }, 
+        reset 
+    } = useForm<QuestFormData>({
+        resolver: zodResolver(questSchema),
+        defaultValues: mode === 'edit' && initialData ? {
+            title: initialData.title ?? "",
+            description: initialData.description ?? "",
+            timeline: initialData.timeline ?? "DIARIO",
+            difficulty: initialData.difficulty ?? "FACIL",
+            validation: initialData.validation ?? "",
+            joys: initialData.joys ?? 0,
+            highlight: initialData.highlight ?? false,
+            status: initialData.status ?? "PENDENTE"
+        } : {
+            title: '',
+            description: '',
+            timeline: 'DIARIO',
+            difficulty: 'FACIL',
+            validation: '',
+            joys: 0,
+            highlight: false,
+            status: 'PENDENTE'
         }
+    });
 
-        const newQuest: Omit<Quest, 'id' | 'createdAt' | 'updatedAt' | 'userId'> = {
-            title,
-            description,
-            timeline,
-            difficulty,
-            validation: validation || new Date().toISOString().split('T')[0].replace(/-/g, '/'),
-            joys,
-            highlight,
-            status: status || 'PENDENTE' 
-        };
-
+    const onSubmit = async (data: QuestFormData) => {
         try {
-            await addQuest(newQuest as Quest);
-            
-            // Reset form
-            setTitle('');
-            setDescription('');
-            setTimeline('DIARIO');
-            setDifficulty('FACIL');
-            setValidation('');
-            setJoys(0);
-            setHighlight(false);
-            setStatus('PENDENTE')
+            const questData: Omit<Quest, 'id' | 'createdAt' | 'updatedAt' | 'userId'> = {
+                ...data,
+                validation: data.validation || new Date().toISOString().split('T')[0].replace(/-/g, '/')
+            };
 
-            console.log(status)
+            if (mode === 'create') {
+                await addQuest(questData as Quest);
+            } else if (mode === 'edit' && initialData?.id) {
+                await editQuest({
+                    ...questData,
+                    id: initialData.id,
+                } as Quest);
+            }
 
-            // Close form if onClose is provided
-            onClose?.();
+            reset(); 
+            onClose?.(); 
         } catch (error) {
-            console.error('Erro ao adicionar quest:', error);
-            alert('Erro ao adicionar quest');
+            console.error('Erro ao adicionar ou editar quest:', error);
+            alert('Erro ao adicionar ou editar quest');
         }
     };
 
     return (
         <Container>
-        <Form onSubmit={handleSubmit}>
-            <div className="header">
-                <h2>Create New Quest</h2>
-                <p className='description'>Crie uma nova quest para sua nova jornada.</p>
-            </div>
-            <div className='item'>
-                <label htmlFor="title">Título da Quest</label>
-                <input
-                    id="title"
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
-                />
-            </div>
+            <Form onSubmit={handleSubmit(onSubmit)}>
+                <div className="header">
+                    <h2>{mode === 'create' ? 'Criar Nova Quest' : 'Editar Quest'}</h2>
+                    <p className='description'>
+                        {mode === 'create' 
+                            ? 'Crie uma nova quest para sua jornada.' 
+                            : 'Edite os detalhes da sua quest.'}
+                    </p>
+                </div>
 
-            <div className='item'>
-                <label htmlFor="description">Descrição</label>
-                <textarea
-                    id="description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    required
-                />
-            </div>
+                <div className='item'>
+                    <label htmlFor="title">Título da Quest</label>
+                    <Controller
+                        name="title"
+                        control={control}
+                        render={({ field }) => (
+                            <input
+                                {...field}
+                                id="title"
+                                type="text"
+                                required
+                            />
+                        )}
+                    />
+                    {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
+                </div>
 
-            <div className="flexContainer">
                 <div className='item'>
-                    <label htmlFor="timeline">Timeline</label>
-                    <select
-                        id="timeline"
-                        value={timeline}
-                        onChange={(e) => setTimeline(e.target.value as QuestCategory)}
-                    >
-                        <option value="DIARIO">Diário</option>
-                        <option value="SEMANAL">Semanal</option>
-                        <option value="MENSAL">Mensal</option>
-                        <option value="ANUAL">Anual</option>
-                    </select>
-                </div>
-                <div className='item'>
-                    <label htmlFor="difficulty">Dificuldade</label>
-                    <select
-                        id="difficulty"
-                        value={difficulty}
-                        onChange={(e) => setDifficulty(e.target.value as Difficulty)}
-                    >
-                        <option value="FACIL">Fácil</option>
-                        <option value="MEDIO">Médio</option>
-                        <option value="DIFICIL">Difícil</option>
-                        <option value="MUITO_DIFICIL">Muito Difícil</option>
-                    </select>
-                </div>
-                <div className='item'>
-                    <label htmlFor="validation">Data de Validação</label>
-                    <input
-                        id="validation"
-                        type="date"
-                        placeholder="DD/MM/YYYY"
-                        value={validation}
-                        onChange={(e) => setValidation(e.target.value)}
+                    <label htmlFor="description">Descrição</label>
+                    <Controller
+                        name="description"
+                        control={control}
+                        render={({ field }) => (
+                            <textarea
+                                {...field}
+                                id="description"
+                                required
+                            />
+                        )}
                     />
+                    {errors.description && <ErrorMessage>{errors.description.message}</ErrorMessage>}
                 </div>
-                <div className='item'>
-                    <label htmlFor="joys">Joys</label>
-                    <input
-                        id="joys"
-                        type="text"
-                        value={joys}
-                        onChange={(e) => setJoys(Number(e.target.value))}
-                    />
-                </div>
-                <div className='item'>
-                    <label htmlFor="highlight">Em Destaque</label>
-                    <input
-                        id="highlight"
-                        type="checkbox"
-                        checked={highlight}
-                        onChange={(e) => setHighlight(e.target.checked)}
-                    />
-                </div>
-            </div>
 
-            <button type="submit">Criar Quest</button>
-        </Form>
+                <div className="flexContainer">
+                    <div className='item'>
+                        <label htmlFor="timeline">Timeline</label>
+                        <Controller
+                            name="timeline"
+                            control={control}
+                            render={({ field }) => (
+                                <select
+                                    {...field}
+                                    id="timeline"
+                                >
+                                    <option value="DIARIO">Diário</option>
+                                    <option value="SEMANAL">Semanal</option>
+                                    <option value="MENSAL">Mensal</option>
+                                    <option value="ANUAL">Anual</option>
+                                </select>
+                            )}
+                        />
+                    </div>
+
+                    <div className='item'>
+                        <label htmlFor="difficulty">Dificuldade</label>
+                        <Controller
+                            name="difficulty"
+                            control={control}
+                            render={({ field }) => (
+                                <select
+                                    {...field}
+                                    id="difficulty"
+                                >
+                                    <option value="FACIL">Fácil</option>
+                                    <option value="MEDIO">Médio</option>
+                                    <option value="DIFICIL">Difícil</option>
+                                    <option value="MUITO_DIFICIL">Muito Difícil</option>
+                                </select>
+                            )}
+                        />
+                    </div>
+
+                    <div className='item'>
+                        <label htmlFor="validation">Data de Validação</label>
+                        <Controller
+                            name="validation"
+                            control={control}
+                            render={({ field }) => (
+                                <input
+                                    {...field}
+                                    id="validation"
+                                    type="date"
+                                    placeholder="DD/MM/YYYY"
+                                />
+                            )}
+                        />
+                    </div>
+
+                    <div className='item'>
+                        <label htmlFor="joys">Joys</label>
+                        <Controller
+                            name="joys"
+                            control={control}
+                            render={({ field: { onChange, ...field } }) => (
+                                <input
+                                    {...field}
+                                    id="joys"
+                                    type="number"
+                                    onChange={(e) => onChange(Number(e.target.value))}
+                                />
+                            )}
+                        />
+                    </div>
+
+                    <div className='item'>
+                        <label htmlFor="highlight">Em Destaque</label>
+                        <Controller
+                            name="highlight"
+                            control={control}
+                            render={({ field: { value, onChange } }) => (
+                                <input
+                                    id="highlight"
+                                    type="checkbox"
+                                    checked={value}
+                                    onChange={(e) => onChange(e.target.checked)}
+                                />
+                            )}
+                        />
+                    </div>
+                </div>
+
+                <button type="submit" disabled={isSubmitting}>
+                    {mode === 'create' ? 'Criar Quest' : 'Atualizar Quest'}
+                </button>
+            </Form>
         </Container>
-    );
-};
+    )
+}
 
 const Container = styled.div`
     display: flex;
@@ -161,16 +233,19 @@ const Container = styled.div`
     height: 100%;
     width: 100%;
      padding: 0 15px;
-    position: relative;
+    position: absolute;
 `
 
 const Form = styled.form`
     display: flex;
-    z-index: 100;
+    z-index: 1000;
     position: fixed;
      max-width: 700px; 
      margin: 15px 0;
     width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     margin: 15px;
     background: var(--background);
     padding: 30px 15px;
@@ -210,28 +285,27 @@ const Form = styled.form`
     }
 
         @media (max-width: 768px) {
-        /* Quando a tela for menor que 768px, a flexContainer se tornará uma coluna */
         .flexContainer {
-            grid-template-columns: 1fr; /* Alinha todos os campos em uma coluna */
+            grid-template-columns: 1fr; 
         }
 
         .header h2 {
-            font-size: 20px; /* Reduz o tamanho da fonte do título */
+            font-size: 20px;
         }
 
         .header .description {
-            font-size: 14px; /* Ajuste o tamanho da descrição */
+            font-size: 14px; 
         }
 
         button {
-            width: 100%; /* Faz o botão ocupar toda a largura disponível */
+            width: 100%; 
         }
     }
 
      @media (max-width: 480px) {
-        padding: 20px; /* Diminui o padding para telas menores */
+        padding: 20px;
         .flexContainer {
-            grid-template-columns: 1fr; /* Garante que os campos fiquem empilhados */
+            grid-template-columns: 1fr;
         }
     }
 `

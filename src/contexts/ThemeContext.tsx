@@ -21,17 +21,17 @@ interface Themes {
 
 export const themes: Themes = {
     light: {
-        background: "#ffff",
-        object: "whitesmoke",
+        background: "#f9f9f9",
+        object: "white",
         emphasize_more: "#29ffad",
-        emphasize_less: "#e3c847",
+        emphasize_less: "#000",
         black_to_white: "#000",
         border: "#f2f2f2",
 
     },
     dark: {
         background: "var(--background)",
-        object: "#1a1a1a",
+        object: "#18181b",
         emphasize_more: "#e3c847",
         emphasize_less: "var(--secondary)",
         black_to_white: "#fff",

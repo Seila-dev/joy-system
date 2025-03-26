@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { ThemeContext, themes } from "../../contexts/ThemeContext";
 import { Quest } from "../../types/questData";
 import { QuestContext } from "../../contexts/QuestContext";
+import { QuestForm } from "../questForm";
 
 interface QuestItemProps {
     selectedTimeline: string | null;
@@ -14,7 +15,16 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
 
     const [activeMenuId, setActiveMenuId] = useState<number | null>(null)
     const [open, setOpen] = useState<boolean>(false)
-    const [_, setEditQuestData] = useState<Quest | null>(null)
+    const [editQuestData, setEditQuestData] = useState<Quest | null>(null)
+
+    const createQuestForm = (questData: Quest) => {
+        setEditQuestData(questData); 
+        setOpen(true); 
+    };
+
+    const closeCreateForm = () => {
+        setOpen(false)
+    }
 
     const updateMenu = (id: number) => {
         setActiveMenuId(activeMenuId === id ? null : id)
@@ -27,13 +37,15 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
 
     const hasQuests = filterByTimeline && filterByTimeline.length > 0;
     const { theme } = useContext(ThemeContext)
-    const { deleteQuest } = useContext(QuestContext)
+    const { deleteQuest, loading } = useContext(QuestContext)
+
+    if(loading) return <div>Loading..</div>
 
 
     return (
         <CardsContainer black_to_white={themes[theme].black_to_white}>
             {hasQuests ? (filterByTimeline.map(quest => (
-                <Card className="card" key={quest.id} object={themes[theme].object} black_to_white={themes[theme].black_to_white} emphasize_more={themes[theme].emphasize_more}>
+                <Card className="card" key={quest.id} object={themes[theme].object} black_to_white={themes[theme].black_to_white} emphasize_more={themes[theme].emphasize_more} emphasize_less={themes[theme].emphasize_less}>
                     <div className="header">
                         <div className={`category ${quest.timeline}`}>
                             <span className="material-symbols-outlined icon">
@@ -71,15 +83,16 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
                         <button className="setStatus"><span className="material-symbols-outlined icon">check_circle</span>Status</button>
                     </div>
 
+                    
                     {activeMenuId === quest.id &&
-                        <EditPopup>
+                        <EditPopup background={themes[theme].background} black_to_white={themes[theme].black_to_white}>
                             <div onClick={() => deleteQuest(quest.id)}>
                                 <span className="material-symbols-outlined deleteIcon icon">
                                     delete
                                 </span>
                                 <button className="delete-btn btn">Deletar</button>
                             </div>
-                            <div >
+                            <div onClick={() => createQuestForm(quest)}>
                                 <span className="material-symbols-outlined editIcon icon">
                                     edit_square
                                 </span>
@@ -87,13 +100,34 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
                             </div>
                         </EditPopup>
                     }
+                    {open && <Overlay onClick={() => closeCreateForm()} />}
+                    {open && activeMenuId === quest.id && (
+                        <QuestForm
+                            onClose={() => setOpen(false)}
+                            mode="edit"
+                            initialData={editQuestData}
+                        />
+                    )}
                 </Card>
             ))) : (
                 <span className="warn">Não há quests para o filtro selecionado.</span>
-            )}
-        </CardsContainer>
+            )
+            }
+
+        </CardsContainer >
     )
 }
+
+const Overlay = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 4; 
+    pointer-events: all; 
+`
 
 const CardsContainer = styled.section<{ black_to_white: string }>`
     display: grid;
@@ -121,7 +155,7 @@ const CardsContainer = styled.section<{ black_to_white: string }>`
     }
 
 `
-const Card = styled.div<{ object: string, black_to_white: string, emphasize_more: string }>`
+const Card = styled.div<{ object: string, black_to_white: string, emphasize_more: string, emphasize_less: string }>`
     background: ${({ object }) => object};
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
     padding: 25px;
@@ -196,14 +230,14 @@ const Card = styled.div<{ object: string, black_to_white: string, emphasize_more
 }
 
 .body .afterDescription .joys{
-    color: ${({ black_to_white }) => black_to_white};
+    color: ${({ emphasize_less }) => emphasize_less};
     font-size: 15px;
     opacity: 1;
     font-weight: 700;
     
 }
 .body .afterDescription .joyLogo{
-    color: ${({ black_to_white }) => black_to_white};
+    color: ${({ emphasize_less }) => emphasize_less};
 }
 
 .body .limit .icon {
@@ -249,36 +283,27 @@ const Card = styled.div<{ object: string, black_to_white: string, emphasize_more
     margin-right: 5px;
 }
 
-.footer.COMPLETO .setStatus {
+.footer.COMPLETO .setStatus, .footer.COMPLETO p{
     color: green;
-}
-
-.footer.COMPLETO p {
-    color: green;
+    font-weight: 700;
 }
 
 .footer.COMPLETO .status .circleProgress{
     background: green;
 }
 
-.footer.PENDENTE .setStatus {
-    color: #ffb752;
-}
-
-.footer.PENDENTE p {
-    color: #ffb752;
+.footer.PENDENTE p, .footer.PENDENTE .setStatus  {
+    color: #DAA520;
+    font-weight: 700;
 }
 
 .footer.PENDENTE .status .circleProgress{
-    background: #ffb752;
+    background: #DAA520;
 }
 
-.footer.INCOMPLETO .setStatus {
+.footer.INCOMPLETO .setStatus, .footer.INCOMPLETO p {
     color: red;
-}
-
-.footer.INCOMPLETO p {
-    color: red;
+    font-weight: 700;
 }
 
 .footer.INCOMPLETO .status .circleProgress{
@@ -286,12 +311,13 @@ const Card = styled.div<{ object: string, black_to_white: string, emphasize_more
 }
 `;
 
-const EditPopup = styled.div`
+const EditPopup = styled.div<{ background: string, black_to_white: string }>`
     display: flex;
     flex-direction: column;
     position: absolute;
     right: 60px;
-    background: var(--background);
+    background: ${({ background }) => background};
+    
     border: 1px solid var(--tertiary);
     border-radius: 5px 0 5px 5px;
     padding: 5px 0;
@@ -308,8 +334,8 @@ const EditPopup = styled.div`
         margin-left: 10px;
         border: none;
         cursor: pointer;
-        color: white;
         background: none;
+        color: ${({ black_to_white }) => black_to_white};
     }
 
     div .icon{

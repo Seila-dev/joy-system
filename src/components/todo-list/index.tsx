@@ -16,7 +16,7 @@ export const TodoList = () => {
     const { quests } = useContext(QuestContext)
 
     const filteredBySearch: Quest[] = quests?.filter(item => {
-        return item.title.toLowerCase().includes(q.toLowerCase())
+        return item?.title?.toLowerCase().includes(q.toLowerCase())
     }) || [];
 
     return (
