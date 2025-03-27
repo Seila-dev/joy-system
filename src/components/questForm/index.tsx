@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { QuestContext } from '../../contexts/QuestContext';
 import { Quest} from '../../types/questData';
 import { z } from 'zod'
@@ -59,7 +59,17 @@ export const QuestForm: React.FC<QuestFormProps> = ({
             highlight: false,
             status: 'PENDENTE'
         }
-    });
+    })
+
+    useEffect(() => {
+        // Lock scrolling on the body when modal is open
+        document.body.style.overflow = 'hidden';
+
+        // Cleanup function to unlock scrolling when modal is closed
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, []);
 
     const onSubmit = async (data: QuestFormData) => {
         try {
@@ -88,7 +98,7 @@ export const QuestForm: React.FC<QuestFormProps> = ({
     return (
         <Container>
             <Form onSubmit={handleSubmit(onSubmit)}>
-                <div className="header">
+                <div className="headerForm">
                     <h2>{mode === 'create' ? 'Criar Nova Quest' : 'Editar Quest'}</h2>
                     <p className='description'>
                         {mode === 'create' 
@@ -98,7 +108,7 @@ export const QuestForm: React.FC<QuestFormProps> = ({
                 </div>
 
                 <div className='item'>
-                    <label htmlFor="title">Título da Quest</label>
+                    <label htmlFor="title">Título</label>
                     <Controller
                         name="title"
                         control={control}
@@ -111,6 +121,7 @@ export const QuestForm: React.FC<QuestFormProps> = ({
                             />
                         )}
                     />
+                    <p className='description'>Um belo título para nomear seu próximo desafio</p>
                     {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
                 </div>
 
@@ -127,10 +138,11 @@ export const QuestForm: React.FC<QuestFormProps> = ({
                             />
                         )}
                     />
+                    <p className="description">Descreva detalhes sobre desafio</p>
                     {errors.description && <ErrorMessage>{errors.description.message}</ErrorMessage>}
                 </div>
 
-                <div className="flexContainer">
+                <div className="gridContainer">
                     <div className='item'>
                         <label htmlFor="timeline">Timeline</label>
                         <Controller
@@ -148,6 +160,7 @@ export const QuestForm: React.FC<QuestFormProps> = ({
                                 </select>
                             )}
                         />
+                        <p className="description">Frequência da sua Quest</p>
                     </div>
 
                     <div className='item'>
@@ -167,10 +180,11 @@ export const QuestForm: React.FC<QuestFormProps> = ({
                                 </select>
                             )}
                         />
+                        <p className="description">Nível de dificuldade</p>
                     </div>
 
                     <div className='item'>
-                        <label htmlFor="validation">Data de Validação</label>
+                        <label htmlFor="validation">Data final</label>
                         <Controller
                             name="validation"
                             control={control}
@@ -183,6 +197,7 @@ export const QuestForm: React.FC<QuestFormProps> = ({
                                 />
                             )}
                         />
+                        <p className="description">Informe uma data válida para o dia de conclusão</p>
                     </div>
 
                     <div className='item'>
@@ -199,65 +214,84 @@ export const QuestForm: React.FC<QuestFormProps> = ({
                                 />
                             )}
                         />
+                        <p className="description">Recompensa em joys pela quest</p>
                     </div>
 
                     <div className='item'>
-                        <label htmlFor="highlight">Em Destaque</label>
-                        <Controller
-                            name="highlight"
-                            control={control}
-                            render={({ field: { value, onChange } }) => (
-                                <input
-                                    id="highlight"
-                                    type="checkbox"
-                                    checked={value}
-                                    onChange={(e) => onChange(e.target.checked)}
-                                />
-                            )}
-                        />
+                        <div className="highlightDiv">
+                            <label htmlFor="highlight">Em Destaque</label>
+                            <Controller
+                                name="highlight"
+                                control={control}
+                                render={({ field: { value, onChange } }) => (
+                                    <>
+                                        <input
+                                            id="highlight"
+                                            className='highlight'
+                                            type="checkbox"
+                                            checked={value}
+                                            onChange={(e) => onChange(e.target.checked)}
+                                        />
+                                        <label htmlFor="highlight"></label>
+                                    </>
+                                )}
+                            />
+                        </div>
+                        <p className="description">Ative se quiser que apareça no menu principal</p>
                     </div>
                 </div>
 
-                <button type="submit" disabled={isSubmitting}>
-                    {mode === 'create' ? 'Criar Quest' : 'Atualizar Quest'}
-                </button>
+                <div className="buttons">
+                    <button className='cancelBtn btnForm' onClick={() => onClose?.()}>Cancel</button>
+                    <button type="submit" disabled={isSubmitting} className='submitBtn btnForm'>
+                        {mode === 'create' ? 'Criar Quest' : 'Atualizar Quest'}
+                    </button>
+                </div>
             </Form>
         </Container>
     )
 }
 
 const Container = styled.div`
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
     display: flex;
-    align-items: center;
     justify-content: center;
-    height: 100%;
-    width: 100%;
-     padding: 0 15px;
-    position: absolute;
-`
+    align-items: center;
+    user-select: none;
+    background: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente para destacar o modal */
+`;
 
 const Form = styled.form`
-    display: flex;
-    z-index: 1000;
-    position: fixed;
-     max-width: 700px; 
-     margin: 15px 0;
     width: 100%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin: 15px;
+    max-width: 700px;
+    padding: 30px;
     background: var(--background);
-    padding: 30px 15px;
-    flex-direction: column;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100%;
+    max-height: 700px;
+    overflow-y: auto;
+    z-index: 1000;
 
-    .header .description{
-        margin: 5px 0 20px 0;
+    .headerForm {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
     }
-    input, select, textarea{
+
+    .description {
+        margin: 5px 0 10px 0;
+    }
+
+    input, select, textarea {
         background: black;
-        resize: none;
         color: white;
         border-radius: 5px;
         border: 1px solid var(--light-background);
@@ -266,47 +300,91 @@ const Form = styled.form`
         font-size: 15px;
         width: 100%;
     }
-    
-    select{
+
+    textarea {
+        height: 200px;
+        resize: none;
+    }
+
+    select {
         cursor: pointer;
     }
-    label{
+
+    label {
         margin: 10px 0;
     }
 
-    .flexContainer{
-        gap: 15px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-    }
-    .item{
+    .item {
         display: flex;
         flex-direction: column;
     }
 
-        @media (max-width: 768px) {
-        .flexContainer {
-            grid-template-columns: 1fr; 
+    .item .highlightDiv {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .item input[type="checkbox"] {
+        accent-color: var(--secondary);
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        border: none;
+    }
+
+    .gridContainer {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .btnForm {
+        padding: 10px;
+        align-items: center;
+        justify-content: center;
+        background: var(--secondary);
+        cursor: pointer;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        font-weight: 700;
+        width: 120px;
+
+    }
+
+    .cancelBtn {
+        background: transparent;
+        border: 1px solid #ccc;
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .gridContainer {
+            grid-template-columns: 1fr;
         }
 
-        .header h2 {
+        .headerForm h2 {
             font-size: 20px;
         }
 
-        .header .description {
-            font-size: 14px; 
+        .headerForm .description {
+            font-size: 14px;
         }
 
-        button {
-            width: 100%; 
+        .submitBtn, .cancelBtn {
+            width: 100%;
         }
     }
 
-     @media (max-width: 480px) {
+    @media (max-width: 480px) {
         padding: 20px;
-        .flexContainer {
-            grid-template-columns: 1fr;
-        }
     }
-`
-
+`;

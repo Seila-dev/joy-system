@@ -34,10 +34,14 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
         ? filterQuery?.slice(0, filterQuantity ?? filterQuery?.length)
         : filterQuery?.filter(quest => quest.timeline === selectedTimeline)
 
-
     const hasQuests = filterByTimeline && filterByTimeline.length > 0;
+
     const { theme } = useContext(ThemeContext)
     const { deleteQuest, loading } = useContext(QuestContext)
+
+    const transformDateToPtbr = (newDate: string) => {
+        return new Date(newDate).toLocaleDateString('pt-BR')
+    } 
 
     if(loading) return <div>Loading..</div>
 
@@ -66,7 +70,7 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
                             <span className="material-symbols-outlined icon">
                                 calendar_clock
                             </span>
-                            <p>Até: {quest.validation}</p>
+                            <p>Até: {transformDateToPtbr(quest.validation)}</p>
                         </div>
                         <div className="afterDescription">
                             <span className="material-symbols-outlined joyLogo">
@@ -168,147 +172,135 @@ const Card = styled.div<{ object: string, black_to_white: string, emphasize_more
     position: relative;
 
     .header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
-    color: ${({ black_to_white }) => black_to_white};
-    width: 100%;
-    user-select: none;
-}
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        color: ${({ black_to_white }) => black_to_white};
+        width: 100%;
+        user-select: none;
+    }
+    .header .category {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 10px;
+        font-size: 12px;
+        border-radius: 30px;
+    }
+    .header .category .icon {
+        font-size: 18px;
+    }
+    .header .options{
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        user-select: none;
+    }
+    .header .options:hover{
+        background: #ccc2;
+    }
+    .body .description {
+        margin: 10px 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        color: ${({ black_to_white }) => black_to_white};
+    }
+    .body .title {
+        color: ${(props) => props.theme.paragraph};
+    }
+    .body .afterDescription {
+        display: flex;
+        font-size: 12px;
+        align-items: center;
+        gap: 5px;
+        margin-bottom: 10px;
+    }
+    .body .afterDescription.limit{
+        opacity: 0.6;
+    }
+    .body .afterDescription .joys{
+        color: ${({ emphasize_less }) => emphasize_less};
+        font-size: 15px;
+        opacity: 1;
+        font-weight: 700;  
+    }
+    .body .afterDescription .joyLogo{
+        color: ${({ emphasize_less }) => emphasize_less};
+    }
+    .body .limit .icon {
+        font-size: 18px;
+    }
+    .footer {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        height: 100%;
+    }
+    .footer .status {
+        display: flex;
+        align-items: center;
+        font-size: 15px;
+        color: gray;
+        margin-bottom: 3px;
+    }
 
-.header .category {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 5px 10px;
-    font-size: 12px;
-    border-radius: 30px;
-}
+    .footer .status .circleProgress {
+        width: 10px;
+        height: 10px;
+        background: gray;
+        display: flex;
+        border-radius: 50%;
+        margin-right: 5px;
+    }
 
-.header .category .icon {
-    font-size: 18px;
-}
+    .footer .setStatus {
+        display: flex;
+        align-items: center;
+        padding: 5px 10px;
+        border: 1px solid gray;
+        border-radius: 10px;
+        background: transparent;
+        cursor: pointer;
+    }
 
-.header .options{
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    user-select: none;
-}
-.header .options:hover{
-    background: #ccc2;
-}
+    .footer .setStatus .icon {
+        font-size: 14px;
+        margin-right: 5px;
+    }
 
-.body .description {
-    margin: 10px 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    color: ${({ black_to_white }) => black_to_white};
-}
+    .footer.COMPLETO .setStatus, .footer.COMPLETO p{
+        color: green;
+        font-weight: 700;
+    }
 
-.body .title {
-    color: ${(props) => props.theme.paragraph};
-}
+    .footer.COMPLETO .status .circleProgress{
+        background: green;
+    }
 
-.body .afterDescription {
-    display: flex;
-    font-size: 12px;
-    align-items: center;
-    gap: 5px;
-    margin-bottom: 10px;
-}
+    .footer.PENDENTE p, .footer.PENDENTE .setStatus  {
+        color: #DAA520;
+        font-weight: 700;
+    }
 
-.body .afterDescription.limit{
-    opacity: 0.6;
-}
+    .footer.PENDENTE .status .circleProgress{
+        background: #DAA520;
+    }
 
-.body .afterDescription .joys{
-    color: ${({ emphasize_less }) => emphasize_less};
-    font-size: 15px;
-    opacity: 1;
-    font-weight: 700;
-    
-}
-.body .afterDescription .joyLogo{
-    color: ${({ emphasize_less }) => emphasize_less};
-}
+    .footer.INCOMPLETO .setStatus, .footer.INCOMPLETO p {
+        color: red;
+        font-weight: 700;
+    }
 
-.body .limit .icon {
-    font-size: 18px;
-}
-
-.footer {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    height: 100%;
-}
-
-.footer .status {
-    display: flex;
-    align-items: center;
-    font-size: 15px;
-    color: gray;
-    margin-bottom: 3px;
-}
-
-.footer .status .circleProgress {
-    width: 10px;
-    height: 10px;
-    background: gray;
-    display: flex;
-    border-radius: 50%;
-    margin-right: 5px;
-}
-
-.footer .setStatus {
-    display: flex;
-    align-items: center;
-    padding: 5px 10px;
-    border: 1px solid gray;
-    border-radius: 10px;
-    background: transparent;
-    cursor: pointer;
-}
-
-.footer .setStatus .icon {
-    font-size: 14px;
-    margin-right: 5px;
-}
-
-.footer.COMPLETO .setStatus, .footer.COMPLETO p{
-    color: green;
-    font-weight: 700;
-}
-
-.footer.COMPLETO .status .circleProgress{
-    background: green;
-}
-
-.footer.PENDENTE p, .footer.PENDENTE .setStatus  {
-    color: #DAA520;
-    font-weight: 700;
-}
-
-.footer.PENDENTE .status .circleProgress{
-    background: #DAA520;
-}
-
-.footer.INCOMPLETO .setStatus, .footer.INCOMPLETO p {
-    color: red;
-    font-weight: 700;
-}
-
-.footer.INCOMPLETO .status .circleProgress{
-    background: red;
-}
+    .footer.INCOMPLETO .status .circleProgress{
+        background: red;
+    }
 `;
 
 const EditPopup = styled.div<{ background: string, black_to_white: string }>`
@@ -317,7 +309,6 @@ const EditPopup = styled.div<{ background: string, black_to_white: string }>`
     position: absolute;
     right: 60px;
     background: ${({ background }) => background};
-    
     border: 1px solid var(--tertiary);
     border-radius: 5px 0 5px 5px;
     padding: 5px 0;
@@ -329,7 +320,6 @@ const EditPopup = styled.div<{ background: string, black_to_white: string }>`
             background: #ccf2;
         }       
     }
-
     div .btn{
         margin-left: 10px;
         border: none;
@@ -337,7 +327,6 @@ const EditPopup = styled.div<{ background: string, black_to_white: string }>`
         background: none;
         color: ${({ black_to_white }) => black_to_white};
     }
-
     div .icon{
         font-size: 20px;
     }
