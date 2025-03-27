@@ -1,8 +1,7 @@
 import { createContext, useState, useEffect, useCallback } from "react";
 import { setCookie, parseCookies, destroyCookie } from "nookies";
 import { useNavigate } from "react-router-dom";
-
-
+import { User } from "../types/userData";
 
 type FormData = {
     email: string
@@ -12,12 +11,6 @@ type FormData = {
 type FormDataRegister = {
     email: string
     password: string
-    username: string
-}
-
-type User = {
-    id: number
-    email: string
     username: string
 }
 

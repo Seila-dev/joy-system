@@ -6,17 +6,20 @@ import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthContext.tsx'
 import { QuestProvider } from './contexts/QuestContext.tsx'
 import { ThemeProvider } from './contexts/ThemeContext.tsx'
+import { JoysProvider } from './contexts/JoysContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <QuestProvider >
+        <JoysProvider>
+          <QuestProvider >
             <ThemeProvider>
-              <GlobalStyle  />
+              <GlobalStyle />
               <AppRoutes />
             </ThemeProvider>
-        </QuestProvider>
+          </QuestProvider>
+        </JoysProvider>
       </AuthProvider>
     </BrowserRouter>
   </StrictMode>,

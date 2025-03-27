@@ -14,4 +14,5 @@ const ErrorElement = styled.p`
     color: red;
     font-size: 12px;
     margin-top: 2px;
+    z-index: 1;
 `

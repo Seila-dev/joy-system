@@ -1,10 +1,11 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components"
 import { MenuBurguer } from "../menuburguer";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { ThemeContext, themes } from "../../contexts/ThemeContext";
 import Switch from 'react-switch'
+import { JoysContext } from "../../contexts/JoysContext";
 
 
 export const Header = () => {
@@ -16,6 +17,11 @@ export const Header = () => {
     }
 
     const { isAuthenticated, user } = useContext(AuthContext)
+    const { getBalance, balance, loadingJoy } = useContext(JoysContext)
+
+    useEffect(() => {
+        getBalance()
+    })
 
     const themeToggle = () => {
         setTheme(theme === 'light' ? 'dark' : 'light')
@@ -50,7 +56,9 @@ export const Header = () => {
                         settings
                     </span>
                     {isAuthenticated && user?.username ? (
-                        <p>{user?.username}</p>
+                        <p className="userSetup">{user?.username} <span className="material-symbols-outlined icon">
+                        paid
+                    </span>  {loadingJoy ? '0' : balance}</p>
                     ) : (
                         <Link className="signIn" to="/login">Sign In</Link>
                     )}
@@ -113,6 +121,11 @@ const HeaderElement = styled.header<{ background: string, black_to_white: string
         border-radius: 5px;
         border: none;
         cursor: pointer;
+    }
+    .rightColumn .userSetup{
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
 
     @media(max-width: 450px){

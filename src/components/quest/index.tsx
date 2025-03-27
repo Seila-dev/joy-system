@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { useContext, useState } from "react";
 import { ThemeContext, themes } from "../../contexts/ThemeContext";
-import { Quest } from "../../types/questData";
+import { Quest, QuestStatus } from "../../types/questData";
 import { QuestContext } from "../../contexts/QuestContext";
 import { QuestForm } from "../questForm";
 
@@ -16,10 +16,13 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
     const [activeMenuId, setActiveMenuId] = useState<number | null>(null)
     const [open, setOpen] = useState<boolean>(false)
     const [editQuestData, setEditQuestData] = useState<Quest | null>(null)
+    const [openStatus, setOpenStatus] = useState<number | null>(null)
+    const { theme } = useContext(ThemeContext)
+    const { deleteQuest, loading, setStatus } = useContext(QuestContext)
 
     const createQuestForm = (questData: Quest) => {
-        setEditQuestData(questData); 
-        setOpen(true); 
+        setEditQuestData(questData);
+        setOpen(true);
     };
 
     const closeCreateForm = () => {
@@ -27,7 +30,26 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
     }
 
     const updateMenu = (id: number) => {
-        setActiveMenuId(activeMenuId === id ? null : id)
+        if (activeMenuId === id) {
+            setActiveMenuId(null);
+        } else {
+            setActiveMenuId(id);
+            setOpenStatus(null);
+        }
+    }
+
+    const updateStatusMenu = (id: number) => {
+        if (openStatus === id) {
+            setOpenStatus(null)
+        } else {
+            setOpenStatus(id)
+            setActiveMenuId(null)
+        }
+    }
+
+    const changeStatus = (questId: number, newStatus: QuestStatus) => {
+        setStatus(questId, newStatus)
+        window.location.reload()
     }
 
     const filterByTimeline = selectedTimeline === null
@@ -36,14 +58,20 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
 
     const hasQuests = filterByTimeline && filterByTimeline.length > 0;
 
-    const { theme } = useContext(ThemeContext)
-    const { deleteQuest, loading } = useContext(QuestContext)
-
     const transformDateToPtbr = (newDate: string) => {
-        return new Date(newDate).toLocaleDateString('pt-BR')
-    } 
+        const date = new Date(newDate)
 
-    if(loading) return <div>Loading..</div>
+        return date.toLocaleString('pt-BR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        })
+    }
+
+    if (loading) return <div>Loading..</div>
 
 
     return (
@@ -84,10 +112,10 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
                             <span className="circleProgress"></span>
                             <p>{quest.status}</p>
                         </div>
-                        <button className="setStatus"><span className="material-symbols-outlined icon">check_circle</span>Status</button>
+                        <button className="setStatus" onClick={() => updateStatusMenu(quest.id)}><span className="material-symbols-outlined icon">check_circle</span>Status</button>
                     </div>
 
-                    
+
                     {activeMenuId === quest.id &&
                         <EditPopup background={themes[theme].background} black_to_white={themes[theme].black_to_white}>
                             <div onClick={() => deleteQuest(quest.id)}>
@@ -112,6 +140,35 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
                             initialData={editQuestData}
                         />
                     )}
+                    {openStatus === quest.id && (
+                        <StatusPopup background={themes[theme].background} black_to_white={themes[theme].black_to_white}>
+                            <div onClick={() => changeStatus(quest.id, 'NULO')}>
+                                <span className="material-symbols-outlined icon">
+                                    radio_button_unchecked
+                                </span>
+                                <button className="incomplete-btn status-incomplete">Not Started</button>
+                            </div>
+                            <div onClick={() => changeStatus(quest.id, 'PENDENTE')}>
+                                <span className="material-symbols-outlined icon">
+                                    schedule
+                                </span>
+                                <button className="pending-btn status-pending">In Progress</button>
+                            </div>
+                            <div onClick={() => changeStatus(quest.id, 'COMPLETO')}>
+                                <span className="material-symbols-outlined icon">
+                                    check_circle
+                                </span>
+                                <button className="complete-btn status-complete">Completed</button>
+                            </div>
+                            <div onClick={() => changeStatus(quest.id, 'INCOMPLETO')}>
+                                <span className="material-symbols-outlined icon">
+                                    close
+                                </span>
+                                <button className="complete-btn status-complete">Failed</button>
+                            </div>
+                        </StatusPopup>
+                    )
+                    }
                 </Card>
             ))) : (
                 <span className="warn">Não há quests para o filtro selecionado.</span>
@@ -321,6 +378,37 @@ const EditPopup = styled.div<{ background: string, black_to_white: string }>`
         }       
     }
     div .btn{
+        margin-left: 10px;
+        border: none;
+        cursor: pointer;
+        background: none;
+        color: ${({ black_to_white }) => black_to_white};
+    }
+    div .icon{
+        font-size: 20px;
+    }
+`
+
+const StatusPopup = styled.div<{ background: string, black_to_white: string }>`
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 40px;
+    bottom: 60px;
+    background: ${({ background }) => background};
+    border: 1px solid var(--tertiary);
+    border-radius: 5px 0 5px 5px;
+    padding: 5px 0;
+
+    div{
+        cursor: pointer;
+        display: flex;
+        padding: 10px 15px;
+        &:hover{
+            background: #ccf2;
+        }       
+    }
+    div button{
         margin-left: 10px;
         border: none;
         cursor: pointer;

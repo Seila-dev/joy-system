@@ -6,12 +6,14 @@ import { Calendar } from "../calendar"
 import { JoyPoints } from "../joy-points"
 import { useContext } from "react"
 import { ThemeContext, themes } from "../../contexts/ThemeContext"
+import { Toaster } from "sonner"
 
 export const Home = () => {
     const {theme} = useContext(ThemeContext)
 
     return (
         <Main background={themes[theme].background}>
+            <Toaster theme="dark"></Toaster>
             <Introduction />
             <Dashboard >
                 <div className="leftContent">

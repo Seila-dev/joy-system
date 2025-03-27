@@ -6,6 +6,7 @@ import { QuestContext } from "../../contexts/QuestContext";
 import { ThemeContext, themes } from "../../contexts/ThemeContext";
 import { QuestForm } from "../questForm";
 import { Quest } from "../../types/questData";
+import { Toaster } from "sonner";
 
 
 export const QuestSystem = () => {
@@ -41,24 +42,16 @@ export const QuestSystem = () => {
 
     const { quests } = useContext(QuestContext)
     const { theme } = useContext(ThemeContext)
-    console.log(quests)
+
     const filteredBySearch: Quest[] = quests?.filter(item => {
         return item?.title?.toLowerCase().includes(q.toLowerCase())
     }) || [];
 
-    useEffect(() => {
-        console.log(quests)
-    }, [quests])
-
-    if(!filteredBySearch){
-        throw new Error('error:',)
-    }
-
     if(loading) return <p>Loading..</p>
-
 
     return (
         <QuestComponent background={themes[theme].background} black_to_white={themes[theme].black_to_white}>
+            <Toaster theme="dark"></Toaster>
             <Link to="/" className="prevPage">
                 <span className="material-symbols-outlined arrowBack">
                     arrow_back

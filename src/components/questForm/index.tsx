@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { QuestContext } from '../../contexts/QuestContext';
 import { Quest} from '../../types/questData';
 import { z } from 'zod'
@@ -6,6 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import styled from 'styled-components';
 import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '../errorMessage';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const questSchema = z.object({
     title: z.string().min(1, { message: "Título é obrigatório" }),
@@ -40,6 +42,7 @@ export const QuestForm: React.FC<QuestFormProps> = ({
         reset 
     } = useForm<QuestFormData>({
         resolver: zodResolver(questSchema),
+        mode: 'onBlur',
         defaultValues: mode === 'edit' && initialData ? {
             title: initialData.title ?? "",
             description: initialData.description ?? "",
@@ -61,9 +64,13 @@ export const QuestForm: React.FC<QuestFormProps> = ({
         }
     })
 
+
+    const [startDate, setStartDate] = useState<Date | null>(null);
+
     useEffect(() => {
         // Lock scrolling on the body when modal is open
         document.body.style.overflow = 'hidden';
+        console.log(startDate)
 
         // Cleanup function to unlock scrolling when modal is closed
         return () => {
@@ -95,6 +102,7 @@ export const QuestForm: React.FC<QuestFormProps> = ({
         }
     };
 
+
     return (
         <Container>
             <Form onSubmit={handleSubmit(onSubmit)}>
@@ -117,12 +125,11 @@ export const QuestForm: React.FC<QuestFormProps> = ({
                                 {...field}
                                 id="title"
                                 type="text"
-                                required
                             />
                         )}
                     />
                     <p className='description'>Um belo título para nomear seu próximo desafio</p>
-                    {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
+                    {errors?.title && <ErrorMessage>{errors?.title.message}</ErrorMessage>}
                 </div>
 
                 <div className='item'>
@@ -134,7 +141,6 @@ export const QuestForm: React.FC<QuestFormProps> = ({
                             <textarea
                                 {...field}
                                 id="description"
-                                required
                             />
                         )}
                     />
@@ -185,17 +191,13 @@ export const QuestForm: React.FC<QuestFormProps> = ({
 
                     <div className='item'>
                         <label htmlFor="validation">Data final</label>
-                        <Controller
-                            name="validation"
-                            control={control}
-                            render={({ field }) => (
-                                <input
-                                    {...field}
-                                    id="validation"
-                                    type="date"
-                                    placeholder="DD/MM/YYYY"
-                                />
-                            )}
+                        <DatePicker 
+                            selected={startDate} 
+                            onChange={(date) => setStartDate(date)}
+                            dateFormat="dd/MM/yyyy - HH:mm"
+                            showTimeSelect
+                            timeIntervals={30}
+                            timeFormat='HH:mm'
                         />
                         <p className="description">Informe uma data válida para o dia de conclusão</p>
                     </div>
@@ -263,7 +265,6 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     user-select: none;
-    background: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente para destacar o modal */
 `;
 
 const Form = styled.form`
@@ -299,6 +300,10 @@ const Form = styled.form`
         padding: 10px;
         font-size: 15px;
         width: 100%;
+    }
+
+    input:focus{
+        outline: 1px solid #ccc;
     }
 
     textarea {
