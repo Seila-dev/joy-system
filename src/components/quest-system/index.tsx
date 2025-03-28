@@ -50,7 +50,7 @@ export const QuestSystem = () => {
     if(loading) return <p>Loading..</p>
 
     return (
-        <QuestComponent background={themes[theme].background} black_to_white={themes[theme].black_to_white}>
+        <QuestComponent $background={themes[theme].background} $black_to_white={themes[theme].black_to_white}>
             <Toaster theme="dark"></Toaster>
             <Link to="/" className="prevPage">
                 <span className="material-symbols-outlined arrowBack">
@@ -58,7 +58,7 @@ export const QuestSystem = () => {
                 </span>
                 <p>Back to Home</p>
             </Link>
-            <Introduction black_to_white={themes[theme].black_to_white} background={themes[theme].background}>
+            <Introduction $black_to_white={themes[theme].black_to_white} $background={themes[theme].background}>
                 <div className="leftSide">
                     <h1 className="title">Quests</h1>
                     <p className="description">Gerencie e acompanhe suas tarefas em diferentes categorias.</p>
@@ -67,7 +67,7 @@ export const QuestSystem = () => {
                     <button className="addQuest btn cta" onClick={() => openCreateForm()}><span className="material-symbols-outlined icon">add</span> <span className="removeResponsive">New Quest</span></button>
                 </div>
             </Introduction>
-            <Filters object={themes[theme].object} background={themes[theme].background} black_to_white={themes[theme].black_to_white}>
+            <Filters $object={themes[theme].object} $background={themes[theme].background} $black_to_white={themes[theme].black_to_white}>
                 <div className="filterByDate">
                     <button
                         className={`filterItem ${selectedTimeline === null ? "selected" : ""}`}
@@ -141,13 +141,13 @@ const Overlay = styled.div`
     pointer-events: all; 
 `
 
-const QuestComponent = styled.main<{ background: string, black_to_white: string }>`
+const QuestComponent = styled.main<{ $background: string, $black_to_white: string }>`
     padding: 10px 50px;
     min-height: 100vh;
     height: 100%;
     transition: 0.25s ease-in-out;
-    background: ${({ background }) => background};
-    color: ${({ black_to_white }) => black_to_white};
+    background: ${({ $background }) => $background};
+    color: ${({ $black_to_white }) => $black_to_white};
     .prevPage{
         width: fit-content;
         margin: 20px 0;
@@ -158,7 +158,7 @@ const QuestComponent = styled.main<{ background: string, black_to_white: string 
         transition: 0.15s ease-out;
         cursor: pointer;
         font-size: 14px;
-        color: ${({ black_to_white }) => black_to_white};
+        color: ${({ $black_to_white }) => $black_to_white};
         &:hover{
             border-bottom: 1px solid var(--secondary);
         }
@@ -176,7 +176,7 @@ const QuestComponent = styled.main<{ background: string, black_to_white: string 
 
 `
 
-const Introduction = styled.header<{ black_to_white: string, background: string }>`
+const Introduction = styled.header<{ $black_to_white: string, $background: string }>`
     margin-top: 50px;
     display: flex;
     justify-content: space-between;
@@ -221,7 +221,7 @@ const Introduction = styled.header<{ black_to_white: string, background: string 
     }
 `
 
-const Filters = styled.div<{object: string, background: string, black_to_white: string}>`
+const Filters = styled.div<{ $object: string, $background: string, $black_to_white: string}>`
     width: 100%;
     
     .filterByDate{
@@ -234,8 +234,8 @@ const Filters = styled.div<{object: string, background: string, black_to_white: 
         width: 100%;
         cursor: pointer;
         border: none;
-        color: ${({ black_to_white }) => black_to_white};
-        background: ${({ object }) => object};
+        color: ${({ $black_to_white }) => $black_to_white};
+        background: ${({ $object }) => $object};
     }
     .filterItem.selected{
         border-bottom: 1px solid var(--secondary);
@@ -257,7 +257,7 @@ const Filters = styled.div<{object: string, background: string, black_to_white: 
         border: none;
         width: 100%;
         outline: none;
-        background: ${({ background }) => background};
-        color: ${({ black_to_white }) => black_to_white};
+        background: ${({ $background }) => $background};
+        color: ${({ $black_to_white }) => $black_to_white};
     }
 `

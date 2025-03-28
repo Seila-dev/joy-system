@@ -9,7 +9,7 @@ interface MenuBurguerProps {
 export const MenuBurguer = ({ active, toggleMenu }: MenuBurguerProps) => {
 
     return (
-        <MenuContainer active={active}>
+        <MenuContainer $active={active}>
             <div className="menu-header">
                 <span className="material-symbols-outlined close-icon" onClick={toggleMenu}>
                     close
@@ -34,12 +34,12 @@ export const MenuBurguer = ({ active, toggleMenu }: MenuBurguerProps) => {
     )
 }
 
-const MenuContainer = styled.div<{ active: boolean }>`
+const MenuContainer = styled.div<{ $active: boolean }>`
     display: flex;
     flex-direction: column;
     position: fixed;
     transition: 0.3s ease-in-out;
-    transform: ${props => (props.active ? 'translateX(0%)' : 'translateX(-150%)')};
+    transform: ${props => (props.$active ? 'translateX(0%)' : 'translateX(-150%)')};
     z-index: 7;
     top: 0;
     left: 0;

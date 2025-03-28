@@ -8,6 +8,8 @@ import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '../errorMessage';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { DateTime } from "luxon";
+import { ptBR } from 'date-fns/locale/pt-BR'
 
 const questSchema = z.object({
     title: z.string().min(1, { message: "Título é obrigatório" }),
@@ -65,14 +67,15 @@ export const QuestForm: React.FC<QuestFormProps> = ({
     })
 
 
-    const [startDate, setStartDate] = useState<Date | null>(null);
+    const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(
+        initialData?.validation
+            ? new Date(initialData.validation)
+            : null
+    )  
 
     useEffect(() => {
-        // Lock scrolling on the body when modal is open
         document.body.style.overflow = 'hidden';
-        console.log(startDate)
 
-        // Cleanup function to unlock scrolling when modal is closed
         return () => {
             document.body.style.overflow = 'auto';
         };
@@ -82,7 +85,11 @@ export const QuestForm: React.FC<QuestFormProps> = ({
         try {
             const questData: Omit<Quest, 'id' | 'createdAt' | 'updatedAt' | 'userId'> = {
                 ...data,
-                validation: data.validation || new Date().toISOString().split('T')[0].replace(/-/g, '/')
+                validation: selectedDateTime 
+                    ? DateTime.fromJSDate(selectedDateTime)
+                    .setZone('America/Sao_Paulo')
+                    .toISO()
+                : new Date().toISOString().split('T')[0].replace(/-/g, '/')
             };
 
             if (mode === 'create') {
@@ -192,12 +199,25 @@ export const QuestForm: React.FC<QuestFormProps> = ({
                     <div className='item'>
                         <label htmlFor="validation">Data final</label>
                         <DatePicker 
-                            selected={startDate} 
-                            onChange={(date) => setStartDate(date)}
-                            dateFormat="dd/MM/yyyy - HH:mm"
+                            selected={selectedDateTime} 
+                            onChange={(date) => setSelectedDateTime(date)}
                             showTimeSelect
-                            timeIntervals={30}
-                            timeFormat='HH:mm'
+                            timeIntervals={15}
+                            dateFormat="dd/MM/yyyy  HH:mm"
+                            locale={ptBR}
+                            timeCaption='Hora'
+                            placeholderText='Selecione a data e hora'
+                            isClearable
+                            customInput={
+                                <input style={{
+                                    background: 'black',
+                                    color: 'white',
+                                    border: '1px solid var(--light-background)',
+                                    borderRadius: '5px',
+                                    padding: '10px',
+                                    width: '100%'
+                                }} />
+                            }
                         />
                         <p className="description">Informe uma data válida para o dia de conclusão</p>
                     </div>

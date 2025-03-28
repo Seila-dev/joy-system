@@ -4,6 +4,8 @@ import { ThemeContext, themes } from "../../contexts/ThemeContext";
 import { Quest, QuestStatus } from "../../types/questData";
 import { QuestContext } from "../../contexts/QuestContext";
 import { QuestForm } from "../questForm";
+import { JoysContext } from "../../contexts/JoysContext";
+import { DateTime } from "luxon";
 
 interface QuestItemProps {
     selectedTimeline: string | null;
@@ -19,6 +21,7 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
     const [openStatus, setOpenStatus] = useState<number | null>(null)
     const { theme } = useContext(ThemeContext)
     const { deleteQuest, loading, setStatus } = useContext(QuestContext)
+    const { getBalance } = useContext(JoysContext)
 
     const createQuestForm = (questData: Quest) => {
         setEditQuestData(questData);
@@ -49,7 +52,7 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
 
     const changeStatus = (questId: number, newStatus: QuestStatus) => {
         setStatus(questId, newStatus)
-        window.location.reload()
+        getBalance()
     }
 
     const filterByTimeline = selectedTimeline === null
@@ -58,26 +61,19 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
 
     const hasQuests = filterByTimeline && filterByTimeline.length > 0;
 
-    const transformDateToPtbr = (newDate: string) => {
-        const date = new Date(newDate)
+    const transformDateToPtbr = (newDate: string | number ): string => {
+        const dt = DateTime.fromJSDate(new Date(newDate)).setLocale('pt-BR')
 
-        return date.toLocaleString('pt-BR', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false
-        })
+        return dt.toFormat('dd/MM/yyyy - HH:mm')
     }
 
     if (loading) return <div>Loading..</div>
 
 
     return (
-        <CardsContainer black_to_white={themes[theme].black_to_white}>
+        <CardsContainer $black_to_white={themes[theme].black_to_white}>
             {hasQuests ? (filterByTimeline.map(quest => (
-                <Card className="card" key={quest.id} object={themes[theme].object} black_to_white={themes[theme].black_to_white} emphasize_more={themes[theme].emphasize_more} emphasize_less={themes[theme].emphasize_less}>
+                <Card className="card" key={quest.id} $object={themes[theme].object} $black_to_white={themes[theme].black_to_white} $emphasize_more={themes[theme].emphasize_more} $emphasize_less={themes[theme].emphasize_less}>
                     <div className="header">
                         <div className={`category ${quest.timeline}`}>
                             <span className="material-symbols-outlined icon">
@@ -117,7 +113,7 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
 
 
                     {activeMenuId === quest.id &&
-                        <EditPopup background={themes[theme].background} black_to_white={themes[theme].black_to_white}>
+                        <EditPopup $background={themes[theme].background} $black_to_white={themes[theme].black_to_white}>
                             <div onClick={() => deleteQuest(quest.id)}>
                                 <span className="material-symbols-outlined deleteIcon icon">
                                     delete
@@ -141,7 +137,7 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
                         />
                     )}
                     {openStatus === quest.id && (
-                        <StatusPopup background={themes[theme].background} black_to_white={themes[theme].black_to_white}>
+                        <StatusPopup $background={themes[theme].background} $black_to_white={themes[theme].black_to_white}>
                             <div onClick={() => changeStatus(quest.id, 'NULO')}>
                                 <span className="material-symbols-outlined icon">
                                     radio_button_unchecked
@@ -190,7 +186,7 @@ const Overlay = styled.div`
     pointer-events: all; 
 `
 
-const CardsContainer = styled.section<{ black_to_white: string }>`
+const CardsContainer = styled.section<{ $black_to_white: string }>`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
@@ -198,7 +194,7 @@ const CardsContainer = styled.section<{ black_to_white: string }>`
     width: 100%;
 
     .warn{
-        color: ${({ black_to_white }) => black_to_white};
+        color: ${({ $black_to_white }) => $black_to_white};
     }
 
     @media(max-width: 900px){
@@ -216,13 +212,13 @@ const CardsContainer = styled.section<{ black_to_white: string }>`
     }
 
 `
-const Card = styled.div<{ object: string, black_to_white: string, emphasize_more: string, emphasize_less: string }>`
-    background: ${({ object }) => object};
+const Card = styled.div<{ $object: string, $black_to_white: string, $emphasize_more: string, $emphasize_less: string }>`
+    background: ${({ $object }) => $object};
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
     padding: 25px;
     width: 100%;
     height: 300px;
-    color: ${({ black_to_white }) => black_to_white};
+    color: ${({ $black_to_white }) => $black_to_white};
     display: flex;
     flex-direction: column;
     border-radius: 10px;
@@ -232,7 +228,7 @@ const Card = styled.div<{ object: string, black_to_white: string, emphasize_more
         display: flex;
         justify-content: space-between;
         margin-bottom: 15px;
-        color: ${({ black_to_white }) => black_to_white};
+        color: ${({ $black_to_white }) => $black_to_white};
         width: 100%;
         user-select: none;
     }
@@ -267,7 +263,7 @@ const Card = styled.div<{ object: string, black_to_white: string, emphasize_more
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
-        color: ${({ black_to_white }) => black_to_white};
+        color: ${({ $black_to_white }) => $black_to_white};
     }
     .body .title {
         color: ${(props) => props.theme.paragraph};
@@ -283,13 +279,13 @@ const Card = styled.div<{ object: string, black_to_white: string, emphasize_more
         opacity: 0.6;
     }
     .body .afterDescription .joys{
-        color: ${({ emphasize_less }) => emphasize_less};
+        color: ${({ $emphasize_less }) => $emphasize_less};
         font-size: 15px;
         opacity: 1;
         font-weight: 700;  
     }
     .body .afterDescription .joyLogo{
-        color: ${({ emphasize_less }) => emphasize_less};
+        color: ${({ $emphasize_less }) => $emphasize_less};
     }
     .body .limit .icon {
         font-size: 18px;
@@ -360,12 +356,12 @@ const Card = styled.div<{ object: string, black_to_white: string, emphasize_more
     }
 `;
 
-const EditPopup = styled.div<{ background: string, black_to_white: string }>`
+const EditPopup = styled.div<{ $background: string, $black_to_white: string }>`
     display: flex;
     flex-direction: column;
     position: absolute;
     right: 60px;
-    background: ${({ background }) => background};
+    background: ${({ $background }) => $background};
     border: 1px solid var(--tertiary);
     border-radius: 5px 0 5px 5px;
     padding: 5px 0;
@@ -382,20 +378,20 @@ const EditPopup = styled.div<{ background: string, black_to_white: string }>`
         border: none;
         cursor: pointer;
         background: none;
-        color: ${({ black_to_white }) => black_to_white};
+        color: ${({ $black_to_white }) => $black_to_white};
     }
     div .icon{
         font-size: 20px;
     }
 `
 
-const StatusPopup = styled.div<{ background: string, black_to_white: string }>`
+const StatusPopup = styled.div<{ $background: string, $black_to_white: string }>`
     display: flex;
     flex-direction: column;
     position: absolute;
     right: 40px;
     bottom: 60px;
-    background: ${({ background }) => background};
+    background: ${({ $background }) => $background};
     border: 1px solid var(--tertiary);
     border-radius: 5px 0 5px 5px;
     padding: 5px 0;
@@ -413,7 +409,7 @@ const StatusPopup = styled.div<{ background: string, black_to_white: string }>`
         border: none;
         cursor: pointer;
         background: none;
-        color: ${({ black_to_white }) => black_to_white};
+        color: ${({ $black_to_white }) => $black_to_white};
     }
     div .icon{
         font-size: 20px;

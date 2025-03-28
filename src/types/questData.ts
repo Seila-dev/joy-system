@@ -8,7 +8,7 @@ export interface Quest {
     id: number;
     title: string;
     description: string;
-    validation: string; // This is the due date in your schema
+    validation: any; // This is the due date in your schema
     highlight: boolean;
     status: QuestStatus;
     timeline: QuestCategory;

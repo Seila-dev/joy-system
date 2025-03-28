@@ -16,7 +16,7 @@ export const TodoList = () => {
     const { quests } = useContext(QuestContext)
 
     const filteredBySearch: Quest[] = quests?.filter(item => {
-        return item?.title?.toLowerCase().includes(q.toLowerCase())
+        return item?.title?.toLowerCase().includes(q.toLowerCase()) && item.highlight
     }) || [];
 
     return (
@@ -65,7 +65,6 @@ const TodoComponent = styled.div<{ black_to_white: string }>`
         align-items: center;
         justify-content: space-between;
         margin-bottom: 10px;
-        color: 
     }
     .header, .header .btn, .header .btn .icon{
         color: ${({ black_to_white }) => black_to_white}
