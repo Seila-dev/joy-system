@@ -19,7 +19,7 @@ export const Transactions = () => {
 
     return (
         < >
-            {joyTransactions ? (
+            {joyTransactions && joyTransactions.length > 0 ? (
                 joyTransactions.map(item => (
                     <UserTransaction className="transactionItem" key={item.id} $black_to_white={themes[theme].black_to_white} $background={themes[theme].background} $object={themes[theme].object}>
                         <div className="header">
@@ -35,7 +35,7 @@ export const Transactions = () => {
                     </UserTransaction>
                 ))
             ) : (
-                <p>compreendo</p>
+                <p>Nenhum histórico foi encontrado.</p>
             )}
         </>
     )
