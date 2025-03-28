@@ -154,5 +154,8 @@ const UserElement = styled.main<{ $black_to_white: string, $background: string, 
         .headerActionButtons .controllers button{
             width: 50%;
         }
+        .prevPage{
+            width: 100%;
+        }
     }
 `
