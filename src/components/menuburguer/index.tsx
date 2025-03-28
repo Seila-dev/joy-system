@@ -17,17 +17,23 @@ export const MenuBurguer = ({ active, toggleMenu }: MenuBurguerProps) => {
                 <p className="headerTitle">JOY <span className="logo">System</span></p>
             </div>
             <ul className="menu-nav">
-                <Link to="/">
-                    <span className="material-symbols-outlined close-icon" onClick={toggleMenu}>
+                <Link to="/" onClick={toggleMenu}>
+                    <span className="material-symbols-outlined close-icon" >
                         home
                     </span>
                     <li>Home</li>
                 </Link>
-                <Link to="/">
-                    <span className="material-symbols-outlined close-icon" onClick={toggleMenu}>
+                <Link to="/user" onClick={toggleMenu}>
+                    <span className="material-symbols-outlined close-icon" >
                         person
                     </span>
                     <li>Perfil</li>
+                </Link>
+                <Link to="/quests" onClick={toggleMenu}>
+                    <span className="material-symbols-outlined close-icon" >
+                        stack
+                    </span>
+                    <li>Quest System</li>
                 </Link>
             </ul>
         </MenuContainer>

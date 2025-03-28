@@ -25,7 +25,7 @@ export const Transactions = () => {
                         joyTransactions.map(item => (
                             <li className="transactionItem" key={item.id}>
                                 <div className="header">
-                                    <p>{transformDateToPtbr(item.createdAt)}</p>
+                                    <p className="transactionDate">{transformDateToPtbr(item.createdAt)}</p>
                                     <span className="material-symbols-outlined icon">
                                         {item.type === 'GANHO'  || item.type === 'BONUS' ? 'check_circle'
                                         : (item.type === 'PENALIDADE' || item.type === 'GASTO' ? 'close' : '')}
@@ -78,5 +78,23 @@ const UserTransactions = styled.div<{ $black_to_white: string, $background: stri
     }
     .transactionItem p.description{
         margin-bottom: 30px;
+    }
+    .transactionItem .transactionDate{
+        margin: 0;
+    }
+
+    @media(max-width: 550px){
+        nav{
+            width: 100%;
+        }
+        ul{
+            width: 100%;
+            grid-template-columns: 1fr;
+            align-items: center;
+        }
+        ul .transactionItem{
+            max-width: 100%;
+            width: 100%;
+        }
     }
 `

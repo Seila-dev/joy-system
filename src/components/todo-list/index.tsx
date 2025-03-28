@@ -21,8 +21,8 @@ export const TodoList = () => {
 
     return (
         <TodoComponent $black_to_white={themes[theme].black_to_white}>
-            <div className="header" >
-                <h2>Quests Recentes</h2>
+            <div className="header">
+                <h2>Quests em destaque</h2>
 
                 <div className="flexContainer">
                     <Link to="/quests" className="btn viewAllBtn">
@@ -119,7 +119,6 @@ const TodoComponent = styled.div<{ $black_to_white: string }>`
         overflow-y: hidden;
         width: 100%;
         padding: 20px 0;
-        //border: 2px solid #ccc;
         border-radius: 10px;
         gap: 10px;
     }

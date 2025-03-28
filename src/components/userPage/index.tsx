@@ -26,8 +26,8 @@ export const UserPage = () => {
                     <p>Back to Home</p>
                 </Link>
                 <div className="controllers">
-                    <button className={userInfo === false ? 'active' : ''} onClick={() => toggleWindow()}>User Info</button>
-                    <button className={userInfo === true ? 'active' : ''} onClick={() => toggleWindow()}>Transactions</button>
+                    <button className={userInfo === false ? 'active' : ''} onClick={() => toggleWindow()}>Usuário</button>
+                    <button className={userInfo === true ? 'active' : ''} onClick={() => toggleWindow()}>Transações</button>
                 </div>
             </div>
             {userInfo === false ? (

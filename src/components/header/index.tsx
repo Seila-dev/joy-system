@@ -134,15 +134,21 @@ const HeaderElement = styled.header<{ $background: string, $black_to_white: stri
         gap: 10px;
         color: ${({ $emphasize_less }) => $emphasize_less}
     }
+    
+    @media(max-width: 768px){
+        .headerTitle{
+            display: none;
+        }
+    }
 
     @media(max-width: 450px){
         padding: 15px;
 
-        .headerTitle{
-            font-size: 20px;
-        }
         .logo{
             font-size: 10px;
+        }
+        .userSetup{
+            display: none !important;
         }
     }
 `
