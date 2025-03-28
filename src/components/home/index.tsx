@@ -12,7 +12,7 @@ export const Home = () => {
     const {theme} = useContext(ThemeContext)
 
     return (
-        <Main background={themes[theme].background}>
+        <Main $background={themes[theme].background}>
             <Toaster theme="dark"></Toaster>
             <Introduction />
             <Dashboard >
@@ -29,10 +29,10 @@ export const Home = () => {
     )
 }
 
-const Main = styled.main<{ background: string}>`
+const Main = styled.main<{ $background: string}>`
     overflow-x: hidden;
     transition: 0.25s ease-in-out;
-    background: ${({ background }) => background};
+    background: ${({ $background }) => $background};
 `
 
 const Dashboard = styled.section`
@@ -40,13 +40,7 @@ const Dashboard = styled.section`
     display: flex;
     justify-content: space-between;
     padding: 20px 50px;
-
-    
-
     width: 100%;
-    //grid-template-columns: repeat(auto-fit, 400px);
-    //grid-template-rows: 1fr 1fr;
-    //grid-template-columns: 1fr 1fr; 
     .leftContent, .rightContent{
         display: flex;
         flex-direction: column;
