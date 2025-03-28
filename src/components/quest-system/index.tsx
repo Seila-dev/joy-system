@@ -31,13 +31,13 @@ export const QuestSystem = () => {
             setOpen(true)
         }
     }, [editQuestData])
-    
+
 
     const handleTimelineChange = (timeline: string | null) => {
         setSelectedTimeline(timeline);
     }
 
-    const [searchParams, setSearchParams] = useSearchParams({ q: ''})
+    const [searchParams, setSearchParams] = useSearchParams({ q: '' })
     const q: string = searchParams.get('q') || ''
 
     const { quests } = useContext(QuestContext)
@@ -47,7 +47,7 @@ export const QuestSystem = () => {
         return item?.title?.toLowerCase().includes(q.toLowerCase())
     }) || [];
 
-    if(loading) return <p>Loading..</p>
+    if (loading) return <p>Loading..</p>
 
     return (
         <QuestComponent $background={themes[theme].background} $black_to_white={themes[theme].black_to_white}>
@@ -64,6 +64,11 @@ export const QuestSystem = () => {
                     <p className="description">Gerencie e acompanhe suas tarefas em diferentes categorias.</p>
                 </div>
                 <div className="rightSide">
+                    <Link to="/store" className="joysStore">
+                        <span className="material-symbols-outlined">
+                            shopping_bag
+                        </span>
+                    </Link>
                     <button className="addQuest btn cta" onClick={() => openCreateForm()}><span className="material-symbols-outlined icon">add</span> <span className="removeResponsive">New Quest</span></button>
                 </div>
             </Introduction>
@@ -121,11 +126,11 @@ export const QuestSystem = () => {
             {open && <Overlay onClick={() => closeCreateForm()} />}
             {open && (
                 <QuestForm
-                    onClose={() => setOpen(false)} 
+                    onClose={() => setOpen(false)}
                     initialData={editQuestData}
                 />
             )}
-            <QuestItem selectedTimeline={selectedTimeline} filterQuantity={null} filterQuery={filteredBySearch}/>
+            <QuestItem selectedTimeline={selectedTimeline} filterQuantity={null} filterQuery={filteredBySearch} />
         </QuestComponent>
     )
 }
@@ -185,6 +190,18 @@ const Introduction = styled.header<{ $black_to_white: string, $background: strin
     .description{
         margin-right: 20px;
     }
+
+    .rightSide{
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+        gap: 15px;
+    }
+    .rightSide .joysStore{
+        background: var(--secondary);
+        padding: 8px;
+        border-radius: 5px;
+    }
     .btn{
         padding: 12px 16px;
         border: none;
@@ -196,7 +213,6 @@ const Introduction = styled.header<{ $black_to_white: string, $background: strin
         background: var(--background);
         background: var(--secondary);
         color: black;
-        margin-top: 10px;
     }
     .btn .icon{
         font-size: 20px;
@@ -221,7 +237,7 @@ const Introduction = styled.header<{ $black_to_white: string, $background: strin
     }
 `
 
-const Filters = styled.div<{ $object: string, $background: string, $black_to_white: string}>`
+const Filters = styled.div<{ $object: string, $background: string, $black_to_white: string }>`
     width: 100%;
     
     .filterByDate{
