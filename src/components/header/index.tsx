@@ -31,7 +31,7 @@ export const Header = () => {
 
     return (
         <>
-        {openMenu && <Overlay onClick={toggleMenu} />}
+            {openMenu && <Overlay onClick={toggleMenu} />}
             <HeaderElement $background={allTheme.background} $black_to_white={allTheme.black_to_white} $emphasize_less={allTheme.emphasize_less} >
                 <div className="leftColumn">
                     <div className="menuBtn" onClick={toggleMenu}>
@@ -42,7 +42,7 @@ export const Header = () => {
                     <h1 className="headerTitle">JOY <span className="logo">System</span></h1>
                 </div>
                 <nav className="rightColumn">
-                    <Switch 
+                    <Switch
                         uncheckedIcon={false}
                         checkedIcon={false}
                         onColor={'#222'}
@@ -52,13 +52,15 @@ export const Header = () => {
                         height={20}
                     />
                     {/* <button className="toggleTheme" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>Mudar tema</button> */}
-                    <span className="material-symbols-outlined icon">
-                        settings
-                    </span>
+                    <Link to="/user" className="settingsLink">
+                        <span className="material-symbols-outlined icon">
+                            settings
+                        </span>
+                    </Link>
                     {isAuthenticated && user?.username ? (
-                        <p className="userSetup">{user?.username} <span className="material-symbols-outlined icon">
-                        paid
-                    </span>  {loadingJoy ? '0' : balance}</p>
+                        <Link className="userSetup" to="/user">{user?.username} <span className="material-symbols-outlined icon">
+                            paid
+                        </span>  {loadingJoy ? '0' : balance}</Link>
                     ) : (
                         <Link className="signIn" to="/login">Sign In</Link>
                     )}
@@ -112,6 +114,10 @@ const HeaderElement = styled.header<{ $background: string, $black_to_white: stri
     }
     .rightColumn .icon{
         cursor: pointer;
+        color: ${({ $emphasize_less }) => $emphasize_less}
+    }
+    .rightColumn .settingsLink{
+        height: 24px;
     }
     .rightColumn .signIn{
         background: black;
@@ -126,6 +132,7 @@ const HeaderElement = styled.header<{ $background: string, $black_to_white: stri
         display: flex;
         align-items: center;
         gap: 10px;
+        color: ${({ $emphasize_less }) => $emphasize_less}
     }
 
     @media(max-width: 450px){

@@ -6,7 +6,7 @@ export interface JoyTransaction {
     amount: number;
     type: JoyTransactionType;
     description: string;
-    createdAt: Date;
+    createdAt: string | number;
     questId?: number;
     joyId?: number;
   }
