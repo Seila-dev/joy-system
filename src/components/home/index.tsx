@@ -3,7 +3,6 @@ import { Introduction } from "../introduction"
 import { TodoList } from "../todo-list"
 import { Notes } from "../notes"
 import { Calendar } from "../calendar"
-import { JoyPoints } from "../joy-points"
 import { useContext } from "react"
 import { ThemeContext, themes } from "../../contexts/ThemeContext"
 import { Toaster } from "sonner"
@@ -22,7 +21,6 @@ export const Home = () => {
                 </div>
                 <div className="rightContent">
                     <Calendar />
-                    <JoyPoints />
                 </div>
             </Dashboard>
         </Main>

@@ -77,4 +77,12 @@ export const GlobalStyle = createGlobalStyle`
         text-align: start;
         font-size: 10px;
     }
+    .highlightSpan{
+        padding: 5px;
+        background: var(--secondary);
+        color: black;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 600;
+    }
 `
