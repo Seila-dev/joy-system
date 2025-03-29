@@ -51,7 +51,7 @@ export const UserPage = () => {
                     <div className="logout"><button className="logout" onClick={() => signOut()}>Sair da conta</button></div>
                 </div>
             ) : (
-                <Transactions />
+                <Transactions limit={50} />
             )}
         </UserElement >
     )

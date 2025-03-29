@@ -18,7 +18,7 @@ export const JoysStoreProducts = () => {
                         </span>
                         <p>25</p>
                     </div>
-                    <p>1 Disponível</p>
+                    <p className="description">1 Disponível</p>
                 </div>
                 <button className="purchaseBtn">
                     <span className="material-symbols-outlined icon">
@@ -40,7 +40,7 @@ export const JoysStoreProducts = () => {
                         </span>
                         <p>25</p>
                     </div>
-                    <p>1 Disponível</p>
+                    <p className="description">1 Disponível</p>
                 </div>
                 <button className="purchaseBtn">
                     <span className="material-symbols-outlined icon">
@@ -62,7 +62,7 @@ export const JoysStoreProducts = () => {
                         </span>
                         <p>25</p>
                     </div>
-                    <p>1 Disponível</p>
+                    <p className="description">1 Disponível</p>
                 </div>
                 <button className="purchaseBtn">
                     <span className="material-symbols-outlined icon">
