@@ -90,7 +90,7 @@ export const JoysStoreProducts = () => {
                                 </span>
                                 <p>{product.price}</p>
                             </div>
-                            <p className="description">1 Disponível</p>
+                            <p className="description">1 Disponível (...)</p>
                         </div>
                         <button 
                             className={!user ? 'purchaseBtn stopActions' : (balance ? balance : 0) < product.price ? 'purchaseBtn stopActions' : 'purchaseBtn'} onClick={() => {handlePurchase(product); console.log(product.id)}} 
