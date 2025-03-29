@@ -4,11 +4,15 @@ import { JoysContext } from "../../contexts/JoysContext"
 import { DateTime } from "luxon"
 import { ThemeContext, themes } from "../../contexts/ThemeContext"
 
-export const Transactions = () => {
+interface transactionProps {
+    limit: number;
+}
+
+export const Transactions = ({ limit }: transactionProps) => {
     const { theme } = useContext(ThemeContext)
     const { joyTransactions, getTransactions } = useContext(JoysContext)
     useEffect(() => {
-        getTransactions(50)
+        getTransactions(limit)
     }, [])
 
     const transformDateToPtbr = (newDate: string | number): string => {
@@ -18,11 +22,34 @@ export const Transactions = () => {
     }
 
     return (
-        < >
-            {joyTransactions ? (
+        <TransactionHistoryElement>
+            <h3 className="title">Histórico de Transações</h3>
+            <p className="description">Histórico de ganhos e gastos de seus Joys</p>
+            {joyTransactions && joyTransactions.length > 0 ? (
                 joyTransactions.map(item => (
-                    <UserTransaction className="transactionItem" key={item.id} $black_to_white={themes[theme].black_to_white} $background={themes[theme].background} $object={themes[theme].object}>
-                        <div className="header">
+                    <UserTransaction
+                        key={item.id}
+                        $transactionType={item.type}
+                        $black_to_white={themes[theme].black_to_white}
+                        $background={themes[theme].background}
+                        $object={themes[theme].object}>
+                        <div className="leftSide">
+                            <span className="material-symbols-outlined icon">
+                            {item.type === 'GANHO' || item.type === 'BONUS' ? 'arrow_upward'
+                                : (item.type === 'PENALIDADE' || item.type === 'GASTO' ? 'arrow_downward' : '')}
+                            </span>
+                        </div>
+                        <div className="center">
+                            <h3 className="title">{item.description}</h3>
+                            <p className="description">{transformDateToPtbr(item.createdAt)}</p>
+                        </div>
+                        <div className="rightSide">
+                            <p className="quantity">{item.type === 'GANHO' || item.type === 'BONUS' ? '+'
+                                : (item.type === 'PENALIDADE' || item.type === 'GASTO' ? '-' : '')}
+                                {item.amount}
+                            </p>
+                        </div>
+                        {/* <div className="header">
                             <p className="transactionDate">{transformDateToPtbr(item.createdAt)}</p>
                             <span className="material-symbols-outlined icon">
                                 {item.type === 'GANHO' || item.type === 'BONUS' ? 'check_circle'
@@ -30,41 +57,71 @@ export const Transactions = () => {
                             </span>
                         </div>
                         <p className="description">{item.description}</p>
-                        <p><strong>Quantia</strong>: {item.amount}</p>
-                        <p><strong>Tipo de Transação</strong>: {item.type}</p>
+                        <p className="quantity">{item.type === 'GANHO' || item.type === 'BONUS' ? '+'
+                                    : (item.type === 'PENALIDADE' || item.type === 'GASTO' ? '-' : '')}
+                            {item.amount} {item.type}
+                        </p> */}
                     </UserTransaction>
                 ))
             ) : (
-                <p>compreendo</p>
+                <p>Nenhum histórico foi encontrado.</p>
             )}
-        </>
+        </TransactionHistoryElement>
     )
 }
 
-const UserTransaction = styled.div<{ $black_to_white: string, $background: string, $object: string }>`
-    background: ${({ $object }) => $object};
-    border-radius: 5px;
-    padding: 10px 20px;
-    width: 100%;
-    .header{
-        margin-bottom: 10px;
-        padding: 10px 0;
-        border-bottom: 1px solid black;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+const TransactionHistoryElement = styled.section`
+    border: 1px solid #fff93d30;
+    width: fit-content;
+    padding: 20px;
+    border-radius: 10px;
+    .description{
+        margin: 5px 0 20px 0;
     }
-    p{
-        margin-bottom: 10px;
+`
+
+const UserTransaction = styled.div<{
+    $black_to_white: string,
+    $background: string,
+    $object: string,
+    $transactionType: string,
+}>`
+    border-radius: 5px;
+    padding: 15px 20px;
+    width: 100%;
+    max-width: 350px;
+    display: flex;
+    margin-bottom: 15px;
+    align-items: center;
+    background: transparent;
+    border: 1px solid #fff93d1c;
+
+    .leftSide span{
+        padding: 5px;
+        font-size: 15px;
+        border-radius: 50%;
+        background: ${({ $transactionType }) => $transactionType === 'GANHO' || $transactionType === 'BONUS' ? '#008a2070' :'#e6000f70'};
+        margin-right: 15px;
+        
+    }
+    .center .title{
+        font-size: 14px;
+        opacity: 0.8;
+        width: 100%;
     }
     p.description{
-        margin-bottom: 30px;
+        margin: 10px 0 0 0;
+        font-size: 12px;
     }
-    .transactionDate{
-        margin: 0;
+    .rightSide{
+        color: ${({ $transactionType }) => $transactionType === 'GANHO' || $transactionType === 'BONUS' ? '#008a20' : 'red'};
+        font-weight: 600;
+        margin-left: 30px;
     }
 
+
     @media(max-width: 550px){
+        padding: 10px;
         nav{
             width: 100%;
         }
@@ -76,6 +133,9 @@ const UserTransaction = styled.div<{ $black_to_white: string, $background: strin
         ul .transactionItem{
             max-width: 100%;
             width: 100%;
+        }
+        .rightSide{
+            margin: 0 0 0 10px;
         }
     }
 `

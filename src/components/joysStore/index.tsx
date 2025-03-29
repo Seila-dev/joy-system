@@ -41,17 +41,17 @@ export const JoysStore = () => {
                         <h2>Produtos disponíveis</h2>
                         <button>                    <span className="material-symbols-outlined icon">
                         add
-                    </span>Adicionar Produto</button>
+                    </span></button>
                     </div>
-                    <GridContainer>
+                    <div className="gridContainer">
                         <JoysStoreProducts />
-                    </GridContainer>
+                    </div>
                 </div>
                 <div className="joysHistory">
-                    <h2>Histórico de Joys</h2>
-                    <GridContainer>
-                    <Transactions />
-                    </GridContainer>
+                    <h2>Histórico de Joys - Recentes</h2>
+                    <div className="gridContainer history">
+                    <Transactions limit={3} />
+                    </div>
                 </div>
             </section>
 
@@ -63,7 +63,7 @@ const JoysStoreComponent = styled.section<{ $background: string, $black_to_white
     width: 100%;
     background: ${({ $background }) => $background};
     padding: 20px;
-    min-height: calc(100vh - 77px);
+    min-height: calc(100vh - 68px);
     height: 100%;
     color: ${({ $black_to_white }) => $black_to_white};
     display: flex;
@@ -99,11 +99,11 @@ const JoysStoreComponent = styled.section<{ $background: string, $black_to_white
     }
     .body {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
+        grid-template-columns: 2fr 1fr;
+        gap: 30px;
     }
     .body h2{
-        margin-bottom: 15px;
+        margin-bottom: 25px;
     }
     .productSectionHeader{
         display: flex;
@@ -118,7 +118,6 @@ const JoysStoreComponent = styled.section<{ $background: string, $black_to_white
         border-radius: 5px;
         font-weight: 700;
         font-size: 12px;
-        min-width: 100px;
         width: fit-content;
         display: flex;
         align-items: center;
@@ -126,15 +125,41 @@ const JoysStoreComponent = styled.section<{ $background: string, $black_to_white
     .productSectionHeader button .icon{
         font-size: 18px;
     }
-`
 
-const GridContainer = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    width: 100%;
+    .gridContainer{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        width: 100%;
+    }    
+    .gridContainer.history{
+        grid-template-columns: 1fr;
+    }
 
     @media(max-width: 1000px){
-        grid-template-columns: 1fr;
+        .gridContainer{
+            grid-template-columns: 1fr;
+        }
+    }
+    @media(max-width: 768px){
+        .body{
+            display: flex;
+            flex-direction: column-reverse;
+            flex-wrap: wrap;
+        }
+
+        .products{
+            width: 100%;
+        }
+        .gridContainer{
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    @media(max-width: 550px){
+
+        .gridContainer{
+            grid-template-columns: 1fr;
+        }
     }
 `

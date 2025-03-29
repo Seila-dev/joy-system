@@ -35,6 +35,12 @@ export const MenuBurguer = ({ active, toggleMenu }: MenuBurguerProps) => {
                     </span>
                     <li>Quest System</li>
                 </Link>
+                <Link to="/store" onClick={toggleMenu}>
+                    <span className="material-symbols-outlined close-icon" >
+                        shopping_cart
+                    </span>
+                    <li>JoyStore</li>
+                </Link>
             </ul>
         </MenuContainer>
     )
