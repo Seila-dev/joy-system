@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect} from 'react';
 import api from '../services/api';
 import { parseCookies } from 'nookies';
 import { Joy, JoyTransaction } from '../types/joyData';
@@ -80,6 +80,7 @@ const { 'joysystem.token': token } = parseCookies();
       setLoadingJoy(false)
     }
   }
+
 
     return (
       <JoysContext.Provider value={{ joys, loadingJoy, error, getBalance, balance, getTransactions, joyTransactions }}>

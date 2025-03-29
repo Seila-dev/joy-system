@@ -1,4 +1,4 @@
-export type JoyTransactionType = 'GANHO' | 'GASTO' | 'BONUS' | 'PENALIDADE';
+export type JoyTransactionType = 'GANHO' | 'GASTO' | 'BONUS' | 'PENALIDADE' | 'COMPRA';
 
 export interface JoyTransaction {
     id: number;
@@ -15,9 +15,9 @@ export interface JoyTransaction {
     id: number;
     name: string;
     description: string;
-    priceInJoys: number;
-    quantity: number;
-    isFeatured: boolean;
+    price: number;
+    featured: boolean;
+    isActive?: boolean;
     createdAt: Date;
     updatedAt: Date;
   }
