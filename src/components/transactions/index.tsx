@@ -36,7 +36,7 @@ export const Transactions = ({ limit }: transactionProps) => {
                         <div className="leftSide">
                             <span className="material-symbols-outlined icon">
                             {item.type === 'GANHO' || item.type === 'BONUS' ? 'arrow_upward'
-                                : (item.type === 'PENALIDADE' || item.type === 'GASTO' ? 'arrow_downward' : '')}
+                                : (item.type === 'PENALIDADE' || item.type === 'GASTO' || item.type === 'COMPRA' ? 'arrow_downward' : '')}
                             </span>
                         </div>
                         <div className="center">
@@ -103,6 +103,9 @@ const UserTransaction = styled.div<{
         background: ${({ $transactionType }) => $transactionType === 'GANHO' || $transactionType === 'BONUS' ? '#008a2070' :'#e6000f70'};
         margin-right: 15px;
         
+    }
+    .center {
+        width: 100%;
     }
     .center .title{
         font-size: 14px;
