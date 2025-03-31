@@ -1,20 +1,53 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
 import { JoysContext } from "../../contexts/JoysContext"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { ThemeContext, themes } from "../../contexts/ThemeContext"
 import { Transactions } from "../transactions"
+import api from "../../services/api"
+import { parseCookies } from "nookies"
+import { PurchaseItem } from "../../types/joyData"
+import { Loading } from "../loading"
 
 export const UserPage = () => {
     const { user, isAuthenticated, signOut } = useContext(AuthContext)
     const { balance, loadingJoy } = useContext(JoysContext)
     const { theme } = useContext(ThemeContext)
     const [userInfo, setUserInfo] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(true)
+    const [userProducts, setUserProducts] = useState<PurchaseItem[]>([])
 
     const toggleWindow = () => {
         setUserInfo(!userInfo)
     }
+
+    useEffect(() => {
+        const loadProducts = async (userId: string | number) => {
+            try {
+                const { 'joysystem.token': token } = parseCookies();
+                setLoading(true)
+                const response = await api.get(`/users/${userId}/products`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                console.log(response.data)
+                setUserProducts(response.data)
+            } catch (error) {
+                console.error('Failed to load products', error)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        if(user?.id) {
+            loadProducts(user.id)
+        }
+
+    }, [user])
+
+    if(loading) return <Loading><h2>Carregando.. Verifique se você está logado ou com internet.</h2></Loading>
 
     return (
         <UserElement $black_to_white={themes[theme].black_to_white} $background={themes[theme].background} $object={themes[theme].object}>
@@ -47,6 +80,19 @@ export const UserPage = () => {
                         ) : (
                             <Link className="signIn" to="/login">Sign In</Link>
                         )}
+                        <div className="purchaseHistory">
+                            <h2 className="title">Seus itens</h2>
+                            <p className="description">Itens que você comprou na Joy Store</p>
+                            {userProducts && userProducts.map(product => (
+                                <div key={product.id} className="purchaseItem">
+                                    <h3>{product.product.name}</h3>
+                                    <p className="description">{product.product.description}</p>
+                                    <p>{product.isActive ? 'Produto ativo' : 'Produto já expirou.'}</p>
+                                    <p>Data de compra: {new Date(product.purchasedAt).toLocaleString('pt-BR')}</p>
+                                    <p>Expira em: {new Date(product.expiresAt).toLocaleString('pt-BR')}</p>
+                                </div>
+                            ))}
+                        </div>
                     </nav>
                     <div className="logout"><button className="logout" onClick={() => signOut()}>Sair da conta</button></div>
                 </div>
@@ -120,6 +166,7 @@ const UserElement = styled.main<{ $black_to_white: string, $background: string, 
         display: flex;
         align-items: center;
         justify-content: space-between;
+        margin-bottom: 10px;
     }
     .userContainer .logout{
         margin-top: 30px;
@@ -143,6 +190,35 @@ const UserElement = styled.main<{ $black_to_white: string, $background: string, 
         gap: 5px;
         font-weight: 800;
     }
+
+    .purchaseHistory{
+        border: 1px solid #fff93d30;
+        width: fit-content;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .purchaseHistory .title{
+        margin: 0 0 5px 0;
+    }
+
+    .purchaseHistory .purchaseItem{
+        border-radius: 5px;
+        padding: 15px 20px;
+        width: 100%;
+        max-width: 350px;
+        display: flex;
+        flex-direction: column;
+        margin: 15px 0;
+        background: transparent;
+        border: 1px solid #fff93d1c;
+        gap: 5px;
+    }
+
+    .purchaseHistory .purchaseItem p.description{
+        margin-bottom: 10px;
+    }
+
 
     @media(max-width: 480px){
         .controllers{

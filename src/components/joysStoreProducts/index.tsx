@@ -17,9 +17,13 @@ export const JoysStoreProducts = () => {
         const loadProducts = async () => {
             try {
                 setLoading(true)
-                const response = await api.get('/store/products')
+                const { 'joysystem.token': token } = parseCookies();
+                const response = await api.get('/store/products', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
                 setProducts(response.data)
-                console.log(balance)
                 getBalance()
             } catch (error) {
                 console.error('Failed to load products', error)

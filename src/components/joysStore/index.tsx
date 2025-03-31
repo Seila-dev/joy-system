@@ -1,16 +1,28 @@
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { ThemeContext, themes } from "../../contexts/ThemeContext"
 import { JoysContext } from "../../contexts/JoysContext"
 import { JoysStoreProducts } from "../joysStoreProducts"
 import { Transactions } from "../transactions"
+import { ProductForm } from "../ProductForm"
 
 export const JoysStore = () => {
     const { theme } = useContext(ThemeContext)
     const { getBalance, balance } = useContext(JoysContext)
+    const [open, setOpen] = useState<boolean>(false)
+    const openCreateForm = () => {
+        setOpen(true); 
+    };
+    const closeForm = () => {
+        setOpen(false)
+    }
 
     useEffect(() => {
+        // if (editQuestData) {
+        //     setLoading(false)
+        //     setOpen(true)
+        // }
         getBalance()
     }, [])
 
@@ -39,12 +51,12 @@ export const JoysStore = () => {
                 <div className="products">
                     <div className="productSectionHeader">
                         <h2>Produtos disponíveis</h2>
-                        <button>                    <span className="material-symbols-outlined icon">
+                        <button onClick={() => openCreateForm()}>                    <span className="material-symbols-outlined icon">
                         add
                     </span></button>
                     </div>
                     <div className="gridContainer">
-                        <JoysStoreProducts />
+                    <JoysStoreProducts />
                     </div>
                 </div>
                 <div className="joysHistory">
@@ -54,15 +66,33 @@ export const JoysStore = () => {
                     </div>
                 </div>
             </section>
+            {open && <Overlay onClick={() => closeForm()} />}
+            { open && (
+                <ProductForm 
+                    onClose={closeForm}
+                    mode='create'
+                />
+            )}
 
         </JoysStoreComponent>
     )
 }
 
+const Overlay = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 4; 
+    pointer-events: all; 
+`
+
 const JoysStoreComponent = styled.section<{ $background: string, $black_to_white: string }>`
     width: 100%;
     background: ${({ $background }) => $background};
-    padding: 20px;
+    padding: 50px;
     min-height: calc(100vh - 68px);
     height: 100%;
     color: ${({ $black_to_white }) => $black_to_white};
@@ -147,6 +177,7 @@ const JoysStoreComponent = styled.section<{ $background: string, $black_to_white
             flex-direction: column-reverse;
             flex-wrap: wrap;
         }
+        padding: 15px;
 
         .products{
             width: 100%;
