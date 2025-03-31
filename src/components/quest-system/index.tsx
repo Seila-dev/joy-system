@@ -177,6 +177,7 @@ const QuestComponent = styled.main<{ $background: string, $black_to_white: strin
     }
     @media(max-width: 450px){
         padding: 5px 10px;
+        padding-bottom: 30px;
     }
 
 `

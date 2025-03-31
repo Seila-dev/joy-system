@@ -22,6 +22,16 @@ export interface JoyTransaction {
     updatedAt: Date;
   }
 
+export interface PurchaseItem {
+  id: number;
+  expiresAt: Date;
+  isActive: boolean;
+  product: JoyStoreItem;
+  productId: boolean;
+  purchasedAt: Date;
+  userId: number;
+}
+
 export interface Joy {
     id: number;
     userId: number;
