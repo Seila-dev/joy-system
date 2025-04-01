@@ -7,17 +7,20 @@ import { AuthProvider } from './contexts/AuthContext.tsx'
 import { QuestProvider } from './contexts/QuestContext.tsx'
 import { ThemeProvider } from './contexts/ThemeContext.tsx'
 import { JoysProvider } from './contexts/JoysContext.tsx'
+import { ProductProvider } from './contexts/ProductContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
         <JoysProvider>
-          <QuestProvider >
-            <ThemeProvider>
-              <GlobalStyle />
-              <AppRoutes />
-            </ThemeProvider>
+          <QuestProvider>
+            <ProductProvider>
+              <ThemeProvider>
+                <GlobalStyle />
+                <AppRoutes />
+              </ThemeProvider>
+            </ProductProvider>
           </QuestProvider>
         </JoysProvider>
       </AuthProvider>

@@ -8,13 +8,13 @@ import { toast, Toaster } from "sonner"
 import { parseCookies } from "nookies"
 import { ProductForm } from "../ProductForm"
 import { ThemeContext, themes } from "../../contexts/ThemeContext"
+import { ProductContext } from "../../contexts/ProductContext"
 
 export const JoysStoreProducts = () => {
-    const [products, setProducts] = useState<JoyStoreItem[]>([])
-    const [loading, setLoading] = useState<boolean>(true)
-    const { user } = useContext(AuthContext)
-    const { balance, getBalance } = useContext(JoysContext)
 
+    const { user } = useContext(AuthContext)
+    const { products, loading } = useContext(ProductContext)
+    const { balance, getBalance } = useContext(JoysContext)
     const [activeMenuId, setActiveMenuId] = useState<number | null>(null)
     const [open, setOpen] = useState<boolean>(false)
     const [editQuestData, setEditQuestData] = useState<JoyStoreItem | null>(null)
@@ -39,28 +39,10 @@ export const JoysStoreProducts = () => {
         }
     }
 
-    useEffect(() => {
-        const loadProducts = async () => {
-            try {
-                setLoading(true)
-                const { 'joysystem.token': token } = parseCookies();
-                const response = await api.get('/store/products', {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-                setProducts(response.data)
-                getBalance()
-            } catch (error) {
-                console.error('Failed to load products', error)
-            } finally {
-                setLoading(false)
-            }
-        }
-        loadProducts()
-        console.log(balance)
-
-    }, [])
+    // const loadBalance = () => {
+    //     getBalance()
+    // }
+    // loadBalance()
 
     const handlePurchase = async (product: JoyStoreItem) => {
         try {
@@ -104,7 +86,7 @@ export const JoysStoreProducts = () => {
             {loading ? (
                 <div className="loading">Loading products...</div>
             ) : (
-                products.map((product) => (
+                products?.map((product) => (
 
                     <ProductElement key={product.id}>
                         <Toaster></Toaster>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import styled from 'styled-components'
@@ -6,9 +6,8 @@ import { useForm, Controller } from 'react-hook-form'
 import { ErrorMessage } from '../errorMessage'
 import "react-datepicker/dist/react-datepicker.css"
 import { JoyStoreItem } from '../../types/joyData'
-import api from '../../services/api'
-import { parseCookies } from 'nookies'
 import { Loading } from '../loading'
+import { ProductContext } from '../../contexts/ProductContext'
 
 const productSchema = z.object({
     name: z.string().min(1, { message: "Título é obrigatório" }),
@@ -55,7 +54,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         }
     })
 
-    const [loading, setLoading] = useState<boolean>(false)
+    const { addProduct, editProduct, loading } = useContext(ProductContext)
 
     useEffect(() => {
         document.body.style.overflow = 'hidden';
@@ -65,42 +64,30 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         };
     }, []);
 
+
     const onSubmit = async (data: ProductFormData) => {
         try {
-            setLoading(true)
-            const { 'joysystem.token': token } = parseCookies();
             const productData: Omit<JoyStoreItem, 'id' | 'createdAt' | 'updatedAt'> = {
                 ...data,
             };
 
             if (mode === 'create') {
-                await api.post('/store/products', productData, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
+                await addProduct(productData as JoyStoreItem)
             } else if (mode === 'edit' && initialData?.id) {
-                await api.put(`/store/products/${initialData.id}`, {
+                await editProduct({
                     ...productData,
                     id: initialData.id
-                } as JoyStoreItem), {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
+                } as JoyStoreItem)
             }
 
             reset()
             onClose?.()
         } catch (error) {
-            console.error('Erro ao adicionar ou editar quest:', error);
-            alert('Erro ao adicionar ou editar quest');
-        } finally {
-            setLoading(false)
+            console.error('Erro ao adicionar ou editar produto:', error);
+            alert('Erro ao adicionar ou editar produto');
         }
     };
 
-    if(loading) return <Loading>teste</Loading>
 
 
     return (

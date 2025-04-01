@@ -6,11 +6,14 @@ import { JoysContext } from "../../contexts/JoysContext"
 import { JoysStoreProducts } from "../joysStoreProducts"
 import { Transactions } from "../transactions"
 import { ProductForm } from "../ProductForm"
+import { Loading } from "../loading"
 
 export const JoysStore = () => {
     const { theme } = useContext(ThemeContext)
     const { getBalance, balance } = useContext(JoysContext)
     const [open, setOpen] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
+
     const openCreateForm = () => {
         setOpen(true); 
     };
@@ -18,13 +21,20 @@ export const JoysStore = () => {
         setOpen(false)
     }
 
-    useEffect(() => {
-        // if (editQuestData) {
-        //     setLoading(false)
-        //     setOpen(true)
-        // }
-        getBalance()
-    }, [])
+    // useEffect(() => {
+    //     // if (editQuestData) {
+    //     //     setLoading(false)
+    //     //     setOpen(true)
+    //     // }
+    //     getBalance()
+    // }, [])
+
+    // const loadBalance = () => {
+    //     getBalance()
+    // }
+    // loadBalance()
+
+    if(loading) return <Loading>Carregando..</Loading>
 
     return (
         <JoysStoreComponent $background={themes[theme].background} $black_to_white={themes[theme].black_to_white}>
