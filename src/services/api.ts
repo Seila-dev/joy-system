@@ -2,13 +2,13 @@ import axios from 'axios'
 import { parseCookies } from 'nookies'
 
 const api = axios.create({
-    baseURL: "http://localhost:3000/"
+    baseURL: "https://joy-system-server-production.up.railway.app"
 })
 
 const { 'joysystem.token': token } = parseCookies()
 
 if (token) {
-    fetch('http://localhost:3000/users', {
+    fetch('https://joy-system-server-production.up.railway.app/users', {
         headers: {
             'Content-Type': 'application/json',
             authorization: `Bearer ${token}`
