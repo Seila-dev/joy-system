@@ -26,7 +26,7 @@ export function QuestProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (token) {
       setLoading(true)
-      fetch('http://localhost:3000/quests', {
+      fetch('https://joy-system-server-production.up.railway.app/quests', {
         headers: {
           'Content-Type': 'application/json',
           authorization: `Bearer ${token}`

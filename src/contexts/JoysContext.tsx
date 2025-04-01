@@ -25,10 +25,11 @@ const [loadingJoy, setLoadingJoy] = useState<boolean>(false);
 const [error, setError] = useState<string | null>(null);
 const { 'joysystem.token': token } = parseCookies();
 
+//REPETIÇÃO DE CÓDIGO DETECTADA
   useEffect(() => {
     if (token) {
       setLoadingJoy(true)
-      fetch('http://localhost:3000/quests', {
+      fetch('https://joy-system-server-production.up.railway.app/quests', {
         headers: {
           'Content-Type': 'application/json',
           authorization: `Bearer ${token}`

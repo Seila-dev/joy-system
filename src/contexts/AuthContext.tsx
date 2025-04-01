@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
         const { 'joysystem.token': token } = parseCookies()
 
         if(token) {
-            fetch('http://localhost:3000/users', {
+            fetch('https://joy-system-server-production.up.railway.app/users', {
                 headers: {
                     'Content-Type': 'application/json',
                     authorization: `Bearer ${token}`
@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
     const navigate = useNavigate()
 
     const signIn = async ({ email, password }: FormData) => {
-        const url = 'http://localhost:3000/users/login'
+        const url = 'https://joy-system-server-production.up.railway.app/users/login'
  
         try {
             const request = await fetch(url, {
@@ -84,7 +84,7 @@ export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
     }
 
     const registerAccount = async ({ email, password, username }: FormDataRegister) => {
-        const url = 'http://localhost:3000/users/'
+        const url = 'https://joy-system-server-production.up.railway.app/users/'
 
         try {
             const request = await fetch(url, {
