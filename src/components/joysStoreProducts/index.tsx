@@ -6,12 +6,38 @@ import { AuthContext } from "../../contexts/AuthContext"
 import { JoysContext } from "../../contexts/JoysContext"
 import { toast, Toaster } from "sonner"
 import { parseCookies } from "nookies"
+import { ProductForm } from "../ProductForm"
+import { ThemeContext, themes } from "../../contexts/ThemeContext"
 
 export const JoysStoreProducts = () => {
     const [products, setProducts] = useState<JoyStoreItem[]>([])
     const [loading, setLoading] = useState<boolean>(true)
     const { user } = useContext(AuthContext)
     const { balance, getBalance } = useContext(JoysContext)
+
+    const [activeMenuId, setActiveMenuId] = useState<number | null>(null)
+    const [open, setOpen] = useState<boolean>(false)
+    const [editQuestData, setEditQuestData] = useState<JoyStoreItem | null>(null)
+    const [_, setOpenStatus] = useState<number | null>(null)
+    const { theme } = useContext(ThemeContext)
+
+    const createQuestForm = (questData: JoyStoreItem) => {
+        setEditQuestData(questData);
+        setOpen(true);
+    };
+
+    const closeCreateForm = () => {
+        setOpen(false)
+    }
+
+    const updateMenu = (id: number) => {
+        if (activeMenuId === id) {
+            setActiveMenuId(null);
+        } else {
+            setActiveMenuId(id);
+            setOpenStatus(null);
+        }
+    }
 
     useEffect(() => {
         const loadProducts = async () => {
@@ -38,35 +64,35 @@ export const JoysStoreProducts = () => {
 
     const handlePurchase = async (product: JoyStoreItem) => {
         try {
-          if (!user) {
-            toast.error('Please login to purchase items');
-            return;
-          }
-    
-          if ((balance ? balance : 0) < product.price) {
-            toast.error(`Not enough Joy! You need ${product.price} Joy for this item.`);
-            return;
-          }
-    
-          const confirmed = window.confirm(
-            `Do you want to purchase ${product.name} for ${product.price} Joy?`
-          );
-    
-          if (confirmed) {
-            const { 'joysystem.token': token } = parseCookies();
-            await api.post('/store/purchase', { userId: user.id, productId: product.id }, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            toast.success(`Successfully purchased ${product.name}!`);
-          }
+            if (!user) {
+                toast.error('Please login to purchase items');
+                return;
+            }
+
+            if ((balance ? balance : 0) < product.price) {
+                toast.error(`Not enough Joy! You need ${product.price} Joy for this item.`);
+                return;
+            }
+
+            const confirmed = window.confirm(
+                `Do you want to purchase ${product.name} for ${product.price} Joy?`
+            );
+
+            if (confirmed) {
+                const { 'joysystem.token': token } = parseCookies();
+                await api.post('/store/purchase', { userId: user.id, productId: product.id }, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                toast.success(`Successfully purchased ${product.name}!`);
+            }
         } catch (error: any) {
-          console.error('Purchase failed:', error);
-          toast.error(error.response?.data?.error || 'Failed to complete purchase');
+            console.error('Purchase failed:', error);
+            toast.error(error.response?.data?.error || 'Failed to complete purchase');
         }
-      };
-    
+    };
+
 
     if (loading) return <p>Carregando</p>
 
@@ -74,12 +100,12 @@ export const JoysStoreProducts = () => {
 
     return (
         <>
-        
+
             {loading ? (
                 <div className="loading">Loading products...</div>
             ) : (
                 products.map((product) => (
-                    
+
                     <ProductElement key={product.id}>
                         <Toaster></Toaster>
                         <div className="highlight">
@@ -94,17 +120,46 @@ export const JoysStoreProducts = () => {
                                 </span>
                                 <p>{product.price}</p>
                             </div>
-                            <p className="description">1 Disponível (...)</p>
+                            <div className="options">
+                            <span className="material-symbols-outlined icon" onClick={() => updateMenu(product.id)}>
+                                more_vert
+                            </span>
                         </div>
-                        <button 
-                            className={!user ? 'purchaseBtn stopActions' : (balance ? balance : 0) < product.price ? 'purchaseBtn stopActions' : 'purchaseBtn'} onClick={() => {handlePurchase(product); console.log(product.id)}} 
-                            disabled={!user || (balance ? balance: 0) < product.price} 
+                        </div>
+                        <button
+                            className={!user ? 'purchaseBtn stopActions' : (balance ? balance : 0) < product.price ? 'purchaseBtn stopActions' : 'purchaseBtn'} onClick={() => { handlePurchase(product); console.log(product.id) }}
+                            disabled={!user || (balance ? balance : 0) < product.price}
                         >
                             <span className="material-symbols-outlined icon">
                                 shopping_cart
                             </span>
                             <p > {!user ? 'Login to Buy' : (balance ? balance : 0) < product.price ? 'Saldo Joy Insuficiente' : 'Purchase'}</p>
                         </button>
+                        {activeMenuId === product.id &&
+                        <EditPopup $background={themes[theme].background} $black_to_white={themes[theme].black_to_white}>
+                            <div >
+                                <span className="material-symbols-outlined deleteIcon icon">
+                                    delete
+                                </span>
+                                <button className="delete-btn btn">Deletar</button>
+                            </div>
+                            <div onClick={() => createQuestForm(product)}>
+                                <span className="material-symbols-outlined editIcon icon">
+                                    edit_square
+                                </span>
+                                <button className="edit-btn btn">Editar</button>
+                            </div>
+                        </EditPopup>
+                        }
+
+                        {open && <Overlay onClick={() => closeCreateForm()} />}
+                        {open && activeMenuId === product.id && (
+                            <ProductForm
+                                onClose={() => setOpen(false)}
+                                mode="edit"
+                                initialData={editQuestData}
+                            />
+                        )}
                     </ProductElement>
                 ))
             )}
@@ -114,12 +169,24 @@ export const JoysStoreProducts = () => {
 
 }
 
+const Overlay = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 4; 
+    pointer-events: all; 
+`
+
 const ProductElement = styled.div`
     background: transparent;
     border: 1px solid var(--secondary);
     border-radius: 5px;
     padding: 20px;
     display: flex;
+    position: relative;
     flex-direction: column;
     justify-content: space-between;
     .highlight{
@@ -134,6 +201,19 @@ const ProductElement = styled.div`
         justify-content: space-between;
         align-items: center;
         margin-top: 30px;
+    }
+    .footer .options{
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        user-select: none;
+    }
+    .footer .options:hover{
+        background: #ccc2;
     }
     .footer .joys{
         display: flex;
@@ -166,4 +246,34 @@ const ProductElement = styled.div`
         cursor: inherit;
     }
 
+`
+
+const EditPopup = styled.div<{ $background: string, $black_to_white: string }>`
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 60px;
+    bottom: 70px;
+    background: ${({ $background }) => $background};
+    border: 1px solid var(--tertiary);
+    border-radius: 5px 0 5px 5px;
+    padding: 5px 0;
+    div{
+        cursor: pointer;
+        display: flex;
+        padding: 10px 15px;
+        &:hover{
+            background: #ccf2;
+        }       
+    }
+    div .btn{
+        margin-left: 10px;
+        border: none;
+        cursor: pointer;
+        background: none;
+        color: ${({ $black_to_white }) => $black_to_white};
+    }
+    div .icon{
+        font-size: 20px;
+    }
 `

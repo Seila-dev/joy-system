@@ -80,7 +80,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     },
                 })
             } else if (mode === 'edit' && initialData?.id) {
-                await api.put('/store/products', {
+                await api.put(`/store/products/${initialData.id}`, {
                     ...productData,
                     id: initialData.id
                 } as JoyStoreItem), {
