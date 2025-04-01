@@ -8,7 +8,7 @@ type joysContextType = {
   joys: Joy[] | null
   loadingJoy: boolean
   error: string | null
-  getBalance: () => Promise<void>
+  //getBalance: () => Promise<void>
   getTransactions: (limit: number) => Promise<void>
   joyTransactions: JoyTransaction[] | null
   balance?: number
@@ -29,7 +29,7 @@ const { 'joysystem.token': token } = parseCookies();
   useEffect(() => {
     if (token) {
       setLoadingJoy(true)
-      fetch('https://joy-system-server-production.up.railway.app/quests', {
+      fetch('https://joy-system-server-production.up.railway.app/balance', {
         headers: {
           'Content-Type': 'application/json',
           authorization: `Bearer ${token}`
@@ -46,23 +46,7 @@ const { 'joysystem.token': token } = parseCookies();
     }
   }, [token])
 
-  const getBalance = async () => {
-    setLoadingJoy(true)
-    try {
-        const response = await api.get('/balance', {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
 
-        setBalance(response.data.balance)
-    } catch (error) {
-        console.error('Detailed error on getting balance:', error)
-        setError('Erro retrieving balance');
-    } finally {
-        setLoadingJoy(false)
-    }
-  }
 
   const getTransactions = async (limit: number) => {
     setLoadingJoy(true)
@@ -84,7 +68,7 @@ const { 'joysystem.token': token } = parseCookies();
 
 
     return (
-      <JoysContext.Provider value={{ joys, loadingJoy, error, getBalance, balance, getTransactions, joyTransactions }}>
+      <JoysContext.Provider value={{ joys, loadingJoy, error, balance, getTransactions, joyTransactions }}>
         {children}
       </JoysContext.Provider>
     );
