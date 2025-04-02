@@ -96,11 +96,16 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
                             </span>
                             <p>Até: {transformDateToPtbr(quest.validation)}</p>
                         </div>
-                        <div className="afterDescription">
-                            <span className="material-symbols-outlined joyLogo">
-                                paid
-                            </span>
-                            <p className="joys">{quest.joys} Joys</p>
+                        <div className="joys afterDescription">
+                            <div className="joysQuantity">
+                                <span className="material-symbols-outlined joyLogo">
+                                    paid
+                                </span>
+                                <p className="joys">{quest.joys} Joys</p>
+                            </div>
+                            <div className={`difficultyLevel ${quest.difficulty}`}>
+                                <p>{quest.difficulty}</p>
+                            </div>
                         </div>
                     </div>
                     <div className={`footer ${quest.status}`}>
@@ -278,11 +283,26 @@ const Card = styled.div<{ $object: string, $black_to_white: string, $emphasize_m
     .body .afterDescription.limit{
         opacity: 0.6;
     }
+    .body .afterDescription.joys{
+        justify-content: space-between;
+    }
+    .body .afterDescription .joysQuantity{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .body .afterDescription .difficultyLevel{
+        padding: 5px 15px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 12px;
+        border: 1px solid var(--secondary);
+    }
     .body .afterDescription .joys{
         color: ${({ $emphasize_less }) => $emphasize_less};
         font-size: 15px;
         opacity: 1;
-        font-weight: 700;  
+        font-weight: 700;
     }
     .body .afterDescription .joyLogo{
         color: ${({ $emphasize_less }) => $emphasize_less};
@@ -328,6 +348,8 @@ const Card = styled.div<{ $object: string, $black_to_white: string, $emphasize_m
         margin-right: 5px;
     }
 
+    // completo, pendente, incompleto
+
     .footer.COMPLETO .setStatus, .footer.COMPLETO p{
         color: green;
         font-weight: 700;
@@ -353,6 +375,23 @@ const Card = styled.div<{ $object: string, $black_to_white: string, $emphasize_m
 
     .footer.INCOMPLETO .status .circleProgress{
         background: red;
+    }
+
+    //fácil, médio, difícil, muito difícil
+    .body .difficultyLevel.FACIL{
+        color: greenyellow;
+        border-color: greenyellow;
+    }
+    .difficultyLevel.MEDIO{
+        color:#fde27a;
+    }
+    .body .difficultyLevel.DIFICIL{
+        border-color: orangered;
+        color: orangered;
+    }
+    .body .difficultyLevel.MUITO_DIFICIL{
+        border-color: red;
+        color: red;
     }
 `;
 

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { QuestContext } from '../../contexts/QuestContext';
-import { Quest} from '../../types/questData';
+import { Quest } from '../../types/questData';
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod';
 import styled from 'styled-components';
@@ -10,6 +10,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { DateTime } from "luxon";
 import { ptBR } from 'date-fns/locale/pt-BR'
+import api from '../../services/api';
+import { parseCookies } from 'nookies';
 
 const questSchema = z.object({
     title: z.string().min(1, { message: "Título é obrigatório" }),
@@ -30,18 +32,19 @@ interface QuestFormProps {
     mode?: 'create' | 'edit';
 }
 
-export const QuestForm: React.FC<QuestFormProps> = ({ 
+export const QuestForm: React.FC<QuestFormProps> = ({
     onClose,
     initialData = null,
     mode = 'create'
 }) => {
     const { addQuest, editQuest } = useContext(QuestContext);
 
-    const { 
-        control, 
-        handleSubmit, 
-        formState: { errors, isSubmitting }, 
-        reset 
+    const {
+        control,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+        reset,
+        watch
     } = useForm<QuestFormData>({
         resolver: zodResolver(questSchema),
         mode: 'onBlur',
@@ -51,7 +54,7 @@ export const QuestForm: React.FC<QuestFormProps> = ({
             timeline: initialData.timeline ?? "DIARIO",
             difficulty: initialData.difficulty ?? "FACIL",
             validation: initialData.validation ?? "",
-            joys: initialData.joys ?? 0,
+            joys: initialData.joys ?? 2,
             highlight: initialData.highlight ?? false,
             status: initialData.status ?? "PENDENTE"
         } : {
@@ -60,7 +63,7 @@ export const QuestForm: React.FC<QuestFormProps> = ({
             timeline: 'DIARIO',
             difficulty: 'FACIL',
             validation: '',
-            joys: 0,
+            joys: 2,
             highlight: false,
             status: 'PENDENTE'
         }
@@ -71,7 +74,7 @@ export const QuestForm: React.FC<QuestFormProps> = ({
         initialData?.validation
             ? new Date(initialData.validation)
             : null
-    )  
+    )
 
     useEffect(() => {
         document.body.style.overflow = 'hidden';
@@ -81,15 +84,50 @@ export const QuestForm: React.FC<QuestFormProps> = ({
         };
     }, []);
 
+
+    const [joysEstimated, setJoysEstimate] = useState<number>(2);
+    const currentDifficulty = watch("difficulty")
+
+    useEffect(() => {
+        const fetchJoysEstimate = async (difficultyValue: string) => {
+            const { 'joysystem.token': token } = parseCookies();
+            try {
+                const response = await api.get(`/reward?difficulty=${difficultyValue}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+
+                if (response.data && response.data.joys) {
+                    const newJoysEstimate = response.data.joys
+                    setJoysEstimate(newJoysEstimate)
+
+                } else {
+                    console.error("responsta invalida da api", response.data)
+                    setJoysEstimate(2)
+                }
+            } catch (error) {
+                console.error('erro em buscar estimativa', error)
+                setJoysEstimate(2)
+            }
+        }
+
+        if (currentDifficulty) {
+            fetchJoysEstimate(currentDifficulty)
+        }
+    }, [currentDifficulty])
+
+
+
     const onSubmit = async (data: QuestFormData) => {
         try {
             const questData: Omit<Quest, 'id' | 'createdAt' | 'updatedAt' | 'userId'> = {
                 ...data,
-                validation: selectedDateTime 
+                validation: selectedDateTime
                     ? DateTime.fromJSDate(selectedDateTime)
-                    .setZone('America/Sao_Paulo')
-                    .toISO()
-                : new Date().toISOString().split('T')[0].replace(/-/g, '/')
+                        .setZone('America/Sao_Paulo')
+                        .toISO()
+                    : new Date().toISOString().split('T')[0].replace(/-/g, '/')
             };
 
             if (mode === 'create') {
@@ -101,8 +139,8 @@ export const QuestForm: React.FC<QuestFormProps> = ({
                 } as Quest);
             }
 
-            reset(); 
-            onClose?.(); 
+            reset();
+            onClose?.();
         } catch (error) {
             console.error('Erro ao adicionar ou editar quest:', error);
             alert('Erro ao adicionar ou editar quest');
@@ -116,8 +154,8 @@ export const QuestForm: React.FC<QuestFormProps> = ({
                 <div className="headerForm">
                     <h2>{mode === 'create' ? 'Criar Nova Quest' : 'Editar Quest'}</h2>
                     <p className='description'>
-                        {mode === 'create' 
-                            ? 'Crie uma nova quest para sua jornada.' 
+                        {mode === 'create'
+                            ? 'Crie uma nova quest para sua jornada.'
                             : 'Edite os detalhes da sua quest.'}
                     </p>
                 </div>
@@ -198,8 +236,8 @@ export const QuestForm: React.FC<QuestFormProps> = ({
 
                     <div className='item'>
                         <label htmlFor="validation">Data final</label>
-                        <DatePicker 
-                            selected={selectedDateTime} 
+                        <DatePicker
+                            selected={selectedDateTime}
                             onChange={(date) => setSelectedDateTime(date)}
                             showTimeSelect
                             timeIntervals={15}
@@ -227,16 +265,20 @@ export const QuestForm: React.FC<QuestFormProps> = ({
                         <Controller
                             name="joys"
                             control={control}
-                            render={({ field: { onChange, ...field } }) => (
+                            render={({ field }) => (
                                 <input
                                     {...field}
-                                    id="joys"
                                     type="number"
-                                    onChange={(e) => onChange(Number(e.target.value))}
+                                    id="joys"
+                                    value={joysEstimated}
+                                    onChange={() => {
+                                        field.onChange(joysEstimated)
+                                    }}
+                                    disabled
                                 />
                             )}
                         />
-                        <p className="description">Recompensa em joys pela quest</p>
+                        <p className="description">Recompensa baseada na dificuldade da quest</p>
                     </div>
 
                     <div className='item'>
