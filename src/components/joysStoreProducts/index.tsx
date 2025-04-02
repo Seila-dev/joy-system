@@ -39,11 +39,6 @@ export const JoysStoreProducts = () => {
         }
     }
 
-    // const loadBalance = () => {
-    //     getBalance()
-    // }
-    // loadBalance()
-
     const handlePurchase = async (product: JoyStoreItem) => {
         try {
             if (!user) {

@@ -88,6 +88,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         }
     };
 
+    if(loading) return <Loading>Carregando..</Loading>
 
 
     return (

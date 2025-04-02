@@ -21,19 +21,6 @@ export const JoysStore = () => {
         setOpen(false)
     }
 
-    // useEffect(() => {
-    //     // if (editQuestData) {
-    //     //     setLoading(false)
-    //     //     setOpen(true)
-    //     // }
-    //     getBalance()
-    // }, [])
-
-    // const loadBalance = () => {
-    //     getBalance()
-    // }
-    // loadBalance()
-
     if(loading) return <Loading>Carregando..</Loading>
 
     return (

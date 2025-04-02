@@ -19,10 +19,9 @@ export const Header = () => {
     const { isAuthenticated, user } = useContext(AuthContext)
     const { getBalance, balance, loadingJoy } = useContext(JoysContext)
 
-    // const loadBalance = () => {
-    //     getBalance()
-    // }
-    // loadBalance()
+    useEffect(() => {
+        getBalance()
+    }, [balance])
 
     const themeToggle = () => {
         setTheme(theme === 'light' ? 'dark' : 'light')

@@ -8,7 +8,7 @@ type joysContextType = {
   joys: Joy[] | null
   loadingJoy: boolean
   error: string | null
-  //getBalance: () => Promise<void>
+  getBalance: () => Promise<void>
   getTransactions: (limit: number) => Promise<void>
   joyTransactions: JoyTransaction[] | null
   balance?: number
@@ -66,9 +66,27 @@ const { 'joysystem.token': token } = parseCookies();
     }
   }
 
+  const getBalance = async () => {
+    setLoadingJoy(true)
+    try {
+        const response = await api.get('/balance', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+
+        setBalance(response.data.balance)
+    } catch (error) {
+        console.error('Detailed error on getting balance:', error)
+        setError('Erro retrieving balance');
+    } finally {
+        setLoadingJoy(false)
+    }
+  }
+
 
     return (
-      <JoysContext.Provider value={{ joys, loadingJoy, error, balance, getTransactions, joyTransactions }}>
+      <JoysContext.Provider value={{ joys, loadingJoy, error, getBalance, balance, getTransactions, joyTransactions }}>
         {children}
       </JoysContext.Provider>
     );
