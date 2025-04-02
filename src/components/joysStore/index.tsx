@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { ThemeContext, themes } from "../../contexts/ThemeContext"
@@ -7,12 +7,13 @@ import { JoysStoreProducts } from "../joysStoreProducts"
 import { Transactions } from "../transactions"
 import { ProductForm } from "../ProductForm"
 import { Loading } from "../loading"
+import { ProductContext } from "../../contexts/ProductContext"
 
 export const JoysStore = () => {
     const { theme } = useContext(ThemeContext)
-    const { getBalance, balance } = useContext(JoysContext)
+    const { balance } = useContext(JoysContext)
+    const { loading } = useContext(ProductContext)
     const [open, setOpen] = useState<boolean>(false)
-    const [loading, setLoading] = useState<boolean>(false)
 
     const openCreateForm = () => {
         setOpen(true); 

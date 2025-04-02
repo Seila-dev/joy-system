@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import styled from "styled-components"
 import api from "../../services/api"
 import { JoyStoreItem } from "../../types/joyData"
@@ -13,8 +13,8 @@ import { ProductContext } from "../../contexts/ProductContext"
 export const JoysStoreProducts = () => {
 
     const { user } = useContext(AuthContext)
-    const { products, loading } = useContext(ProductContext)
-    const { balance, getBalance } = useContext(JoysContext)
+    const { products, deleteProduct, loading } = useContext(ProductContext)
+    const { balance } = useContext(JoysContext)
     const [activeMenuId, setActiveMenuId] = useState<number | null>(null)
     const [open, setOpen] = useState<boolean>(false)
     const [editQuestData, setEditQuestData] = useState<JoyStoreItem | null>(null)
@@ -42,17 +42,17 @@ export const JoysStoreProducts = () => {
     const handlePurchase = async (product: JoyStoreItem) => {
         try {
             if (!user) {
-                toast.error('Please login to purchase items');
+                toast.error('Por favor, faça login para ter items');
                 return;
             }
 
             if ((balance ? balance : 0) < product.price) {
-                toast.error(`Not enough Joy! You need ${product.price} Joy for this item.`);
+                toast.error(`Não é o suficiente! Precisa de ${product.price} Joys para esse produto.`);
                 return;
             }
 
             const confirmed = window.confirm(
-                `Do you want to purchase ${product.name} for ${product.price} Joy?`
+                `Você quer comprar ${product.name} por ${product.price} Joys?`
             );
 
             if (confirmed) {
@@ -62,11 +62,11 @@ export const JoysStoreProducts = () => {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                toast.success(`Successfully purchased ${product.name}!`);
+                toast.success(`Comprou o produto ${product.name} com suceso!`);
             }
         } catch (error: any) {
             console.error('Purchase failed:', error);
-            toast.error(error.response?.data?.error || 'Failed to complete purchase');
+            toast.error(error.response?.data?.error || 'Falhou em completar a compra. Talvez você já tenha esse produto.');
         }
     };
 
@@ -114,7 +114,7 @@ export const JoysStoreProducts = () => {
                         </button>
                         {activeMenuId === product.id &&
                         <EditPopup $background={themes[theme].background} $black_to_white={themes[theme].black_to_white}>
-                            <div >
+                            <div onClick={() => deleteProduct(product.id)} >
                                 <span className="material-symbols-outlined deleteIcon icon">
                                     delete
                                 </span>

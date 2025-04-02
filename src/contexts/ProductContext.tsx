@@ -51,11 +51,11 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
         },
       })
 
-      toast.success("Product created successfully!");
+      toast.success("Produto criado com sucesso!");
       setProducts((prevProducts) => [...prevProducts, response.data]);
     } catch (err) {
       setError('Error on adding the product');
-      toast.error("Quest was not created")
+      toast.error("Produto não foi criado")
     } finally {
       setLoading(false)
     }
@@ -76,11 +76,11 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
         }
       });
 
-      toast.success("Product updated successfully!");
+      toast.success("Produto atualizado com sucesso!");
       setProducts(response.data);
     } catch (err) {
       console.error('Detailed error on editing product:', err)
-      setError('Erro ao editar a product');
+      setError('Error on editing the product');
     } finally {
       setLoading(false);
     }
@@ -94,11 +94,11 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
           Authorization: `Bearer ${token}`,
         },
       });
-      toast.success("Product deleted successfully!");
+      toast.success("Product deletado com sucesso.");
       setProducts((prevProducts) => prevProducts.filter((product) => product.id !== productId));
     } catch (err) {
       setError('Error on deleting product');
-      toast.error("Something went wrong on deleting")
+      toast.error("Produto não foi deletado. Produtos ativos não podem ser deletados.")
     } finally {
       setLoading(false)
     }
