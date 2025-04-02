@@ -170,8 +170,8 @@ const Overlay = styled.div`
 
 const ProductElement = styled.div`
     background: transparent;
-    border: 1px solid var(--secondary);
-    border-radius: 5px;
+    border: 1px solid #fff93d1c;
+    border-radius: 10px;
     padding: 20px;
     display: flex;
     position: relative;
