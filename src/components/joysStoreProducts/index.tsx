@@ -10,7 +10,11 @@ import { ProductForm } from "../ProductForm"
 import { ThemeContext, themes } from "../../contexts/ThemeContext"
 import { ProductContext } from "../../contexts/ProductContext"
 
-export const JoysStoreProducts = () => {
+interface ProductActiveProp {
+    active: boolean;
+}
+
+export const JoysStoreProducts = ({ active }: ProductActiveProp) => {
 
     const { user } = useContext(AuthContext)
     const { products, deleteProduct, loading } = useContext(ProductContext)
@@ -20,6 +24,16 @@ export const JoysStoreProducts = () => {
     const [editQuestData, setEditQuestData] = useState<JoyStoreItem | null>(null)
     const [_, setOpenStatus] = useState<number | null>(null)
     const { theme } = useContext(ThemeContext)
+
+    const filteredProducts = () => {
+        if(active === true){
+            const filter = products?.filter(product => product.isActive === true)
+            return filter
+        } else if (active === false){
+            const filter = products?.filter(product => product.isActive === false)
+            return filter
+        }   
+    }
 
     const createQuestForm = (questData: JoyStoreItem) => {
         setEditQuestData(questData);
@@ -68,12 +82,9 @@ export const JoysStoreProducts = () => {
             console.error('Purchase failed:', error);
             toast.error(error.response?.data?.error || 'Falhou em completar a compra. Talvez você já tenha esse produto.');
         }
-    };
-
+    }
 
     if (loading) return <p>Carregando</p>
-
-
 
     return (
         <>
@@ -81,7 +92,7 @@ export const JoysStoreProducts = () => {
             {loading ? (
                 <div className="loading">Loading products...</div>
             ) : (
-                products?.map((product) => (
+                filteredProducts()?.map((product) => (
 
                     <ProductElement key={product.id}>
                         <Toaster></Toaster>
@@ -98,10 +109,10 @@ export const JoysStoreProducts = () => {
                                 <p>{product.price}</p>
                             </div>
                             <div className="options">
-                            <span className="material-symbols-outlined icon" onClick={() => updateMenu(product.id)}>
-                                more_vert
-                            </span>
-                        </div>
+                                <span className="material-symbols-outlined icon" onClick={() => updateMenu(product.id)}>
+                                    more_vert
+                                </span>
+                            </div>
                         </div>
                         <button
                             className={!user ? 'purchaseBtn stopActions' : (balance ? balance : 0) < product.price ? 'purchaseBtn stopActions' : 'purchaseBtn'} onClick={() => { handlePurchase(product); console.log(product.id) }}
@@ -113,20 +124,20 @@ export const JoysStoreProducts = () => {
                             <p > {!user ? 'Login to Buy' : (balance ? balance : 0) < product.price ? 'Saldo Joy Insuficiente' : 'Purchase'}</p>
                         </button>
                         {activeMenuId === product.id &&
-                        <EditPopup $background={themes[theme].background} $black_to_white={themes[theme].black_to_white}>
-                            <div onClick={() => deleteProduct(product.id)} >
-                                <span className="material-symbols-outlined deleteIcon icon">
-                                    delete
-                                </span>
-                                <button className="delete-btn btn">Deletar</button>
-                            </div>
-                            <div onClick={() => createQuestForm(product)}>
-                                <span className="material-symbols-outlined editIcon icon">
-                                    edit_square
-                                </span>
-                                <button className="edit-btn btn">Editar</button>
-                            </div>
-                        </EditPopup>
+                            <EditPopup $background={themes[theme].background} $black_to_white={themes[theme].black_to_white}>
+                                <div onClick={() => deleteProduct(product.id)} >
+                                    <span className="material-symbols-outlined deleteIcon icon">
+                                        delete
+                                    </span>
+                                    <button className="delete-btn btn">Deletar</button>
+                                </div>
+                                <div onClick={() => createQuestForm(product)}>
+                                    <span className="material-symbols-outlined editIcon icon">
+                                        edit_square
+                                    </span>
+                                    <button className="edit-btn btn">Editar</button>
+                                </div>
+                            </EditPopup>
                         }
 
                         {open && <Overlay onClick={() => closeCreateForm()} />}

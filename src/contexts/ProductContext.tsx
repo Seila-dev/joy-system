@@ -35,8 +35,8 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
           setProducts(data)
         })
         .catch((error) => {
-          console.error('Error on searching products', error)
-          setError('error on searching products')
+          console.error('Error on fetching products', error)
+          setError('error on fetching products')
         })
         .finally(() => setLoading(false))
     }
@@ -85,7 +85,6 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
       setLoading(false);
     }
   }
-
 
   const deleteProduct = async (productId: number) => {
     try {
