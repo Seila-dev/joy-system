@@ -174,7 +174,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                 )}
                             />
                         </div>
-                        <p className="description">Desative para destacar o produto</p>
+                        <p className="description">Ative para destacar o produto</p>
                     </div>
                     <div className='item'>
                         <div className="highlightDiv">

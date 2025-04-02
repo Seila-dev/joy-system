@@ -114,8 +114,9 @@ export const JoysStoreProducts = ({ active }: ProductActiveProp) => {
                                 </span>
                             </div>
                         </div>
-                        <button
-                            className={!user ? 'purchaseBtn stopActions' : (balance ? balance : 0) < product.price ? 'purchaseBtn stopActions' : 'purchaseBtn'} onClick={() => { handlePurchase(product); console.log(product.id) }}
+                        {active === true ? (
+                            <button
+                            className={!user ? 'purchaseBtn stopActions' : (balance ? balance : 0) < product.price ? 'purchaseBtn stopActions' : 'purchaseBtn'} onClick={() => { handlePurchase(product); }}
                             disabled={!user || (balance ? balance : 0) < product.price}
                         >
                             <span className="material-symbols-outlined icon">
@@ -123,6 +124,10 @@ export const JoysStoreProducts = ({ active }: ProductActiveProp) => {
                             </span>
                             <p > {!user ? 'Login to Buy' : (balance ? balance : 0) < product.price ? 'Saldo Joy Insuficiente' : 'Purchase'}</p>
                         </button>
+                        ) : (
+                            <button className="purchaseBtn stopActions" disabled>Produto inativo</button>
+                        ) }
+                        
                         {activeMenuId === product.id &&
                             <EditPopup $background={themes[theme].background} $black_to_white={themes[theme].black_to_white}>
                                 <div onClick={() => deleteProduct(product.id)} >
