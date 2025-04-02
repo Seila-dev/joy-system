@@ -16,13 +16,13 @@ export const JoysStore = () => {
     const [open, setOpen] = useState<boolean>(false)
 
     const openCreateForm = () => {
-        setOpen(true); 
+        setOpen(true);
     };
     const closeForm = () => {
         setOpen(false)
     }
 
-    if(loading) return <Loading>Carregando..</Loading>
+    if (loading) return <Loading>Carregando..</Loading>
 
     return (
         <JoysStoreComponent $background={themes[theme].background} $black_to_white={themes[theme].black_to_white}>
@@ -50,23 +50,34 @@ export const JoysStore = () => {
                     <div className="productSectionHeader">
                         <h2>Produtos disponíveis</h2>
                         <button onClick={() => openCreateForm()}>                    <span className="material-symbols-outlined icon">
-                        add
-                    </span></button>
+                            add
+                        </span></button>
                     </div>
                     <div className="gridContainer">
-                    <JoysStoreProducts />
+                        <JoysStoreProducts active={true} />
+                    </div>
+                    <div>
+                        <div className="productSectionHeader">
+                            <h2>Produtos inativos</h2>
+                        </div>
+                        <div className="gridContainer">
+                            <JoysStoreProducts active={false} />
+                        </div>
                     </div>
                 </div>
+
+
                 <div className="joysHistory">
                     <h2>Histórico de Joys - Recentes</h2>
                     <div className="gridContainer history">
-                    <Transactions limit={3} />
+                        <Transactions limit={3} />
                     </div>
                 </div>
+
             </section>
             {open && <Overlay onClick={() => closeForm()} />}
-            { open && (
-                <ProductForm 
+            {open && (
+                <ProductForm
                     onClose={closeForm}
                     mode='create'
                 />
@@ -159,6 +170,7 @@ const JoysStoreComponent = styled.section<{ $background: string, $black_to_white
         grid-template-columns: 1fr 1fr;
         gap: 20px;
         width: 100%;
+        margin-bottom: 30px;
     }    
     .gridContainer.history{
         grid-template-columns: 1fr;
