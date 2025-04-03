@@ -52,8 +52,19 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterQuantity, 
     }
 
     const changeStatus = (questId: number, newStatus: QuestStatus) => {
-        setStatus(questId, newStatus)
-        getBalance()
+        const quest = filterQuery?.find(q => q.id === questId);
+
+        if (!quest) return;
+    
+        if (quest.status === newStatus || quest.status === 'COMPLETO' || quest.status === 'INCOMPLETO') return;
+
+        if (newStatus === 'COMPLETO' || newStatus === 'INCOMPLETO') {
+            const confirmed = window.confirm(`Você tem certeza que quer mudar o status para ${newStatus}? Você não poderá voltar atrás depois..`);
+            if (!confirmed) return;
+        }
+
+        setStatus(questId, newStatus);
+        getBalance();
     }
 
     const filterByTimeline = selectedTimeline === null
