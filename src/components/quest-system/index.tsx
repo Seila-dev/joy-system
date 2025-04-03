@@ -5,7 +5,7 @@ import { QuestItem } from "../quest";
 import { QuestContext } from "../../contexts/QuestContext";
 import { ThemeContext, themes } from "../../contexts/ThemeContext";
 import { QuestForm } from "../questForm";
-import { Difficulty, Quest } from "../../types/questData";
+import { Difficulty, Quest, QuestStatus } from "../../types/questData";
 import { Toaster } from "sonner";
 
 
@@ -13,6 +13,7 @@ export const QuestSystem = () => {
 
     const [selectedTimeline, setSelectedTimeline] = useState<string | null>(null);
     const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | null>(null);
+    const [selectedStatus, setSelectedStatus] = useState<QuestStatus | null>(null);
     const [open, setOpen] = useState<boolean>(false)
     const [editQuestData, setEditQuestData] = useState<Quest | null>(null)
     const [loading, setLoading] = useState<boolean>(false)
@@ -32,6 +33,53 @@ export const QuestSystem = () => {
     }
 
     useEffect(() => {
+        const savedTimeline = localStorage.getItem('selectedTimeline');
+        const savedDifficulty = localStorage.getItem('selectedDifficulty');
+        const savedStatus = localStorage.getItem('selectedStatus');
+
+        if (savedTimeline !== null) {
+            try {
+                const parsed = JSON.parse(savedTimeline);
+                setSelectedTimeline(parsed);
+            } catch (e) {}
+        }
+
+        if (savedDifficulty !== null) {
+            try {
+                const parsed = JSON.parse(savedDifficulty);
+                setSelectedDifficulty(parsed);
+            } catch (e) {}
+        }
+
+        if (savedStatus !== null) {
+            try {
+                const parsed = JSON.parse(savedStatus);
+                setSelectedStatus(parsed);
+            } catch (e) {}
+        }
+    }, []);
+
+    useEffect(() => {
+        if (selectedTimeline !== null) {
+            localStorage.setItem('selectedTimeline', JSON.stringify(selectedTimeline));
+        } else {
+            localStorage.removeItem('selectedTimeline');
+        }
+
+        if (selectedDifficulty !== null) {
+            localStorage.setItem('selectedDifficulty', JSON.stringify(selectedDifficulty));
+        } else {
+            localStorage.removeItem('selectedDifficulty');
+        }
+
+        if (selectedStatus !== null) {
+            localStorage.setItem('selectedStatus', JSON.stringify(selectedStatus));
+        } else {
+            localStorage.removeItem('selectedStatus');
+        }
+    }, [selectedTimeline, selectedDifficulty, selectedStatus]);
+
+    useEffect(() => {
         if (editQuestData) {
             setLoading(false)
             setOpen(true)
@@ -45,6 +93,10 @@ export const QuestSystem = () => {
 
     const handleDifficultyChange = (difficulty: Difficulty | null) => {
         setSelectedDifficulty(difficulty)
+    }
+
+    const handleStatusChange = (status: QuestStatus | null) => {
+        setSelectedStatus(status)
     }
 
     const [searchParams, setSearchParams] = useSearchParams({ q: '' })
@@ -164,6 +216,33 @@ export const QuestSystem = () => {
                                     Muito Difícil
                                 </button>
                             </div>
+                            <div className="filterByDate">
+                                <h4>Status de conclusão</h4>
+                                <button
+                                    className={`filterItem ${selectedStatus === "PENDENTE" ? "selected" : ""}`}
+                                    onClick={() => handleStatusChange("PENDENTE")}
+                                >
+                                    Em andamento
+                                </button>
+                                <button
+                                    className={`filterItem ${selectedStatus === "COMPLETO" ? "selected" : ""}`}
+                                    onClick={() => handleStatusChange("COMPLETO")}
+                                >
+                                    Conquistas
+                                </button>
+                                <button
+                                    className={`filterItem ${selectedStatus === "INCOMPLETO" ? "selected" : ""}`}
+                                    onClick={() => handleStatusChange("INCOMPLETO")}
+                                >
+                                    Falhas
+                                </button>
+                                <button
+                                    className={`filterItem ${selectedStatus === null ? "selected" : ""}`}
+                                    onClick={() => handleStatusChange(null)}
+                                >
+                                    Todos
+                                </button>
+                            </div>
                         </div>
                     </div>
                 )}
@@ -192,7 +271,7 @@ export const QuestSystem = () => {
                     initialData={editQuestData}
                 />
             )}
-            <QuestItem selectedTimeline={selectedTimeline} filterQuantity={null} filterQuery={filteredBySearch} filterDifficulty={selectedDifficulty} />
+            <QuestItem selectedTimeline={selectedTimeline} filterQuantity={null} filterQuery={filteredBySearch} filterDifficulty={selectedDifficulty} filterStatus={selectedStatus} />
         </QuestComponent>
     )
 }

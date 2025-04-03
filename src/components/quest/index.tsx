@@ -10,11 +10,12 @@ import { DateTime } from "luxon";
 interface QuestItemProps {
     selectedTimeline: string | null;
     filterDifficulty: Difficulty | null;
-    filterQuantity: number | null
-    filterQuery: Quest[] | null
+    filterStatus: QuestStatus | null;
+    filterQuantity: number | null;
+    filterQuery: Quest[] | null;
 }
 
-export const QuestItem = ({ selectedTimeline, filterDifficulty, filterQuantity, filterQuery }: QuestItemProps) => {
+export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, filterQuantity, filterQuery }: QuestItemProps) => {
 
     const [activeMenuId, setActiveMenuId] = useState<number | null>(null)
     const [open, setOpen] = useState<boolean>(false)
@@ -73,9 +74,13 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterQuantity, 
 
     const hasQuests = filterByTimeline && filterByTimeline.length > 0;
 
-    const filteredQuests = filterDifficulty
+    const filteredDIfficultyQuests = filterDifficulty
     ? filterByTimeline?.filter(quest => quest.difficulty === filterDifficulty)
     : filterByTimeline;
+
+    const filteredQuests = filterStatus
+    ? filteredDIfficultyQuests?.filter(quest => quest.status === filterStatus)
+    : filteredDIfficultyQuests;
 
     const transformDateToPtbr = (newDate: string | number ): string => {
         const dt = DateTime.fromJSDate(new Date(newDate)).setLocale('pt-BR')
