@@ -392,7 +392,7 @@ const Filters = styled.div<{ $object: string, $background: string, $black_to_whi
         font-size: 16px;
         border-radius: 30px;
         background: transparent;
-        color: white;
+        color: ${({ $black_to_white }) => $black_to_white};
         border: none;
         cursor: pointer;
         display: flex;
@@ -417,6 +417,7 @@ const Filters = styled.div<{ $object: string, $background: string, $black_to_whi
         top: 50%;
         padding: 20px;
         background: var(--light-background);
+        color: white;
         transform: translate(-50%, -50%);
     }
     .filtersByDate .filtersHeader{
@@ -424,6 +425,7 @@ const Filters = styled.div<{ $object: string, $background: string, $black_to_whi
         align-items: center;
         justify-content: space-between;
         margin-bottom: 20px;
+        color: white;
     }
     .filtersByDate .filtersHeader .icon{
         cursor: pointer;

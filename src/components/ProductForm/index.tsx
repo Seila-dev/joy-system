@@ -229,6 +229,7 @@ const Form = styled.form`
     max-width: 700px;
     padding: 30px;
     background: var(--background);
+    color: white;
     border-radius: 10px;
     display: flex;
     flex-direction: column;

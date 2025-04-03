@@ -335,6 +335,7 @@ const Form = styled.form`
     padding: 30px;
     background: var(--background);
     border-radius: 10px;
+    color: white;
     display: flex;
     flex-direction: column;
     position: relative;
