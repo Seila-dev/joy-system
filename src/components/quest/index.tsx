@@ -65,10 +65,22 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
             if (!confirmed) return;
         }
 
-        setStatus(questId, newStatus);
-        getBalance();
-    }
+        setStatus(questId, newStatus)
+        getBalance()
 
+        if (newStatus === 'COMPLETO' || newStatus === 'INCOMPLETO') {
+            setNotifications([])
+        } else {
+            setTimeout(() => {
+                const updatedQuests = filterQuery?.map(q =>
+                    q.id === questId ? { ...q, status: newStatus } : q
+                );
+                const updatedFilteredQuests = getFilteredQuests(updatedQuests || []);
+                const updatedNotifications = checkQuestsTimeLimit(updatedFilteredQuests || []);
+                setNotifications(updatedNotifications);
+            }, 100);
+        }
+    };
     const filterByTimeline = selectedTimeline === null
         ? filterQuery?.slice(0, filterQuantity ?? filterQuery?.length)
         : filterQuery?.filter(quest => quest.timeline === selectedTimeline)
@@ -83,6 +95,20 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
         ? filteredDIfficultyQuests?.filter(quest => quest.status === filterStatus)
         : filteredDIfficultyQuests;
 
+    const getFilteredQuests = (quests: Quest[]) => {
+        const timelineFiltered = selectedTimeline === null
+            ? quests?.slice(0, filterQuantity ?? quests?.length)
+            : quests?.filter(quest => quest.timeline === selectedTimeline);
+
+        const difficultyFiltered = filterDifficulty
+            ? timelineFiltered?.filter(quest => quest.difficulty === filterDifficulty)
+            : timelineFiltered;
+
+        return filterStatus
+            ? difficultyFiltered?.filter(quest => quest.status === filterStatus)
+            : difficultyFiltered;
+    };
+
     const transformDateToPtbr = (newDate: string | number): string => {
         const dt = DateTime.fromJSDate(new Date(newDate)).setLocale('pt-BR')
 
@@ -93,33 +119,30 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
         const newNotifications: string[] = [];
 
         quests?.forEach((quest) => {
-            const questTimeLimit = DateTime.fromISO(quest.validation); 
+            const questTimeLimit = DateTime.fromISO(quest.validation);
 
-            if(quest.status === 'COMPLETO' || quest.status === 'INCOMPLETO'){
+            if (quest.status === 'COMPLETO' || quest.status === 'INCOMPLETO') {
                 return
             }
 
-            if (questTimeLimit < DateTime.now() && !notifications.includes(`A quest "${quest.title}" passou do tempo limite! Você concluiu?`)) {
-                newNotifications.push(`A quest "${quest.title}" passou do tempo limite! Você concluiu?`);   
+            if (questTimeLimit < DateTime.now()) {
+                newNotifications.push(`A quest "${quest.title}" passou do tempo limite! Você concluiu?`);
             }
         });
 
-        return newNotifications  // Atualiza o estado para exibir notificações
+        return newNotifications
     }
 
     useEffect(() => {
-        const newNotifications = checkQuestsTimeLimit(filteredQuests || [])
+        if (filteredQuests && filteredQuests.length > 0) {
+            const newNotifications = checkQuestsTimeLimit(filteredQuests);
 
-        if (newNotifications.length > 0 && !newNotifications.every((notification, index) => notifications[index] === notification)) {
-            setNotifications(newNotifications)
+            if (JSON.stringify(newNotifications) !== JSON.stringify(notifications)) {
+                setNotifications(newNotifications);
+            }
+
         }
-    }, [filteredQuests])
-
-    // const markAsRead = (index: number) => {
-    //     const updatedNotifications = notifications.filter((_, i) => i !== index);
-    //     setNotifications(updatedNotifications);
-    // };
-
+    }, [filterDifficulty, filterStatus, filterQuery, selectedTimeline, filterQuantity])
 
     if (loading) return <div>Loading..</div>
 
@@ -143,7 +166,7 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
                                             changeStatus(quest.id, 'COMPLETO')
                                         }
                                     });
-                                    
+                                    setNotifications([])
                                 }}
                                 >
                                     Sim. Terminei.</button>
@@ -153,7 +176,7 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
                                             changeStatus(quest.id, 'INCOMPLETO');
                                         }
                                     });
-                                    
+                                    setNotifications([])
                                 }}
                                 >Não consegui.</button>
                             </div>
