@@ -1,13 +1,15 @@
 import { Link, useSearchParams } from "react-router-dom"
 import styled from "styled-components"
 import { QuestItem } from "../quest"
-import { useContext, useState } from "react"
+import { useContext,  useState } from "react"
 import { QuestContext } from "../../contexts/QuestContext"
 import { ThemeContext, themes } from "../../contexts/ThemeContext"
-import { Quest } from "../../types/questData"
+import { Difficulty, Quest, QuestStatus } from "../../types/questData"
 
 export const TodoList = () => {
-    const [selectedTimeline, _]  = useState<string | null>(null)
+    const [selectedTimeline]  = useState<string | null>(null)
+    const [selectedStatus] = useState<QuestStatus | null>('PENDENTE');
+    const [selectedDifficulty] = useState<Difficulty | null>(null);
     const { theme } = useContext(ThemeContext)
 
     const [searchParams] = useSearchParams({ q: ''})
@@ -16,7 +18,10 @@ export const TodoList = () => {
     const { quests } = useContext(QuestContext)
 
     const filteredBySearch: Quest[] = quests?.filter(item => {
-        return item?.title?.toLowerCase().includes(q.toLowerCase()) && item.highlight
+        return item?.title?.toLowerCase().includes(q.toLowerCase()) 
+           && item.highlight
+           && (selectedDifficulty ? item.difficulty === selectedDifficulty : true)
+           && (selectedStatus ? item.status === selectedStatus : true);
     }) || [];
 
     return (
@@ -40,7 +45,7 @@ export const TodoList = () => {
                 </div>
             </div>
             <div className="tasks">
-                <QuestItem selectedTimeline={selectedTimeline} filterQuantity={3} filterQuery={filteredBySearch} filterDifficulty={null} filterStatus={null} />
+                <QuestItem selectedTimeline={selectedTimeline} filterQuantity={3} filterQuery={filteredBySearch} filterDifficulty={selectedDifficulty} filterStatus={selectedStatus} />
             </div>
         </TodoComponent>
     )

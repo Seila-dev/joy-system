@@ -85,8 +85,6 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
         ? filterQuery?.slice(0, filterQuantity ?? filterQuery?.length)
         : filterQuery?.filter(quest => quest.timeline === selectedTimeline)
 
-    const hasQuests = filterByTimeline && filterByTimeline.length > 0;
-
     const filteredDIfficultyQuests = filterDifficulty
         ? filterByTimeline?.filter(quest => quest.difficulty === filterDifficulty)
         : filterByTimeline;
@@ -109,6 +107,8 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
             : difficultyFiltered;
     };
 
+    const hasQuests = filteredQuests && filteredQuests.length > 0;
+    
     const transformDateToPtbr = (newDate: string | number): string => {
         const dt = DateTime.fromJSDate(new Date(newDate)).setLocale('pt-BR')
 
