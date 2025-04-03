@@ -115,10 +115,10 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
         }
     }, [filteredQuests])
 
-    const markAsRead = (index: number) => {
-        const updatedNotifications = notifications.filter((_, i) => i !== index);
-        setNotifications(updatedNotifications);
-    };
+    // const markAsRead = (index: number) => {
+    //     const updatedNotifications = notifications.filter((_, i) => i !== index);
+    //     setNotifications(updatedNotifications);
+    // };
 
 
     if (loading) return <div>Loading..</div>
