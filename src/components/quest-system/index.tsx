@@ -5,13 +5,14 @@ import { QuestItem } from "../quest";
 import { QuestContext } from "../../contexts/QuestContext";
 import { ThemeContext, themes } from "../../contexts/ThemeContext";
 import { QuestForm } from "../questForm";
-import { Quest } from "../../types/questData";
+import { Difficulty, Quest } from "../../types/questData";
 import { Toaster } from "sonner";
 
 
 export const QuestSystem = () => {
 
     const [selectedTimeline, setSelectedTimeline] = useState<string | null>(null);
+    const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | null>(null);
     const [open, setOpen] = useState<boolean>(false)
     const [editQuestData, setEditQuestData] = useState<Quest | null>(null)
     const [loading, setLoading] = useState<boolean>(false)
@@ -35,6 +36,10 @@ export const QuestSystem = () => {
 
     const handleTimelineChange = (timeline: string | null) => {
         setSelectedTimeline(timeline);
+    }
+
+    const handleDifficultyChange = (difficulty: Difficulty | null) => {
+        setSelectedDifficulty(difficulty);
     }
 
     const [searchParams, setSearchParams] = useSearchParams({ q: '' })
@@ -105,6 +110,38 @@ export const QuestSystem = () => {
                         Anual
                     </button>
                 </div>
+                <div className="filterByDate">
+                <button
+                        className={`filterItem ${selectedDifficulty === null ? "selected" : ""}`}
+                        onClick={() => handleDifficultyChange(null)}
+                    >
+                        Todas
+                    </button>
+                    <button
+                        className={`filterItem ${selectedDifficulty === "FACIL" ? "selected" : ""}`}
+                        onClick={() => handleDifficultyChange("FACIL")}
+                    >
+                        Fácil
+                    </button>
+                    <button
+                        className={`filterItem ${selectedDifficulty === "MEDIO" ? "selected" : ""}`}
+                        onClick={() => handleDifficultyChange("MEDIO")}
+                    >
+                        Médio
+                    </button>
+                    <button
+                        className={`filterItem ${selectedDifficulty === "DIFICIL" ? "selected" : ""}`}
+                        onClick={() => handleDifficultyChange("DIFICIL")}
+                    >
+                        Difícil
+                    </button>
+                    <button
+                        className={`filterItem ${selectedDifficulty === "MUITO_DIFICIL" ? "selected" : ""}`}
+                        onClick={() => handleDifficultyChange("MUITO_DIFICIL")}
+                    >
+                        Muito Difícil
+                    </button>
+                </div>
                 <div className="searchFilter">
                     <span className="material-symbols-outlined icon">
                         search
@@ -130,7 +167,7 @@ export const QuestSystem = () => {
                     initialData={editQuestData}
                 />
             )}
-            <QuestItem selectedTimeline={selectedTimeline} filterQuantity={null} filterQuery={filteredBySearch} />
+            <QuestItem selectedTimeline={selectedTimeline} filterQuantity={null} filterQuery={filteredBySearch} filterDifficulty={selectedDifficulty}/>
         </QuestComponent>
     )
 }
@@ -240,9 +277,10 @@ const Introduction = styled.header<{ $black_to_white: string, $background: strin
 
 const Filters = styled.div<{ $object: string, $background: string, $black_to_white: string }>`
     width: 100%;
+    margin: 40px 0;
     
     .filterByDate{
-        margin: 30px 0;
+        margin: 10px 0;
         display: grid;
         grid-template-columns: repeat(5, auto);
     }
@@ -263,7 +301,7 @@ const Filters = styled.div<{ $object: string, $background: string, $black_to_whi
         border-radius: 5px;
         display: flex;
         padding: 10px;
-        margin-bottom: 20px;
+        margin: 30px 0;
     }
     .searchFilter .icon{
         font-size: 20px;
