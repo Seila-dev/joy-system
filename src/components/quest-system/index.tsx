@@ -330,7 +330,9 @@ const Filters = styled.div<{ $object: string, $background: string, $black_to_whi
         z-index: 9999;
         display: flex;
         flex-direction: column;
-        width: 600px;
+        max-width: 600px;
+        width: 100%;
+        border-radius: 10px;
         position: fixed;
         left: 50%;
         top: 50%;
