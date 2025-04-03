@@ -40,7 +40,7 @@ export const TodoList = () => {
                 </div>
             </div>
             <div className="tasks">
-                <QuestItem selectedTimeline={selectedTimeline} filterQuantity={3} filterQuery={filteredBySearch} />
+                <QuestItem selectedTimeline={selectedTimeline} filterQuantity={3} filterQuery={filteredBySearch} filterDifficulty={null} />
             </div>
         </TodoComponent>
     )

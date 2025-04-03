@@ -5,24 +5,30 @@ import { QuestItem } from "../quest";
 import { QuestContext } from "../../contexts/QuestContext";
 import { ThemeContext, themes } from "../../contexts/ThemeContext";
 import { QuestForm } from "../questForm";
-import { Quest } from "../../types/questData";
+import { Difficulty, Quest } from "../../types/questData";
 import { Toaster } from "sonner";
 
 
 export const QuestSystem = () => {
 
     const [selectedTimeline, setSelectedTimeline] = useState<string | null>(null);
+    const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | null>(null);
     const [open, setOpen] = useState<boolean>(false)
     const [editQuestData, setEditQuestData] = useState<Quest | null>(null)
     const [loading, setLoading] = useState<boolean>(false)
+    const [filterState, setFilterState] = useState<boolean>(false)
 
     const openCreateForm = () => {
-        setEditQuestData(null); // Limpa qualquer dado anterior de edição
-        setOpen(true); // Abre o formulário de criação
+        setEditQuestData(null)
+        setOpen(true)
     };
 
     const closeCreateForm = () => {
         setOpen(false)
+    }
+
+    const toggleFilter = () => {
+        setFilterState(!filterState)
     }
 
     useEffect(() => {
@@ -34,7 +40,11 @@ export const QuestSystem = () => {
 
 
     const handleTimelineChange = (timeline: string | null) => {
-        setSelectedTimeline(timeline);
+        setSelectedTimeline(timeline)
+    }
+
+    const handleDifficultyChange = (difficulty: Difficulty | null) => {
+        setSelectedDifficulty(difficulty)
     }
 
     const [searchParams, setSearchParams] = useSearchParams({ q: '' })
@@ -73,38 +83,90 @@ export const QuestSystem = () => {
                 </div>
             </Introduction>
             <Filters $object={themes[theme].object} $background={themes[theme].background} $black_to_white={themes[theme].black_to_white}>
-                <div className="filterByDate">
-                    <button
-                        className={`filterItem ${selectedTimeline === null ? "selected" : ""}`}
-                        onClick={() => handleTimelineChange(null)}
-                    >
-                        Todas
-                    </button>
-                    <button
-                        className={`filterItem ${selectedTimeline === "DIARIO" ? "selected" : ""}`}
-                        onClick={() => handleTimelineChange("DIARIO")}
-                    >
-                        Diária
-                    </button>
-                    <button
-                        className={`filterItem ${selectedTimeline === "SEMANAL" ? "selected" : ""}`}
-                        onClick={() => handleTimelineChange("SEMANAL")}
-                    >
-                        Semanal
-                    </button>
-                    <button
-                        className={`filterItem ${selectedTimeline === "MENSAL" ? "selected" : ""}`}
-                        onClick={() => handleTimelineChange("MENSAL")}
-                    >
-                        Mensal
-                    </button>
-                    <button
-                        className={`filterItem ${selectedTimeline === "ANUAL" ? "selected" : ""}`}
-                        onClick={() => handleTimelineChange("ANUAL")}
-                    >
-                        Anual
-                    </button>
+                <div className="filterBtnDiv">
+                    <button className="filterBtn btn" onClick={() => toggleFilter()}><span className="material-symbols-outlined">
+                        tune
+                    </span>Filtros</button>
                 </div>
+                {filterState && <Overlay onClick={() => toggleFilter()} />}
+                {filterState && (
+                    <div className="filtersByDate">
+                        <div className="filtersHeader">
+                            <h3>Filtros de pesquisa</h3>
+                            <span className="material-symbols-outlined icon" onClick={() => toggleFilter()}>
+                                close
+                            </span>
+                        </div>
+                        <div className="filterContainer">
+                            <div className="filterByDate">
+                                <h4>Data</h4>
+                                <button
+                                    className={`filterItem ${selectedTimeline === null ? "selected" : ""}`}
+                                    onClick={() => handleTimelineChange(null)}
+                                >
+                                    Todas
+                                </button>
+                                <button
+                                    className={`filterItem ${selectedTimeline === "DIARIO" ? "selected" : ""}`}
+                                    onClick={() => handleTimelineChange("DIARIO")}
+                                >
+                                    Diária
+                                </button>
+                                <button
+                                    className={`filterItem ${selectedTimeline === "SEMANAL" ? "selected" : ""}`}
+                                    onClick={() => handleTimelineChange("SEMANAL")}
+                                >
+                                    Semanal
+                                </button>
+                                <button
+                                    className={`filterItem ${selectedTimeline === "MENSAL" ? "selected" : ""}`}
+                                    onClick={() => handleTimelineChange("MENSAL")}
+                                >
+                                    Mensal
+                                </button>
+                                <button
+                                    className={`filterItem ${selectedTimeline === "ANUAL" ? "selected" : ""}`}
+                                    onClick={() => handleTimelineChange("ANUAL")}
+                                >
+                                    Anual
+                                </button>
+                            </div>
+                            <div className="filterByDate">
+                                <h4>Dificuldade</h4>
+                                <button
+                                    className={`filterItem ${selectedDifficulty === null ? "selected" : ""}`}
+                                    onClick={() => handleDifficultyChange(null)}
+                                >
+                                    Todas
+                                </button>
+                                <button
+                                    className={`filterItem ${selectedDifficulty === "FACIL" ? "selected" : ""}`}
+                                    onClick={() => handleDifficultyChange("FACIL")}
+                                >
+                                    Fácil
+                                </button>
+                                <button
+                                    className={`filterItem ${selectedDifficulty === "MEDIO" ? "selected" : ""}`}
+                                    onClick={() => handleDifficultyChange("MEDIO")}
+                                >
+                                    Médio
+                                </button>
+                                <button
+                                    className={`filterItem ${selectedDifficulty === "DIFICIL" ? "selected" : ""}`}
+                                    onClick={() => handleDifficultyChange("DIFICIL")}
+                                >
+                                    Difícil
+                                </button>
+                                <button
+                                    className={`filterItem ${selectedDifficulty === "MUITO_DIFICIL" ? "selected" : ""}`}
+                                    onClick={() => handleDifficultyChange("MUITO_DIFICIL")}
+                                >
+                                    Muito Difícil
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
                 <div className="searchFilter">
                     <span className="material-symbols-outlined icon">
                         search
@@ -130,7 +192,7 @@ export const QuestSystem = () => {
                     initialData={editQuestData}
                 />
             )}
-            <QuestItem selectedTimeline={selectedTimeline} filterQuantity={null} filterQuery={filteredBySearch} />
+            <QuestItem selectedTimeline={selectedTimeline} filterQuantity={null} filterQuery={filteredBySearch} filterDifficulty={selectedDifficulty} />
         </QuestComponent>
     )
 }
@@ -240,22 +302,82 @@ const Introduction = styled.header<{ $black_to_white: string, $background: strin
 
 const Filters = styled.div<{ $object: string, $background: string, $black_to_white: string }>`
     width: 100%;
-    
-    .filterByDate{
-        margin: 30px 0;
-        display: grid;
-        grid-template-columns: repeat(5, auto);
+
+
+    .filterBtnDiv{
+        margin: 20px 0;
     }
-    .filterItem{
-        padding: 10px 0;
-        width: 100%;
-        cursor: pointer;
+
+    .filterBtn{
+        padding: 10px 25px;
+        font-size: 16px;
+        border-radius: 30px;
+        background: transparent;
+        color: white;
         border: none;
-        color: ${({ $black_to_white }) => $black_to_white};
-        background: ${({ $object }) => $object};
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        &:hover{
+            background: #4a4a4a;
+        }
     }
-    .filterItem.selected{
-        border-bottom: 1px solid var(--secondary);
+
+    .filtersByDate{
+        height: 80%;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        width: 600px;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        padding: 20px;
+        background: var(--light-background);
+        transform: translate(-50%, -50%);
+    }
+    .filtersByDate .filtersHeader{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+    .filtersByDate .filtersHeader .icon{
+        cursor: pointer;
+    }
+    .filtersByDate .filterByDate{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: flex-start;
+        height: 100%;
+        user-select: none;
+    }
+    .filtersByDate .filterContainer{
+        display: flex;
+    }
+    .filtersByDate .filterByDate h4{
+        padding-bottom: 20px;
+        width: 100%;
+        border-bottom: 1px solid #6e6e6e;
+        font-size: 12px;
+        text-transform: uppercase;
+    }
+    .filtersByDate .filterByDate .filterItem{
+        width: fit-content;
+        text-align: start;
+        background: transparent;
+        border: none;
+        color: white;
+        margin-top: 20px;
+        opacity: 0.5;
+        cursor: pointer;
+    }
+    
+    .filtersByDate .filterByDate .filterItem.selected{
+        opacity: 1;
     }
 
     .searchFilter{
@@ -263,7 +385,7 @@ const Filters = styled.div<{ $object: string, $background: string, $black_to_whi
         border-radius: 5px;
         display: flex;
         padding: 10px;
-        margin-bottom: 20px;
+        margin: 30px 0;
     }
     .searchFilter .icon{
         font-size: 20px;

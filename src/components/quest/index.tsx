@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { useContext, useState } from "react";
 import { ThemeContext, themes } from "../../contexts/ThemeContext";
-import { Quest, QuestStatus } from "../../types/questData";
+import { Difficulty, Quest, QuestStatus } from "../../types/questData";
 import { QuestContext } from "../../contexts/QuestContext";
 import { QuestForm } from "../questForm";
 import { JoysContext } from "../../contexts/JoysContext";
@@ -9,11 +9,12 @@ import { DateTime } from "luxon";
 
 interface QuestItemProps {
     selectedTimeline: string | null;
+    filterDifficulty: Difficulty | null;
     filterQuantity: number | null
     filterQuery: Quest[] | null
 }
 
-export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: QuestItemProps) => {
+export const QuestItem = ({ selectedTimeline, filterDifficulty, filterQuantity, filterQuery }: QuestItemProps) => {
 
     const [activeMenuId, setActiveMenuId] = useState<number | null>(null)
     const [open, setOpen] = useState<boolean>(false)
@@ -61,6 +62,10 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
 
     const hasQuests = filterByTimeline && filterByTimeline.length > 0;
 
+    const filteredQuests = filterDifficulty
+    ? filterByTimeline?.filter(quest => quest.difficulty === filterDifficulty)
+    : filterByTimeline;
+
     const transformDateToPtbr = (newDate: string | number ): string => {
         const dt = DateTime.fromJSDate(new Date(newDate)).setLocale('pt-BR')
 
@@ -72,7 +77,7 @@ export const QuestItem = ({ selectedTimeline, filterQuantity, filterQuery }: Que
 
     return (
         <CardsContainer $black_to_white={themes[theme].black_to_white}>
-            {hasQuests ? (filterByTimeline.map(quest => (
+            {hasQuests ? (filteredQuests?.map(quest => (
                 <Card className="card" key={quest.id} $object={themes[theme].object} $black_to_white={themes[theme].black_to_white} $emphasize_more={themes[theme].emphasize_more} $emphasize_less={themes[theme].emphasize_less}>
                     <div className="header">
                         <div className={`category ${quest.timeline}`}>
