@@ -93,9 +93,14 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
         const newNotifications: string[] = [];
 
         quests?.forEach((quest) => {
-            const questTimeLimit = DateTime.fromISO(quest.validation); // Certifique-se que a data está no formato ISO
-            if (questTimeLimit < DateTime.now()) {
-                newNotifications.push(`A quest "${quest.title}" passou do tempo limite! Você concluiu?`);
+            const questTimeLimit = DateTime.fromISO(quest.validation); 
+
+            if(quest.status === 'COMPLETO' || quest.status === 'INCOMPLETO'){
+                return
+            }
+
+            if (questTimeLimit < DateTime.now() && !notifications.includes(`A quest "${quest.title}" passou do tempo limite! Você concluiu?`)) {
+                newNotifications.push(`A quest "${quest.title}" passou do tempo limite! Você concluiu?`);   
             }
         });
 
@@ -105,12 +110,12 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
     useEffect(() => {
         const newNotifications = checkQuestsTimeLimit(filteredQuests || [])
 
-        if (newNotifications.length > 0 && newNotifications.join() !== notifications.join()) {
+        if (newNotifications.length > 0 && !newNotifications.every((notification, index) => notifications[index] === notification)) {
             setNotifications(newNotifications)
         }
     }, [filteredQuests])
 
-    const markAsRead = (index: number) => {        
+    const markAsRead = (index: number) => {
         const updatedNotifications = notifications.filter((_, i) => i !== index);
         setNotifications(updatedNotifications);
     };
@@ -124,7 +129,7 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
             {notifications.length > 0 && <Overlay />}
             {notifications.length > 0 && (
                 <Notifications>
-                    <div className="header">
+                    <div className="notificationHeader">
                         <h2 className="title">Notificações</h2>
                         <p className="description">Todas suas notificações estarão aqui!</p>
                     </div>
@@ -132,8 +137,25 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
                         <div key={index} className="notificationItem">
                             <div className="message">{notification}</div>
                             <div className="buttonContainer">
-                                <button onClick={() => {filteredQuests?.map(quest => quest.status === 'COMPLETO'); markAsRead(index)}}>Sim. Terminei.</button>
-                                <button className="failed" onClick={() => {filteredQuests?.map(quest => quest.status === 'INCOMPLETO'); markAsRead(index)}}>Não consegui.</button>
+                                <button onClick={() => {
+                                    filteredQuests?.forEach(quest => {
+                                        if (quest.status !== 'COMPLETO' && quest.status !== 'INCOMPLETO') {
+                                            changeStatus(quest.id, 'COMPLETO')
+                                        }
+                                    });
+                                    
+                                }}
+                                >
+                                    Sim. Terminei.</button>
+                                <button className="failed" onClick={() => {
+                                    filteredQuests?.forEach(quest => {
+                                        if (quest.status !== 'INCOMPLETO') {
+                                            changeStatus(quest.id, 'INCOMPLETO');
+                                        }
+                                    });
+                                    
+                                }}
+                                >Não consegui.</button>
                             </div>
                         </div>
                     ))}
@@ -277,10 +299,9 @@ const Notifications = styled.div`
     user-select: none;
     background-color: var(--background);
 
-    .header{
+    .notificationHeader{
         margin-bottom: 20px;
-        display: flex;
-        flex-direction: column;
+        color: white;
     }
     .notificationItem{
         background-color: var(--light-background);

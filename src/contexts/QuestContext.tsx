@@ -114,8 +114,6 @@ export function QuestProvider({ children }: { children: React.ReactNode }) {
 
     const questToUpdate = quests.find((quest) => quest.id === questId);
 
-    console.log(questId)
-
     if (questToUpdate) {
       try {
         if(status === 'COMPLETO'){
