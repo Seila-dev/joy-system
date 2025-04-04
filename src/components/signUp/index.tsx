@@ -6,6 +6,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { useContext } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
 import api from "../../services/api"
+import { JoyceInteractionSignup } from "../JoyceInteractions/JoyceInteractionSignup"
 
 const signUpUserFormSchema = z.object({
   username: z.string().nonempty("O nome é obrigatório"),
@@ -95,6 +96,8 @@ export const SignUp = () => {
         <p className="divisor">ou</p>
         <p className="bottomText">Não tem uma conta? <Link to="/login">Fazer login</Link></p>
       </div>
+
+      <JoyceInteractionSignup />
 
     </SignUpComponent>
   )

@@ -6,6 +6,7 @@ export const GlobalStyle = createGlobalStyle`
         --secondary-hover: #ffb938;
         --tertiary: #6a93f8;
         --background: #09090b;
+        --color-snow: #131F24;
         --light-background: #1a1a1a;
         --input-background: #09090b;
         --yellow: #FFCE32;
@@ -84,5 +85,37 @@ export const GlobalStyle = createGlobalStyle`
         border-radius: 10px;
         font-size: 12px;
         font-weight: 600;
+    }
+
+    @keyframes slideInLeft {
+        from {
+            transform: translateX(-300px)
+        }
+
+        to {
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes slideInRight {
+        from {
+            transform: translateX(300px)
+        }
+
+        to {
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes downUp {
+        0% {
+            transform: translateY(0)
+        }
+        50% {
+            transform: translateY(-5px)
+        }
+        100% {
+            transform: translateY(0)
+        }
     }
 `
