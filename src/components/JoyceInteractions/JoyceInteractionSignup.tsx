@@ -3,11 +3,14 @@ import Joyce from '../../assets/joyce-hello.jpeg'
 import { useState } from "react"
 
 export const JoyceInteractionSignup = () => {
-    const [activeInteraction, setActiveInteraction] = useState<boolean>(true)
+    const [activeInteraction] = useState<boolean>(true)
 
-    const toggleActive = () => {
-        setActiveInteraction(!activeInteraction)
-    }
+    // const toggleActive = () => {
+    //     setActiveInteraction(!activeInteraction)
+    // }
+
+    const firstMessage ='Antes de cadastrar sua conta, um segundo! Eu sou o Joyce, o mascote do Joy System! Prazer!'
+    // const secondMessage = 'Agora que já me conhece, vamos lá!'
 
     return (
         <>
@@ -18,7 +21,7 @@ export const JoyceInteractionSignup = () => {
                   
                     <div className="dialog">
                         <div className="joyceDialog">
-                            <p>Antes de cadastrar sua conta, um segundo! Eu sou o Joyce, o mascote do Joy System! Prazer!</p>
+                            <p>{firstMessage}</p>
                         </div>
 
                         <div className="borderDiv"><img src="https://d35aaqx5ub95lt.cloudfront.net/images/funboarding/d19d8e1b8c087398958b9475ee6101cb.svg" alt="teste" className="borderBottom" /></div>
