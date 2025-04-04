@@ -1,16 +1,14 @@
 import styled from "styled-components"
 import Joyce from '../../assets/joyce-hello.jpeg'
 import { useState } from "react"
+import { TypewriterEffect } from "../typewritterEffect"
 
 export const JoyceInteractionSignup = () => {
-    const [activeInteraction] = useState<boolean>(true)
+    const [activeInteraction, setActiveInteraction] = useState<boolean>(true)
 
-    // const toggleActive = () => {
-    //     setActiveInteraction(!activeInteraction)
-    // }
-
-    const firstMessage ='Antes de cadastrar sua conta, um segundo! Eu sou o Joyce, o mascote do Joy System! Prazer!'
-    // const secondMessage = 'Agora que já me conhece, vamos lá!'
+    const toggleActive = () => {
+        setActiveInteraction(!activeInteraction)
+    }
 
     return (
         <>
@@ -21,7 +19,7 @@ export const JoyceInteractionSignup = () => {
                   
                     <div className="dialog">
                         <div className="joyceDialog">
-                            <p>{firstMessage}</p>
+                            <TypewriterEffect text="Olá, mundo!" speed={150} />
                         </div>
 
                         <div className="borderDiv"><img src="https://d35aaqx5ub95lt.cloudfront.net/images/funboarding/d19d8e1b8c087398958b9475ee6101cb.svg" alt="teste" className="borderBottom" /></div>
