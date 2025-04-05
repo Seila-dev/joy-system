@@ -2,14 +2,12 @@ import { useContext, useEffect } from "react"
 import styled from "styled-components"
 import { JoysContext } from "../../contexts/JoysContext"
 import { DateTime } from "luxon"
-import { ThemeContext, themes } from "../../contexts/ThemeContext"
 
 interface transactionProps {
     limit: number;
 }
 
 export const Transactions = ({ limit }: transactionProps) => {
-    const { theme } = useContext(ThemeContext)
     const { joyTransactions, getTransactions } = useContext(JoysContext)
     useEffect(() => {
         getTransactions(limit)
@@ -29,10 +27,7 @@ export const Transactions = ({ limit }: transactionProps) => {
                 joyTransactions.map(item => (
                     <UserTransaction
                         key={item.id}
-                        $transactionType={item.type}
-                        $black_to_white={themes[theme].black_to_white}
-                        $background={themes[theme].background}
-                        $object={themes[theme].object}>
+                        $transactionType={item.type} >
                         <div className="leftSide">
                             <span className="material-symbols-outlined icon">
                             {item.type === 'GANHO' || item.type === 'BONUS' ? 'arrow_upward'
@@ -81,9 +76,6 @@ const TransactionHistoryElement = styled.section`
 `
 
 const UserTransaction = styled.div<{
-    $black_to_white: string,
-    $background: string,
-    $object: string,
     $transactionType: string,
 }>`
     border-radius: 5px;

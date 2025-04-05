@@ -44,7 +44,7 @@ const Section = styled.section`
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    background: var(--background);
+    background: transparent;
     color: white;
     width: 100%;
     min-height: 400px;

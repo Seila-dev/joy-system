@@ -3,14 +3,12 @@ import styled from "styled-components"
 import { QuestItem } from "../quest"
 import { useContext,  useState } from "react"
 import { QuestContext } from "../../contexts/QuestContext"
-import { ThemeContext, themes } from "../../contexts/ThemeContext"
 import { Difficulty, Quest, QuestStatus } from "../../types/questData"
 
 export const TodoList = () => {
     const [selectedTimeline]  = useState<string | null>(null)
     const [selectedStatus] = useState<QuestStatus | null>('PENDENTE');
     const [selectedDifficulty] = useState<Difficulty | null>(null);
-    const { theme } = useContext(ThemeContext)
 
     const [searchParams] = useSearchParams({ q: ''})
     const q: string = searchParams.get('q') || ''
@@ -25,7 +23,7 @@ export const TodoList = () => {
     }) || [];
 
     return (
-        <TodoComponent $black_to_white={themes[theme].black_to_white}>
+        <TodoComponent>
             <div className="header">
                 <h2>Quests em destaque</h2>
 
@@ -51,7 +49,7 @@ export const TodoList = () => {
     )
 }
 
-const TodoComponent = styled.div<{ $black_to_white: string }>`
+const TodoComponent = styled.div`
     max-width: 100vw;
     width: 100%;
     max-height: 100%;
@@ -72,7 +70,7 @@ const TodoComponent = styled.div<{ $black_to_white: string }>`
         margin-bottom: 10px;
     }
     .header, .header .btn, .header .btn .icon{
-        color: ${({ $black_to_white }) => $black_to_white}
+        color: white;
     }
     .header .btn{
         opacity: 0.7;

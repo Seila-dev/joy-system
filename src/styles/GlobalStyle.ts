@@ -2,9 +2,10 @@ import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
     :root{
-        --secondary: #f2d04c;
+        --primary: #101320;
+        --secondary: rgb(155 135 245);
         --secondary-hover: #ffb938;
-        --tertiary: #6a93f8;
+        --tertiary: rgb(51 195 240);
         --background: #09090b;
         --color-snow: #131F24;
         --light-background: #1a1a1a;

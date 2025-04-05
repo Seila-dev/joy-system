@@ -3,14 +3,10 @@ import styled from "styled-components"
 import { MenuBurguer } from "../menuburguer";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
-import { ThemeContext, themes } from "../../contexts/ThemeContext";
-import Switch from 'react-switch'
 import { JoysContext } from "../../contexts/JoysContext";
-
 
 export const Header = () => {
     const [openMenu, setOpenMenu] = useState<boolean>(false);
-    const { theme, setTheme } = useContext(ThemeContext)
 
     const toggleMenu = () => {
         setOpenMenu(!openMenu);
@@ -23,16 +19,11 @@ export const Header = () => {
         getBalance()
     }, [balance])
 
-    const themeToggle = () => {
-        setTheme(theme === 'light' ? 'dark' : 'light')
-    }
-
-    const allTheme = themes[theme]
 
     return (
         <>
             {openMenu && <Overlay onClick={toggleMenu} />}
-            <HeaderElement $background={allTheme.background} $black_to_white={allTheme.black_to_white} $emphasize_less={allTheme.emphasize_less} >
+            <HeaderElement >
                 <div className="leftColumn">
                     <div className="menuBtn" onClick={toggleMenu}>
                         <span className="material-symbols-outlined icon">
@@ -42,16 +33,6 @@ export const Header = () => {
                     <h1 className="headerTitle">JOY <span className="logo">System</span></h1>
                 </div>
                 <nav className="rightColumn">
-                    <Switch
-                        uncheckedIcon={false}
-                        checkedIcon={false}
-                        onColor={'#222'}
-                        onChange={themeToggle}
-                        checked={theme === 'dark'}
-                        width={50}
-                        height={20}
-                    />
-                    {/* <button className="toggleTheme" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>Mudar tema</button> */}
                     <Link to="/user" className="settingsLink">
                         <span className="material-symbols-outlined icon">
                             settings
@@ -83,14 +64,15 @@ const Overlay = styled.div`
     pointer-events: all; 
 `
 
-const HeaderElement = styled.header<{ $background: string, $black_to_white: string, $emphasize_less: string }>`
+const HeaderElement = styled.header`
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 50px;
     transition: 0.25s ease-in-out;
-    background: ${({ $background }) => $background};
-    color: ${({ $emphasize_less }) => $emphasize_less};
+    background: #00041a;
+    color: white
+    };
 
     .headerTitle{
         font-size: 1.5rem;
@@ -114,7 +96,7 @@ const HeaderElement = styled.header<{ $background: string, $black_to_white: stri
     }
     .rightColumn .icon{
         cursor: pointer;
-        color: ${({ $emphasize_less }) => $emphasize_less}
+        color: var(--secondary);
     }
     .rightColumn .settingsLink{
         height: 24px;
@@ -132,7 +114,7 @@ const HeaderElement = styled.header<{ $background: string, $black_to_white: stri
         display: flex;
         align-items: center;
         gap: 10px;
-        color: ${({ $emphasize_less }) => $emphasize_less}
+        color: white;
     }
     
     @media(max-width: 768px){
