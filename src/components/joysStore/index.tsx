@@ -1,7 +1,6 @@
 import { useContext, useState } from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
-import { ThemeContext, themes } from "../../contexts/ThemeContext"
 import { JoysContext } from "../../contexts/JoysContext"
 import { JoysStoreProducts } from "../joysStoreProducts"
 import { Transactions } from "../transactions"
@@ -10,7 +9,6 @@ import { Loading } from "../loading"
 import { ProductContext } from "../../contexts/ProductContext"
 
 export const JoysStore = () => {
-    const { theme } = useContext(ThemeContext)
     const { balance } = useContext(JoysContext)
     const { loading } = useContext(ProductContext)
     const [open, setOpen] = useState<boolean>(false)
@@ -25,7 +23,7 @@ export const JoysStore = () => {
     if (loading) return <Loading>Carregando..</Loading>
 
     return (
-        <JoysStoreComponent $background={themes[theme].background} $black_to_white={themes[theme].black_to_white}>
+        <JoysStoreComponent>
             <div className="headerActionButtons">
                 <div className="leftColumn">
                     <Link to="/quests" className="prevPage">
@@ -98,13 +96,13 @@ const Overlay = styled.div`
     pointer-events: all; 
 `
 
-const JoysStoreComponent = styled.section<{ $background: string, $black_to_white: string }>`
+const JoysStoreComponent = styled.section`
     width: 100%;
-    background: ${({ $background }) => $background};
+    background: linear-gradient(to right top, #000, #00041a);
     padding: 50px;
     min-height: calc(100vh - 68px);
     height: 100%;
-    color: ${({ $black_to_white }) => $black_to_white};
+    color: white;
     display: flex;
     flex-direction: column;
     .headerActionButtons{
@@ -112,7 +110,7 @@ const JoysStoreComponent = styled.section<{ $background: string, $black_to_white
         align-items: center;
         justify-content: space-between;
         margin-bottom: 50px;
-        color: ${({ $black_to_white }) => $black_to_white}; 
+        color: white; 
     }
     .headerActionButtons .leftColumn{
         display: flex;
@@ -134,7 +132,7 @@ const JoysStoreComponent = styled.section<{ $background: string, $black_to_white
         transition: 0.15s ease-out;
         cursor: pointer;
         font-size: 14px;
-        color: ${({ $black_to_white }) => $black_to_white};
+        color: white;
     }
     .body {
         display: grid;

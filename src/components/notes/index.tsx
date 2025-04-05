@@ -1,17 +1,13 @@
-import { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components"
-import { ThemeContext, themes } from "../../contexts/ThemeContext";
 
 export const Notes = () => {
     const truncateDescription = (text: string, limit: number) => {
         return text.length > limit ? text.substring(0, limit) + "..." : text;
     }
 
-    const { theme } = useContext(ThemeContext)
-
     return (
-        <NotesComponent $black_to_white={themes[theme].black_to_white} $object={themes[theme].object}>
+        <NotesComponent>
             <div className="header">
                 <h2>Notas recentes (In Development)</h2>
 
@@ -55,7 +51,7 @@ export const Notes = () => {
     )
 }
 
-const NotesComponent = styled.div<{ $black_to_white: string, $object: string }>`
+const NotesComponent = styled.div`
     width: 100%;
     
     .btn{
@@ -84,7 +80,7 @@ const NotesComponent = styled.div<{ $black_to_white: string, $object: string }>`
         font-size: 18px;
     }
     .header, .header .btn, .header .btn .icon{
-        color: ${({ $black_to_white }) => $black_to_white}
+        color: white;
     }
     .flexContainer{
         display: flex;
@@ -102,8 +98,8 @@ const NotesComponent = styled.div<{ $black_to_white: string, $object: string }>`
     }
 
     .note{
-        background: ${({ $object }) => $object};
-        color: ${({ $black_to_white }) => $black_to_white};
+        background: ;
+        color: var(--tertiary);
         height: 100%;
         min-height: 250px;
         min-width: 250px;

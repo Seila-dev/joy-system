@@ -3,7 +3,6 @@ import { AuthContext } from "../../contexts/AuthContext"
 import { JoysContext } from "../../contexts/JoysContext"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
-import { ThemeContext, themes } from "../../contexts/ThemeContext"
 import { Transactions } from "../transactions"
 import api from "../../services/api"
 import { parseCookies } from "nookies"
@@ -13,7 +12,6 @@ import { Loading } from "../loading"
 export const UserPage = () => {
     const { user, isAuthenticated, signOut } = useContext(AuthContext)
     const { balance, loadingJoy } = useContext(JoysContext)
-    const { theme } = useContext(ThemeContext)
     const [userInfo, setUserInfo] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(true)
     const [userProducts, setUserProducts] = useState<PurchaseItem[]>([])
@@ -50,7 +48,7 @@ export const UserPage = () => {
     if(loading) return <Loading><h2>Carregando.. Verifique se você está logado ou com internet.</h2></Loading>
 
     return (
-        <UserElement $black_to_white={themes[theme].black_to_white} $background={themes[theme].background} $object={themes[theme].object}>
+        <UserElement>
             <div className="headerActionButtons">
                 <Link to="/" className="prevPage">
                     <span className="material-symbols-outlined arrowBack">
@@ -103,13 +101,13 @@ export const UserPage = () => {
     )
 }
 
-const UserElement = styled.main<{ $black_to_white: string, $background: string, $object: string }>`
+const UserElement = styled.main`
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     align-items: center;
-    background: ${({ $background }) => $background};
-    color: ${({ $black_to_white }) => $black_to_white};
+    background: var(--primary);
+    color: #fff;
     position: relative;
     width: 100%;
     padding: 30px;
@@ -126,7 +124,7 @@ const UserElement = styled.main<{ $black_to_white: string, $background: string, 
         border: none;
         width: fit-content;
         cursor: pointer;
-        color: ${({ $black_to_white }) => $black_to_white};
+        color: white;
     }
     .headerActionButtons .controllers button.active{
         border-bottom: 1px solid var(--secondary);
@@ -142,7 +140,7 @@ const UserElement = styled.main<{ $black_to_white: string, $background: string, 
         transition: 0.15s ease-out;
         cursor: pointer;
         font-size: 14px;
-        color: ${({ $black_to_white }) => $black_to_white};
+        color: #fff;
         &:hover{
             border-bottom: 1px solid var(--secondary);
         }
@@ -154,7 +152,7 @@ const UserElement = styled.main<{ $black_to_white: string, $background: string, 
         max-width: 800px;
         width: 100%;
         height: 100%;
-        background: ${({ $object }) => $object};
+        background: var(--primary);
         padding: 30px;
         margin-top: 10px;
         border-radius: 10px;

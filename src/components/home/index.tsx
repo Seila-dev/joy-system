@@ -3,15 +3,11 @@ import { Introduction } from "../introduction"
 import { TodoList } from "../todo-list"
 import { Notes } from "../notes"
 import { Calendar } from "../calendar"
-import { useContext } from "react"
-import { ThemeContext, themes } from "../../contexts/ThemeContext"
 import { Toaster } from "sonner"
 
 export const Home = () => {
-    const {theme} = useContext(ThemeContext)
-
     return (
-        <Main $background={themes[theme].background}>
+        <Main >
             <Toaster theme="dark"></Toaster>
             <Introduction />
             <Dashboard >
@@ -27,10 +23,10 @@ export const Home = () => {
     )
 }
 
-const Main = styled.main<{ $background: string}>`
+const Main = styled.main`
     overflow-x: hidden;
     transition: 0.25s ease-in-out;
-    background: ${({ $background }) => $background};
+    background: linear-gradient(to bottom right, #000, #00043a)
 `
 
 const Dashboard = styled.section`

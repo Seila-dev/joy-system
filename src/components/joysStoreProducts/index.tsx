@@ -7,7 +7,6 @@ import { JoysContext } from "../../contexts/JoysContext"
 import { toast, Toaster } from "sonner"
 import { parseCookies } from "nookies"
 import { ProductForm } from "../ProductForm"
-import { ThemeContext, themes } from "../../contexts/ThemeContext"
 import { ProductContext } from "../../contexts/ProductContext"
 
 interface ProductActiveProp {
@@ -23,7 +22,6 @@ export const JoysStoreProducts = ({ active }: ProductActiveProp) => {
     const [open, setOpen] = useState<boolean>(false)
     const [editQuestData, setEditQuestData] = useState<JoyStoreItem | null>(null)
     const [_, setOpenStatus] = useState<number | null>(null)
-    const { theme } = useContext(ThemeContext)
 
     const filteredProducts = () => {
         if(active === true){
@@ -129,7 +127,7 @@ export const JoysStoreProducts = ({ active }: ProductActiveProp) => {
                         ) }
                         
                         {activeMenuId === product.id &&
-                            <EditPopup $background={themes[theme].background} $black_to_white={themes[theme].black_to_white}>
+                            <EditPopup>
                                 <div onClick={() => deleteProduct(product.id)} >
                                     <span className="material-symbols-outlined deleteIcon icon">
                                         delete
@@ -241,13 +239,13 @@ const ProductElement = styled.div`
 
 `
 
-const EditPopup = styled.div<{ $background: string, $black_to_white: string }>`
+const EditPopup = styled.div`
     display: flex;
     flex-direction: column;
     position: absolute;
     right: 60px;
     bottom: 70px;
-    background: ${({ $background }) => $background};
+    background: #00041a;
     border: 1px solid var(--tertiary);
     border-radius: 5px 0 5px 5px;
     padding: 5px 0;
@@ -264,9 +262,9 @@ const EditPopup = styled.div<{ $background: string, $black_to_white: string }>`
         border: none;
         cursor: pointer;
         background: none;
-        color: ${({ $black_to_white }) => $black_to_white};
+        color: var(--secondary);
     }
     div .icon{
-        font-size: 20px;
+        font-size: 20px
     }
 `

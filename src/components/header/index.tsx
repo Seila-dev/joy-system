@@ -1,20 +1,18 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components"
 import { MenuBurguer } from "../menuburguer";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
-import { ThemeContext, themes } from "../../contexts/ThemeContext";
-import Switch from 'react-switch'
 import { JoysContext } from "../../contexts/JoysContext";
-
 
 export const Header = () => {
     const [openMenu, setOpenMenu] = useState<boolean>(false);
-    const { theme, setTheme } = useContext(ThemeContext)
 
     const toggleMenu = () => {
         setOpenMenu(!openMenu);
     }
+
+    const location = useLocation()
 
     const { isAuthenticated, user } = useContext(AuthContext)
     const { getBalance, balance, loadingJoy } = useContext(JoysContext)
@@ -23,16 +21,11 @@ export const Header = () => {
         getBalance()
     }, [balance])
 
-    const themeToggle = () => {
-        setTheme(theme === 'light' ? 'dark' : 'light')
-    }
-
-    const allTheme = themes[theme]
 
     return (
         <>
             {openMenu && <Overlay onClick={toggleMenu} />}
-            <HeaderElement $background={allTheme.background} $black_to_white={allTheme.black_to_white} $emphasize_less={allTheme.emphasize_less} >
+            <HeaderElement >
                 <div className="leftColumn">
                     <div className="menuBtn" onClick={toggleMenu}>
                         <span className="material-symbols-outlined icon">
@@ -40,30 +33,52 @@ export const Header = () => {
                         </span>
                     </div>
                     <h1 className="headerTitle">JOY <span className="logo">System</span></h1>
+                    <nav className="navBar">
+                        <ul>
+                        <Link to="/">
+                                <li
+                                    className={location.pathname === '/' ? 'highlight' : ''}
+                                >
+                                    Home
+                                </li>
+                            </Link>
+                            <Link to="/quests">
+                                <li
+                                    className={location.pathname === '/quests' ? 'highlight' : ''}
+                                >
+                                    Metas
+                                </li>
+                            </Link>
+                            <Link to="/notes">
+                                <li
+                                    className={location.pathname === '/notes' ? 'highlight' : ''}
+                                >
+                                    Notas
+                                </li>
+                            </Link>
+                            <Link to="/store">
+                                <li
+                                    className={location.pathname === '/store' ? 'highlight' : ''}
+                                >
+                                    JoyStore
+                                </li>
+                            </Link>
+                        </ul>
+                    </nav>
                 </div>
                 <nav className="rightColumn">
-                    <Switch
-                        uncheckedIcon={false}
-                        checkedIcon={false}
-                        onColor={'#222'}
-                        onChange={themeToggle}
-                        checked={theme === 'dark'}
-                        width={50}
-                        height={20}
-                    />
-                    {/* <button className="toggleTheme" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>Mudar tema</button> */}
-                    <Link to="/user" className="settingsLink">
-                        <span className="material-symbols-outlined icon">
-                            settings
-                        </span>
-                    </Link>
                     {isAuthenticated && user?.username ? (
-                        <Link className="userSetup" to="/user">{user?.username} <span className="material-symbols-outlined icon">
+                        <Link className="userSetup" to="/user">{loadingJoy ? '0' : balance}<span className="material-symbols-outlined icon">
                             paid
-                        </span>  {loadingJoy ? '0' : balance}</Link>
+                        </span> {user?.username} </Link>
                     ) : (
                         <Link className="signIn" to="/login">Sign In</Link>
                     )}
+                    <Link to="/user" className="settingsLink">
+                        <span className="material-symbols-outlined icon userProfile">
+                            person
+                        </span>
+                    </Link>
                 </nav>
 
                 <MenuBurguer active={openMenu} toggleMenu={toggleMenu} />
@@ -83,17 +98,19 @@ const Overlay = styled.div`
     pointer-events: all; 
 `
 
-const HeaderElement = styled.header<{ $background: string, $black_to_white: string, $emphasize_less: string }>`
+const HeaderElement = styled.header`
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 50px;
     transition: 0.25s ease-in-out;
-    background: ${({ $background }) => $background};
-    color: ${({ $emphasize_less }) => $emphasize_less};
+    background: #00041a;
+    color: white;
+    };
 
     .headerTitle{
         font-size: 1.5rem;
+        color: var(--secondary);
     }
     .logo{
         opacity: 0.5;
@@ -101,11 +118,31 @@ const HeaderElement = styled.header<{ $background: string, $black_to_white: stri
     }
     .menuBtn{
         cursor: pointer;
+        color: var(--secondary)
     }
     .leftColumn{
         display: flex;
         align-items: center;
+        gap: 40px;
+    }
+    .leftColumn .navBar{
+        display: flex;
+    }
+    .leftColumn .navBar ul{
+        display: flex;
+        align-items: center;
         gap: 20px;
+    }
+    .leftColumn .navBar ul li{
+        cursor: pointer;
+        opacity: 0.7;
+        &:hover{
+            opacity: 1;
+        }
+    }
+
+    .leftColumn .navBar ul li.highlight{
+        opacity: 1;
     }
     .rightColumn{
         align-items: center;
@@ -114,11 +151,22 @@ const HeaderElement = styled.header<{ $background: string, $black_to_white: stri
     }
     .rightColumn .icon{
         cursor: pointer;
-        color: ${({ $emphasize_less }) => $emphasize_less}
+        color: var(--secondary);
     }
-    .rightColumn .settingsLink{
-        height: 24px;
+    .rightColumn .userProfile{
+        background: var(--secondary);
+        border-radius: 50%;
+        font-size: 18px;
+        font-weight: 400;
+        color: white;
+        transform: translateY(0);
+        padding: 5px;
+        display: flex;
+        align-items: center;
     }
+    // .rightColumn .settingsLink{
+    //     height: 24px;
+    // }
     .rightColumn .signIn{
         background: black;
         color: white;
@@ -132,9 +180,14 @@ const HeaderElement = styled.header<{ $background: string, $black_to_white: stri
         display: flex;
         align-items: center;
         gap: 10px;
-        color: ${({ $emphasize_less }) => $emphasize_less}
+        color: white;
     }
     
+    @media(max-width: 850px){
+        .leftColumn .navBar {
+            display: none;
+        }
+    }
     @media(max-width: 768px){
         .headerTitle{
             display: none;

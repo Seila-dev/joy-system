@@ -3,7 +3,6 @@ import styled from "styled-components"
 import { useContext, useEffect, useState } from "react"
 import { QuestItem } from "../quest";
 import { QuestContext } from "../../contexts/QuestContext";
-import { ThemeContext, themes } from "../../contexts/ThemeContext";
 import { QuestForm } from "../questForm";
 import { Difficulty, Quest, QuestStatus } from "../../types/questData";
 import { Toaster } from "sonner";
@@ -103,7 +102,6 @@ export const QuestSystem = () => {
     const q: string = searchParams.get('q') || ''
 
     const { quests } = useContext(QuestContext)
-    const { theme } = useContext(ThemeContext)
 
     const filteredBySearch: Quest[] = quests?.filter(item => {
         return item?.title?.toLowerCase().includes(q.toLowerCase())
@@ -112,7 +110,7 @@ export const QuestSystem = () => {
     if (loading) return <p>Loading..</p>
 
     return (
-        <QuestComponent $background={themes[theme].background} $black_to_white={themes[theme].black_to_white}>
+        <QuestComponent>
             <Toaster theme="dark"></Toaster>
             <Link to="/" className="prevPage">
                 <span className="material-symbols-outlined arrowBack">
@@ -120,7 +118,7 @@ export const QuestSystem = () => {
                 </span>
                 <p>Back to Home</p>
             </Link>
-            <Introduction $black_to_white={themes[theme].black_to_white} $background={themes[theme].background}>
+            <Introduction>
                 <div className="leftSide">
                     <h1 className="title">Quests</h1>
                     <p className="description">Gerencie e acompanhe suas tarefas em diferentes categorias.</p>
@@ -134,7 +132,7 @@ export const QuestSystem = () => {
                     <button className="addQuest btn cta" onClick={() => openCreateForm()}><span className="material-symbols-outlined icon">add</span> <span className="removeResponsive">New Quest</span></button>
                 </div>
             </Introduction>
-            <Filters $object={themes[theme].object} $background={themes[theme].background} $black_to_white={themes[theme].black_to_white}>
+            <Filters>
                 <div className="filterBtnDiv">
                     <button className="filterBtn btn" onClick={() => toggleFilter()}><span className="material-symbols-outlined">
                         tune
@@ -287,13 +285,13 @@ const Overlay = styled.div`
     pointer-events: all; 
 `
 
-const QuestComponent = styled.main<{ $background: string, $black_to_white: string }>`
+const QuestComponent = styled.main`
     padding: 10px 50px;
     min-height: 100vh;
     height: 100%;
     transition: 0.25s ease-in-out;
-    background: ${({ $background }) => $background};
-    color: ${({ $black_to_white }) => $black_to_white};
+    background: var(--primary);
+    color: #fff;
     .prevPage{
         width: fit-content;
         margin: 20px 0;
@@ -304,7 +302,7 @@ const QuestComponent = styled.main<{ $background: string, $black_to_white: strin
         transition: 0.15s ease-out;
         cursor: pointer;
         font-size: 14px;
-        color: ${({ $black_to_white }) => $black_to_white};
+        color: #fff;
         &:hover{
             border-bottom: 1px solid var(--secondary);
         }
@@ -323,7 +321,7 @@ const QuestComponent = styled.main<{ $background: string, $black_to_white: strin
 
 `
 
-const Introduction = styled.header<{ $black_to_white: string, $background: string }>`
+const Introduction = styled.header`
     margin-top: 50px;
     display: flex;
     justify-content: space-between;
@@ -379,7 +377,7 @@ const Introduction = styled.header<{ $black_to_white: string, $background: strin
     }
 `
 
-const Filters = styled.div<{ $object: string, $background: string, $black_to_white: string }>`
+const Filters = styled.div`
     width: 100%;
 
 
@@ -392,7 +390,7 @@ const Filters = styled.div<{ $object: string, $background: string, $black_to_whi
         font-size: 16px;
         border-radius: 30px;
         background: transparent;
-        color: ${({ $black_to_white }) => $black_to_white};
+        color: white;
         border: none;
         cursor: pointer;
         display: flex;
@@ -479,7 +477,7 @@ const Filters = styled.div<{ $object: string, $background: string, $black_to_whi
         border: none;
         width: 100%;
         outline: none;
-        background: ${({ $background }) => $background};
-        color: ${({ $black_to_white }) => $black_to_white};
+        background: transparent;;
+        color: white;
     }
 `
