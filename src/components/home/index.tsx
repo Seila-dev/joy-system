@@ -26,7 +26,7 @@ export const Home = () => {
 const Main = styled.main`
     overflow-x: hidden;
     transition: 0.25s ease-in-out;
-    background: linear-gradient(to bottom right, #000, #00041a)
+    background: linear-gradient(to bottom right, #000, #00043a)
 `
 
 const Dashboard = styled.section`

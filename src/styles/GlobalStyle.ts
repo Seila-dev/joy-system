@@ -30,7 +30,7 @@ export const GlobalStyle = createGlobalStyle`
         list-style: none;
     }
     a{
-        color: black;
+        color: white;
     }
 
     body{

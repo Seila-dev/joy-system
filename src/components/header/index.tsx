@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components"
 import { MenuBurguer } from "../menuburguer";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { JoysContext } from "../../contexts/JoysContext";
 
@@ -11,6 +11,8 @@ export const Header = () => {
     const toggleMenu = () => {
         setOpenMenu(!openMenu);
     }
+
+    const location = useLocation()
 
     const { isAuthenticated, user } = useContext(AuthContext)
     const { getBalance, balance, loadingJoy } = useContext(JoysContext)
@@ -31,6 +33,38 @@ export const Header = () => {
                         </span>
                     </div>
                     <h1 className="headerTitle">JOY <span className="logo">System</span></h1>
+                    <nav className="navBar">
+                        <ul>
+                        <Link to="/">
+                                <li
+                                    className={location.pathname === '/' ? 'highlight' : ''}
+                                >
+                                    Home
+                                </li>
+                            </Link>
+                            <Link to="/quests">
+                                <li
+                                    className={location.pathname === '/quests' ? 'highlight' : ''}
+                                >
+                                    Metas
+                                </li>
+                            </Link>
+                            <Link to="/notes">
+                                <li
+                                    className={location.pathname === '/notes' ? 'highlight' : ''}
+                                >
+                                    Notas
+                                </li>
+                            </Link>
+                            <Link to="/store">
+                                <li
+                                    className={location.pathname === '/store' ? 'highlight' : ''}
+                                >
+                                    JoyStore
+                                </li>
+                            </Link>
+                        </ul>
+                    </nav>
                 </div>
                 <nav className="rightColumn">
                     <Link to="/user" className="settingsLink">
@@ -71,11 +105,12 @@ const HeaderElement = styled.header`
     padding: 20px 50px;
     transition: 0.25s ease-in-out;
     background: #00041a;
-    color: white
+    color: white;
     };
 
     .headerTitle{
         font-size: 1.5rem;
+        color: var(--secondary);
     }
     .logo{
         opacity: 0.5;
@@ -83,11 +118,31 @@ const HeaderElement = styled.header`
     }
     .menuBtn{
         cursor: pointer;
+        color: var(--secondary)
     }
     .leftColumn{
         display: flex;
         align-items: center;
+        gap: 40px;
+    }
+    .leftColumn .navBar{
+        display: flex;
+    }
+    .leftColumn .navBar ul{
+        display: flex;
+        align-items: center;
         gap: 20px;
+    }
+    .leftColumn .navBar ul li{
+        cursor: pointer;
+        opacity: 0.7;
+        &:hover{
+            opacity: 1;
+        }
+    }
+
+    .leftColumn .navBar ul li.highlight{
+        opacity: 1;
     }
     .rightColumn{
         align-items: center;
