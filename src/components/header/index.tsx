@@ -67,18 +67,18 @@ export const Header = () => {
                     </nav>
                 </div>
                 <nav className="rightColumn">
-                    <Link to="/user" className="settingsLink">
-                        <span className="material-symbols-outlined icon">
-                            settings
-                        </span>
-                    </Link>
                     {isAuthenticated && user?.username ? (
-                        <Link className="userSetup" to="/user">{user?.username} <span className="material-symbols-outlined icon">
+                        <Link className="userSetup" to="/user">{loadingJoy ? '0' : balance}<span className="material-symbols-outlined icon">
                             paid
-                        </span>  {loadingJoy ? '0' : balance}</Link>
+                        </span> {user?.username} </Link>
                     ) : (
                         <Link className="signIn" to="/login">Sign In</Link>
                     )}
+                    <Link to="/user" className="settingsLink">
+                        <span className="material-symbols-outlined icon userProfile">
+                            person
+                        </span>
+                    </Link>
                 </nav>
 
                 <MenuBurguer active={openMenu} toggleMenu={toggleMenu} />
@@ -153,9 +153,20 @@ const HeaderElement = styled.header`
         cursor: pointer;
         color: var(--secondary);
     }
-    .rightColumn .settingsLink{
-        height: 24px;
+    .rightColumn .userProfile{
+        background: var(--secondary);
+        border-radius: 50%;
+        font-size: 18px;
+        font-weight: 400;
+        color: white;
+        transform: translateY(0);
+        padding: 5px;
+        display: flex;
+        align-items: center;
     }
+    // .rightColumn .settingsLink{
+    //     height: 24px;
+    // }
     .rightColumn .signIn{
         background: black;
         color: white;
@@ -172,6 +183,11 @@ const HeaderElement = styled.header`
         color: white;
     }
     
+    @media(max-width: 850px){
+        .leftColumn .navBar {
+            display: none;
+        }
+    }
     @media(max-width: 768px){
         .headerTitle{
             display: none;
