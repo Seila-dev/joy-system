@@ -13,7 +13,7 @@ export const Loading = (props: { children?: ReactNode }) => {
 const LoadingElement = styled.div`
     min-height: calc(100vh - 77px);
     width: 100%;
-    background-color: var(--background);
+    background-color: transparent;
     color: white;
     display: flex;
     align-items: center;
