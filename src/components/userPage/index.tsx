@@ -106,7 +106,7 @@ const UserElement = styled.main`
     flex-direction: column;
     min-height: 100vh;
     align-items: center;
-    background: var(--primary);
+    background: transparent;
     color: #fff;
     position: relative;
     width: 100%;

@@ -9,7 +9,7 @@ export const Notes = () => {
     return (
         <NotesComponent>
             <div className="header">
-                <h2>Notas recentes (In Development)</h2>
+                <h2>Notas recentes (In Dev.)</h2>
 
                 <div className="flexContainer">
                     <Link to="/quests" className="btn viewAllBtn">
@@ -98,7 +98,7 @@ const NotesComponent = styled.div`
     }
 
     .note{
-        background: ;
+        
         color: var(--tertiary);
         height: 100%;
         min-height: 250px;

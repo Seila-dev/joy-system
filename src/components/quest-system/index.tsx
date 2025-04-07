@@ -120,8 +120,8 @@ export const QuestSystem = () => {
             </Link>
             <Introduction>
                 <div className="leftSide">
-                    <h1 className="title">Quests</h1>
-                    <p className="description">Gerencie e acompanhe suas tarefas em diferentes categorias.</p>
+                    <h1 className="title">Sistema de Quests</h1>
+                    <p className="description">Gerencie e acompanhe suas tarefas em diferentes categorias para ganhar recompensas.</p>
                 </div>
                 <div className="rightSide">
                     <Link to="/store" className="joysStore">
@@ -290,7 +290,10 @@ const QuestComponent = styled.main`
     min-height: 100vh;
     height: 100%;
     transition: 0.25s ease-in-out;
-    background: var(--primary);
+    background: transparent;
+    margin: 0 auto;
+    max-width: 1200px;
+    width: 100%;
     color: #fff;
     .prevPage{
         width: fit-content;
