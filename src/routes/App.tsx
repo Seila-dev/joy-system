@@ -7,6 +7,8 @@ import { SignUp } from "../components/signUp"
 import { UserPage } from "../components/userPage"
 import { JoysStore } from "../components/joysStore"
 import { NotFound } from "../pages/NotFound"
+import { NotesSystem } from "../components/notesSystem"
+import { DetailedNote } from "../components/detailedNote"
 
 function AppRoutes() {
 
@@ -15,6 +17,8 @@ function AppRoutes() {
       <Route path="/" element={<MainPage />}>
         <Route index element={<Home />} />
         <Route path="/quests" element={<QuestSystem />} />
+        <Route path="/notes" element={<NotesSystem />} />
+        <Route path="/notes/:id" element={<DetailedNote />} />
         <Route path="/store" element={<JoysStore />} />
         <Route path="/user" element={<UserPage />} />
       </Route>
