@@ -138,9 +138,12 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
             if (JSON.stringify(newNotifications) !== JSON.stringify(notifications)) {
                 setNotifications(newNotifications);
             }
-
         }
     }, [filterDifficulty, filterStatus, filterQuery, selectedTimeline, filterQuantity])
+
+    const truncateDescription = (text: string, limit: number) => {
+        return text.length > limit ? text.substring(0, limit) + "..." : text;
+    }
 
     if (loading) return <div>Loading..</div>
 
@@ -200,7 +203,7 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
                         </div>
                         <div className="body">
                             <h3 className="title">{quest.title}</h3>
-                            <p className="description">{quest.description}</p>
+                            <p className="description">{truncateDescription(quest.description, 30)}</p>
                             <div className="limit afterDescription">
                                 <span className="material-symbols-outlined icon">
                                     calendar_clock
@@ -396,7 +399,8 @@ const Card = styled.div`
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
     padding: 25px;
     width: 100%;
-    height: 300px;
+    min-height: 300px;
+    height: 100%;
     color: white;
     display: flex;
     flex-direction: column;
