@@ -98,7 +98,7 @@ const Overlay = styled.div`
 
 const JoysStoreComponent = styled.section`
     width: 100%;
-    background: linear-gradient(to right top, #000, #00041a);
+    background: transparent;
     padding: 50px;
     min-height: calc(100vh - 68px);
     height: 100%;

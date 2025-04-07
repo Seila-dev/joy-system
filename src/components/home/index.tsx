@@ -26,7 +26,7 @@ export const Home = () => {
 const Main = styled.main`
     overflow-x: hidden;
     transition: 0.25s ease-in-out;
-    background: linear-gradient(to bottom right, #000, #00043a)
+    background: transparent;
 `
 
 const Dashboard = styled.section`
@@ -34,6 +34,8 @@ const Dashboard = styled.section`
     display: flex;
     justify-content: space-between;
     padding: 20px 50px;
+    margin: 0 auto;
+    max-width: 1200px;
     width: 100%;
     .leftContent, .rightContent{
         display: flex;

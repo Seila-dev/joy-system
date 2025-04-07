@@ -14,13 +14,13 @@ export const GlobalStyle = createGlobalStyle`
         --blue: #1D63FF;
         --description-fontsize: 14px;
         --description-opacity: 0.6;
-        --h3-desktop-fontsize: 18px;
-        --h2-desktop-fontsize: 25px;
-        --h2-tablet-fontsize: 20px;
-        --h2-mobile-fontsize: 15px; 
-        --h1-desktop-fontsize: 38px;
-        --h1-tablet-fontsize: 30px;
-        --h1-mobile-fontsize: 20px; 
+        --h3-desktop-fontsize: 16px;
+        --h2-desktop-fontsize: 20px;
+        --h2-tablet-fontsize: 16px;
+        --h2-mobile-fontsize: 14px; 
+        --h1-desktop-fontsize: 25px;
+        --h1-tablet-fontsize: 20px;
+        --h1-mobile-fontsize: 18px; 
     }
     * {
         margin: 0;
@@ -34,9 +34,11 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     body{
-        font-family: "Inter", sans-serif;
+        font-family: "Inter", sans-serif; 
+        background: linear-gradient(to right top, #000, #00043a);
         overflow-x: hidden;
         max-width: 100vw;
+        min-height: 100vh;
     }
 
     textarea, input{
@@ -55,6 +57,7 @@ export const GlobalStyle = createGlobalStyle`
 
     h2{
         font-size: var(--h2-desktop-fontsize);
+        font-weight: 400;
         @media(max-width: 768px){
             font-size: var(--h2-tablet-fontsize);
         }

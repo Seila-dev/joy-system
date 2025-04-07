@@ -2,16 +2,24 @@ import { useContext } from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { AuthContext } from "../../contexts/AuthContext"
+import { DateTime } from "luxon"
 
 
 export const Introduction = () => {
     const { user } = useContext(AuthContext)
 
+    const formattedDate = DateTime.now()
+  .setLocale('pt-BR')  // Set locale to Brazilian Portuguese
+  .toLocaleString({ weekday: 'long', day: 'numeric', month: 'long' });
+
+
     return (
         <Section >
             <div className="greetings">
-                <h1 className="paragraph">Olá, {user?.username ? user?.username : "Aluno Joy"}! <br /> O que você quer <span className="yellow">aprender</span> hoje?</h1>
-                <span className="lowOpacity afterParagraph">Invista em você para alcançar seus objetivos dia após dia</span>    
+                <h1 className="paragraph">Olá, {user?.username ? user?.username : "seja bem vindo"}!</h1>
+                <span className="lowOpacity afterParagraph">{formattedDate}</span>    
+                <h2 className="paragraph h2">O que você quer <span className="secondary">aprender</span> hoje?</h2>
+                <span className="lowOpacity afterParagraph">Invista em você para alcançar seus objetivos dia após dia</span>
                 <div className="ctaSection">
                     <Link to="/quests" className="btn cta">Ir para sistema de Quests</Link>
                     <Link to="/quests" className="btn noCta">Ir para anotações</Link>
@@ -46,16 +54,23 @@ const Section = styled.section`
     align-items: flex-start;
     background: transparent;
     color: white;
+    flex-direction: column;
     width: 100%;
-    min-height: 400px;
-    padding: 80px 0 0 50px;
+    min-height: 100%;
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 30px 0 0 50px;
 
     .lowOpacity{
         opacity: 0.7;
     }
+    .afterParagraph{
+        margin-bottom: 30px;    
+        font-weight: 300;
+    }
 
-    span.yellow{
-        color: #f2d04c;
+    span.secondary{
+        color: var(--secondary);
     }
     .flexContainer{
         display: flex;
@@ -68,9 +83,11 @@ const Section = styled.section`
         flex-direction: column;
     }
     .greetings .paragraph{
-        font-size: 40px;
-        font-weight: 700;
+        font-weight: 600;
         margin-bottom: 10px;
+    }
+    .greetings .paragraph.h2{
+        font-weight: 400;
     }
     .greetings .btn{
         padding: 12px 20px;
@@ -81,7 +98,7 @@ const Section = styled.section`
         color: white;
         font-weight: 700;
         cursor: pointer;
-        margin-top: 30px;
+        margin-top: 5px;
         background: var(--tertiary);
     }
     .greetings .btn.noCta{
@@ -99,7 +116,8 @@ const Section = styled.section`
     .highlightedQuests{
         display: flex;
         width: 100%;
-        margin: 0 20px;
+        //margin: 0 20px;
+        margin-top: 30px;
         flex-direction: column;
     }
     .highlightedQuests .item-list{
@@ -154,33 +172,17 @@ const Section = styled.section`
         .highlightedQuests{
             margin: 40px 0;
         }
-        .greetings .paragraph{
-            font-size: 30px;
-        }
-        .greetings .afterParagraph{
-            font-size: 13px;
-        }
         .greetings .btn{
             padding: 10px;
             font-size: 10px;
         }
-        .highlightedQuests .paragraph{
-            font-size: 18px;
-        }
+        
     }
     @media(max-width: 450px){
         padding: 20px;
-        .greetings .paragraph{
-            font-size: 20px;
-        }
+        
         .greetings .afterParagraph{
             font-size: 10px;
-        }
-        .highlightedQuests .paragraph{
-            font-size: 14px;
-        }
-        .highlightedQuests .item-list .item .title{
-            font-size: 14px;
         }
     }
 `
