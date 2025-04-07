@@ -6,6 +6,7 @@ import { SignIn } from "../components/signin"
 import { SignUp } from "../components/signUp"
 import { UserPage } from "../components/userPage"
 import { JoysStore } from "../components/joysStore"
+import { NotFound } from "../pages/NotFound"
 
 function AppRoutes() {
 
@@ -19,6 +20,7 @@ function AppRoutes() {
       </Route>
       <Route path="/login" element={<SignIn />} />
       <Route path="/register" element={<SignUp />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }
