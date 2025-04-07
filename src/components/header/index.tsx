@@ -106,7 +106,6 @@ const HeaderElement = styled.header`
     transition: 0.25s ease-in-out;
     background: #00041a;
     color: white;
-    };
 
     .headerTitle{
         font-size: 1.5rem;
@@ -190,7 +189,7 @@ const HeaderElement = styled.header`
     }
     @media(max-width: 768px){
         .headerTitle{
-            display: none;
+            font-size: 15px;
         }
     }
 

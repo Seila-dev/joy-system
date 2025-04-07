@@ -4,14 +4,19 @@ export const GlobalStyle = createGlobalStyle`
     :root{
         --primary: #101320;
         --secondary: rgb(155 135 245);
-        --secondary-hover: #ffb938;
+        --secondary-hover: #9b87f533;
         --tertiary: rgb(51 195 240);
+        --tertiary-hover: #33c3f033;
         --background: #09090b;
         --color-snow: #131F24;
         --light-background: #1a1a1a;
         --input-background: #09090b;
         --yellow: #FFCE32;
         --blue: #1D63FF;
+        --greenText: rgb(34 197 94);
+        --greenBg: #22c55e33;
+        --yellowText: rgb(234 179 8);
+        --yellowBg: #eab30833;
         --description-fontsize: 14px;
         --description-opacity: 0.6;
         --h3-desktop-fontsize: 16px;

@@ -261,25 +261,25 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
                                     <span className="material-symbols-outlined icon">
                                         radio_button_unchecked
                                     </span>
-                                    <button className="incomplete-btn status-incomplete">Not Started</button>
+                                    <button className="incomplete-btn status-incomplete">Não começou</button>
                                 </div>
                                 <div onClick={() => changeStatus(quest.id, 'PENDENTE')}>
                                     <span className="material-symbols-outlined icon">
                                         schedule
                                     </span>
-                                    <button className="pending-btn status-pending">In Progress</button>
+                                    <button className="pending-btn status-pending">Em andamento</button>
                                 </div>
                                 <div onClick={() => changeStatus(quest.id, 'COMPLETO')}>
                                     <span className="material-symbols-outlined icon">
                                         check_circle
                                     </span>
-                                    <button className="complete-btn status-complete">Completed</button>
+                                    <button className="complete-btn status-complete">Finalizado</button>
                                 </div>
                                 <div onClick={() => changeStatus(quest.id, 'INCOMPLETO')}>
                                     <span className="material-symbols-outlined icon">
                                         close
                                     </span>
-                                    <button className="complete-btn status-complete">Failed</button>
+                                    <button className="complete-btn status-complete">Desistir</button>
                                 </div>
                             </StatusPopup>
                         )
@@ -395,9 +395,10 @@ const CardsContainer = styled.section`
 
 `
 const Card = styled.div`
-    background: var(--primary);
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    background: #03061a;
+    //box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
     padding: 25px;
+    border: 1px solid #00031a;
     width: 100%;
     min-height: 300px;
     height: 100%;
@@ -471,7 +472,7 @@ const Card = styled.div`
         border-radius: 10px;
         font-weight: 700;
         font-size: 12px;
-        border: 1px solid var(--secondary);
+        border: none;
     }
     .body .afterDescription .joys{
         color: var(--secondary);
@@ -494,9 +495,12 @@ const Card = styled.div`
     .footer .status {
         display: flex;
         align-items: center;
-        font-size: 15px;
+        font-size: 12px;
         color: gray;
         margin-bottom: 3px;
+        background: transparent;
+        padding: 5px 15px;
+        border-radius: 10px;
     }
 
     .footer .status .circleProgress {
@@ -526,12 +530,12 @@ const Card = styled.div`
     // completo, pendente, incompleto
 
     .footer.COMPLETO .setStatus, .footer.COMPLETO p{
-        color: green;
+        color: var(--greenText);
         font-weight: 700;
     }
 
     .footer.COMPLETO .status .circleProgress{
-        background: green;
+        background: var(--greenText);
     }
 
     .footer.PENDENTE p, .footer.PENDENTE .setStatus  {
@@ -541,6 +545,10 @@ const Card = styled.div`
 
     .footer.PENDENTE .status .circleProgress{
         background: #DAA520;
+    }
+    .footer.NULO .setStatus, .footer.NULO p{
+        color: white;
+        font-weight: 700;
     }
 
     .footer.INCOMPLETO .setStatus, .footer.INCOMPLETO p {
@@ -554,18 +562,19 @@ const Card = styled.div`
 
     //fácil, médio, difícil, muito difícil
     .body .difficultyLevel.FACIL{
-        color: greenyellow;
-        border-color: greenyellow;
+        color: var(--greenText);
+        background: var(--greenBg);
     }
-    .difficultyLevel.MEDIO{
-        color:#fde27a;
+    .body .difficultyLevel.MEDIO{
+        color:var(--yellowText);
+        background: var(--yellowBg);
     }
     .body .difficultyLevel.DIFICIL{
-        border-color: orangered;
         color: orangered;
+        background: black;
     }
     .body .difficultyLevel.MUITO_DIFICIL{
-        border-color: red;
+        background: black;
         color: red;
     }
 `;
@@ -576,7 +585,7 @@ const EditPopup = styled.div`
     position: absolute;
     right: 60px;
     background: var(--primary);
-    border: 1px solid var(--tertiary);
+    border: 1px solid var(--primary);
     border-radius: 5px 0 5px 5px;
     padding: 5px 0;
     div{
@@ -592,7 +601,7 @@ const EditPopup = styled.div`
         border: none;
         cursor: pointer;
         background: none;
-        color: var(--tertiary);
+        color: white;
     }
     div .icon{
         font-size: 20px;
@@ -606,7 +615,7 @@ const StatusPopup = styled.div`
     right: 40px;
     bottom: 60px;
     background: var(--primary);
-    border: 1px solid var(--tertiary);
+    border: 1px solid var(--primary);
     border-radius: 5px 0 5px 5px;
     padding: 5px 0;
 

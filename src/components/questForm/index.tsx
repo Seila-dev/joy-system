@@ -14,7 +14,7 @@ import api from '../../services/api';
 import { parseCookies } from 'nookies';
 
 const questSchema = z.object({
-    title: z.string().min(1, { message: "Título é obrigatório" }),
+    title: z.string().min(1, { message: "Título é obrigatório" }).max(50, { message: "Título deve ter no máximo 50 caracteres" }),
     description: z.string().min(1, { message: "Descrição é obrigatória" }),
     timeline: z.enum(['DIARIO', 'SEMANAL', 'MENSAL', 'ANUAL']),
     difficulty: z.enum(['FACIL', 'MEDIO', 'DIFICIL', 'MUITO_DIFICIL']),
