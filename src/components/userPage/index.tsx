@@ -54,7 +54,7 @@ export const UserPage = () => {
                     <span className="material-symbols-outlined arrowBack">
                         arrow_back
                     </span>
-                    <p>Back to Home</p>
+                    <p>Voltar para Home</p>
                 </Link>
                 <div className="controllers">
                     <button className={userInfo === false ? 'active' : ''} onClick={() => toggleWindow()}>Usuário</button>

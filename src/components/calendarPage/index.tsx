@@ -129,7 +129,7 @@ export default function CalendarPage() {
         <span className="material-symbols-outlined arrowBack">
           arrow_back
         </span>
-        <p>Back to Home</p>
+        <p>Voltar para Home</p>
       </Link>
       <Header>
         <div className="leftSide">

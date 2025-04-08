@@ -24,17 +24,16 @@ export const JoysStore = () => {
 
     return (
         <JoysStoreComponent>
+            <Link to="/" className="prevPage">
+                <span className="material-symbols-outlined arrowBack">
+                    arrow_back
+                </span>
+                <p>Voltar para Home</p>
+            </Link>
             <div className="headerActionButtons">
-                <div className="leftColumn">
-                    <Link to="/quests" className="prevPage">
-                        <span className="material-symbols-outlined arrowBack">
-                            arrow_back
-                        </span>
-                    </Link>
-                    <div>
-                        <h1>Joys Store</h1>
-                        <p className="description">Use seus Joys para conseguir prêmios exclusivos.</p>
-                    </div>
+                <div className="leftSide">
+                    <h1 className="title">JoyStore</h1>
+                    <p className="description">Gerencie e acompanhe suas tarefas em diferentes categorias para ganhar recompensas.</p>
                 </div>
                 <div className="rightColumn">
                     <span className="material-symbols-outlined icon">
@@ -98,7 +97,7 @@ const Overlay = styled.div`
 
 const JoysStoreComponent = styled.section`
     background: transparent;
-    padding: 50px;
+    padding: 10px 50px;
     min-height: calc(100vh - 68px);
     height: 100%;
     color: #e0e4ff;
@@ -107,11 +106,30 @@ const JoysStoreComponent = styled.section`
     width: 100%;
     display: flex;
     flex-direction: column;
+
+    .prevPage{
+        width: fit-content;
+        margin: 20px 0;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: 0.15s ease-out;
+        cursor: pointer;
+        font-size: 14px;
+        color: #fff;
+        &:hover{
+            border-bottom: 1px solid var(--secondary);
+        }
+    }
+    .prevPage span{
+        font-size: 20px;
+    }
     .headerActionButtons{
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 50px;
+        margin: 30px 0;
         color: #e0e4ff;
     }
     .headerActionButtons .leftColumn{
@@ -124,18 +142,7 @@ const JoysStoreComponent = styled.section`
         align-items: center;
         gap: 5px;
     }
-    .prevPage{
-        width: fit-content;
-        margin: 20px 0;
-        padding: 5px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        transition: 0.15s ease-out;
-        cursor: pointer;
-        font-size: 14px;
-        color: white;
-    }
+
     .body {
         display: grid;
         grid-template-columns: 2fr 1fr;

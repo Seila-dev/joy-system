@@ -116,7 +116,7 @@ export const QuestSystem = () => {
                 <span className="material-symbols-outlined arrowBack">
                     arrow_back
                 </span>
-                <p>Back to Home</p>
+                <p>Voltar para Home</p>
             </Link>
             <Introduction>
                 <div className="leftSide">
