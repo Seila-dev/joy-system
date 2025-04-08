@@ -1,7 +1,6 @@
 import styled from "styled-components"
 import { Introduction } from "../introduction"
 import { TodoList } from "../todo-list"
-import { Calendar } from "../calendar"
 import { Toaster } from "sonner"
 import { NoteItem } from "../notes"
 
@@ -25,7 +24,6 @@ export const Home = () => {
                     </div>
                 </div>
                 <div className="rightContent">
-                    <Calendar />
                 </div>
             </Dashboard>
         </Main>

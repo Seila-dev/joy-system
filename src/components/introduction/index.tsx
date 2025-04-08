@@ -3,13 +3,14 @@ import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { AuthContext } from "../../contexts/AuthContext"
 import { DateTime } from "luxon"
+import { CalendarButton } from "../CalendarButton"
 
 
 export const Introduction = () => {
     const { user } = useContext(AuthContext)
 
     const formattedDate = DateTime.now()
-  .setLocale('pt-BR')  // Set locale to Brazilian Portuguese
+  .setLocale('pt-BR')  
   .toLocaleString({ weekday: 'long', day: 'numeric', month: 'long' });
 
 
@@ -21,8 +22,11 @@ export const Introduction = () => {
                 <h2 className="paragraph h2">O que você quer <span className="secondary">aprender</span> hoje?</h2>
                 <span className="lowOpacity afterParagraph">Invista em você para alcançar seus objetivos dia após dia</span>
                 <div className="ctaSection">
-                    <Link to="/quests" className="btn cta">Ir para sistema de Quests</Link>
-                    <Link to="/notes" className="btn noCta">Ir para anotações</Link>
+                    <div>
+                        <Link to="/quests" className="btn cta">Ir para sistema de Quests</Link>
+                        <Link to="/notes" className="btn noCta">Ir para anotações</Link>
+                    </div>
+                    <CalendarButton />
                 </div>
             </div>   
             <div className="highlightedQuests">
@@ -98,11 +102,12 @@ const Section = styled.section`
         color: white;
         font-weight: 700;
         cursor: pointer;
-        margin-top: 5px;
+        margin: 10px 0;
         background: var(--tertiary);
     }
     .greetings .btn.noCta{
         background: transparent;
+        margin-left: 10px;
         border: 1px solid var(--tertiary);
         transition: 0.15s ease-out;
         &:hover{
@@ -111,10 +116,11 @@ const Section = styled.section`
     }
     .greetings .ctaSection{
         display: flex;
+        flex-direction: column;
         gap: 20px;
     }
     .highlightedQuests{
-        display: flex;
+        display: none;
         width: 100%;
         //margin: 0 20px;
         margin-top: 30px;
