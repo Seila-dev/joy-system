@@ -35,7 +35,7 @@ export const Header = () => {
                     <h1 className="headerTitle">JOY <span className="logo">System</span></h1>
                     <nav className="navBar">
                         <ul>
-                        <Link to="/">
+                            <Link to="/">
                                 <li
                                     className={location.pathname === '/' ? 'highlight' : ''}
                                 >
@@ -61,6 +61,13 @@ export const Header = () => {
                                     className={location.pathname === '/store' ? 'highlight' : ''}
                                 >
                                     JoyStore
+                                </li>
+                            </Link>
+                            <Link to="/calendar">
+                                <li
+                                    className={location.pathname === '/calendar' ? 'highlight' : ''}
+                                >
+                                    Calendário
                                 </li>
                             </Link>
                         </ul>
@@ -147,6 +154,7 @@ const HeaderElement = styled.header`
         align-items: center;
         display: flex;
         gap: 10px;
+        margin-left: 10px;
     }
     .rightColumn .icon{
         cursor: pointer;

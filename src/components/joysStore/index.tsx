@@ -101,7 +101,7 @@ const JoysStoreComponent = styled.section`
     padding: 50px;
     min-height: calc(100vh - 68px);
     height: 100%;
-    color: white;
+    color: #e0e4ff;
     margin: 0 auto;
     max-width: 1200px;
     width: 100%;
@@ -112,7 +112,7 @@ const JoysStoreComponent = styled.section`
         align-items: center;
         justify-content: space-between;
         margin-bottom: 50px;
-        color: white; 
+        color: #e0e4ff;
     }
     .headerActionButtons .leftColumn{
         display: flex;
@@ -158,6 +158,7 @@ const JoysStoreComponent = styled.section`
         font-weight: 700;
         font-size: 12px;
         width: fit-content;
+        color: white;
         display: flex;
         align-items: center;
     }

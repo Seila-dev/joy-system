@@ -57,7 +57,7 @@ const Section = styled.section`
     justify-content: space-between;
     align-items: flex-start;
     background: transparent;
-    color: white;
+    color: #e0e4ff;
     flex-direction: column;
     width: 100%;
     min-height: 100%;

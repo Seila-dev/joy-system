@@ -41,6 +41,18 @@ export const MenuBurguer = ({ active, toggleMenu }: MenuBurguerProps) => {
                     </span>
                     <li>JoyStore</li>
                 </Link>
+                <Link to="/quests" onClick={toggleMenu}>
+                    <span className="material-symbols-outlined close-icon" >
+                        edit
+                    </span>
+                    <li>Notes</li>
+                </Link>
+                <Link to="/quests" onClick={toggleMenu}>
+                    <span className="material-symbols-outlined close-icon" >
+                        calendar_today
+                    </span>
+                    <li>Calendário</li>
+                </Link>
             </ul>
         </MenuContainer>
     )

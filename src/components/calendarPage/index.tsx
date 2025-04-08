@@ -5,6 +5,7 @@ import {
   PageContainer,
   CalendarWrapper,
   CalendarHeader,
+  Header,
   CalendarGrid,
   DaysHeader,
   DaysGrid,
@@ -21,6 +22,7 @@ import {
   QuestReward,
   ViewButton
 } from "./styled";
+import { DateTime } from "luxon";
 
 export default function CalendarPage() {
   const navigate = useNavigate();
@@ -115,6 +117,12 @@ export default function CalendarPage() {
   // Get filtered quests for the selected day
   const dayQuests = getQuestsForDay();
 
+      const transformDateToPtbr = (newDate: string | number): string => {
+          const dt = DateTime.fromJSDate(new Date(newDate)).setLocale('pt-BR')
+  
+          return dt.toFormat('HH:mm')
+      }
+
   return (
     <PageContainer>
       <Link to="/" className="prevPage">
@@ -123,7 +131,12 @@ export default function CalendarPage() {
         </span>
         <p>Back to Home</p>
       </Link>
-      <h1>Calendário</h1>
+      <Header>
+        <div className="leftSide">
+          <h1 className="title">Calendário</h1>
+          <p className="description">Todas as suas quests pendentes apareceram aqui</p>
+        </div>
+      </Header>
 
       <CalendarWrapper>
         <CalendarHeader>
@@ -184,7 +197,7 @@ export default function CalendarPage() {
                   {dayQuests.map(quest => (
                     <QuestItem key={quest.id} status={quest.status}>
                       <EventContent>
-                        <EventTitle>{quest.title}</EventTitle>
+                        <EventTitle>{quest.title} - {transformDateToPtbr(quest.validation)}</EventTitle>
                         <QuestStatus status={quest.status}>{quest.status}</QuestStatus>
                         {quest.description && <EventDescription>{quest.description}</EventDescription>}
                         <QuestReward>Recompensa: {quest.joys} joys</QuestReward>

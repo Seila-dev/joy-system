@@ -52,7 +52,7 @@ export const NotesSystem = () => {
       
       <Header>
         <div className="leftSide">
-          <h1 className="title">Sistema de Notas</h1>
+          <h1 className="title">Anotações</h1>
           <p className="description">Organize suas ideias e pensamentos</p>
         </div>
         <div className="rightSide">
@@ -177,7 +177,7 @@ const NotesContainer = styled.main`
   margin: 0 auto;
   max-width: 1200px;
   width: 100%;
-  color: #fff;
+  color: #e0e4ff;
   
   .prevPage {
     width: fit-content;
@@ -239,8 +239,8 @@ const Header = styled.header`
     width: 130px;
     border-radius: 5px;
     background: var(--secondary);
-    color: black;
-    font-weight: 500;
+    color: white;
+    font-weight: 700;
   }
   
   .btn .icon {

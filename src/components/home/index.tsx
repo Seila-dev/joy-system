@@ -60,6 +60,7 @@ const Dashboard = styled.section`
     }
     .leftContent .notesSection h2{
         font-weight: 500;
+        color: #e0e4ff;
         margin-bottom: 30px;
     }
 

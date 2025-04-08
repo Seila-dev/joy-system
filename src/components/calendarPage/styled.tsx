@@ -4,8 +4,9 @@ import styled from "styled-components";
 export const PageContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
+  width: 100%;
   margin-bottom: 50px;
-  padding: 20px;
+  padding: 10px 50px;
   color: #e0e4ff;
   
   .prevPage{
@@ -26,17 +27,11 @@ export const PageContainer = styled.div`
     .prevPage span{
         font-size: 20px;
     }
-  h1 {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    font-weight: 600;
-    background: linear-gradient(90deg, #7b88ff, #b8c0ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: 1px;
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
+
+    @media (max-width: 768px) {
+        padding: 15px;
+    }
+
 `;
 
 // Calendar wrapper with more dimension
@@ -54,6 +49,44 @@ export const CalendarWrapper = styled.div`
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
+`;
+
+export const Header = styled.header`
+  margin: 50px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  
+  .description {
+    margin-right: 20px;
+    opacity: 0.8;
+  }
+
+  @media (max-width: 530px) {
+    flex-direction: column;
+    
+    .title {
+      font-size: 25px;
+    }
+    
+    .description {
+      margin-top: 5px;
+    }
+    
+    .btn {
+      width: fit-content;
+    }
+    
+    .rightSide {
+      margin-top: 10px;
+      width: 100%;
+    }
+    
+    .removeResponsive {
+      display: none;
+    }
+  }
 `;
 
 // Improved header with glowing effects
@@ -238,6 +271,15 @@ export const EventsSection = styled.section`
     margin-bottom: 15px;
     font-weight: 600;
   }
+
+  @media(max-width: 530px) {
+    h3 {
+      font-size: 0.9rem;
+    } 
+    p{
+      font-size: 0.7rem;
+    }
+  }
 `;
 
 export const EventsList = styled.div`
@@ -362,5 +404,14 @@ export const ViewButton = styled.button`
 
   span {
     font-size: 1.3rem;
+  }
+
+  @media(max-width: 530px) {
+    width: 30px;
+    height: 30px;
+    
+    span{
+      font-size: 1rem;
+    }
   }
 `;

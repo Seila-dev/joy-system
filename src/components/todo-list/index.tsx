@@ -68,9 +68,10 @@ const TodoComponent = styled.div`
         align-items: center;
         justify-content: space-between;
         margin-bottom: 10px;
+        color: #e0e4ff
     }
     .header, .header .btn, .header .btn .icon{
-        color: white;
+        color: #e0e4ff;
     }
     .header .btn{
         opacity: 0.7;

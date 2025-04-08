@@ -294,7 +294,7 @@ const QuestComponent = styled.main`
     margin: 0 auto;
     max-width: 1200px;
     width: 100%;
-    color: #fff;
+    color: #e0e4ff;
     .prevPage{
         width: fit-content;
         margin: 20px 0;
@@ -355,7 +355,8 @@ const Introduction = styled.header`
         border-radius: 5px;
         background: var(--background);
         background: var(--secondary);
-        color: black;
+        color: white;
+        font-weight: 700;
     }
     .btn .icon{
         font-size: 20px;
@@ -417,7 +418,7 @@ const Filters = styled.div`
         left: 50%;
         top: 50%;
         padding: 20px;
-        background: var(--light-background);
+        background: var(--primary);
         color: white;
         transform: translate(-50%, -50%);
     }
