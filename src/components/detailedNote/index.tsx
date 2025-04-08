@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import { Note, NoteStatus } from "../../types/NoteData";
 import { parseCookies } from "nookies";
@@ -14,7 +14,8 @@ export const DetailedNote = () => {
   const [editedTitle, setEditedTitle] = useState<string>("");
   const [editedContent, setEditedContent] = useState<string>("");
   const { 'joysystem.token': token } = parseCookies();
-  const { loading, updateNote, setStatus } = useContext(NoteContext);
+  const { deleteNote, loading, updateNote, setStatus } = useContext(NoteContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchAsync() {
@@ -196,6 +197,10 @@ export const DetailedNote = () => {
               Salvar alterações
             </ActionButton>
           )}
+          <ActionButton className="remove" onClick={() => {deleteNote(note.id); navigate('/notes')}}>
+              <span className="material-symbols-outlined">delete</span>
+              Deletar nota
+            </ActionButton>
         </SidebarSection>
       </Sidebar>
 
@@ -205,6 +210,7 @@ export const DetailedNote = () => {
             <TitleInput
               value={editedTitle}
               onChange={(e) => setEditedTitle(e.target.value)}
+              maxLength={50}
               placeholder="Título da nota"
             />
             <ContentTextarea
@@ -434,6 +440,12 @@ const ActionButton = styled.button<{ primary?: boolean }>`
   font-size: 14px;
   transition: all 0.2s ease;
   
+  &.remove{
+    background: rgba(255, 0, 0, 0.5);
+    &:hover{
+      background: red;
+    }
+  }
   &:hover {
     background: ${props => props.primary ? 'var(--secondary)' : 'rgba(255, 255, 255, 0.05)'};
   }

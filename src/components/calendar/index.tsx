@@ -301,6 +301,7 @@ const CalendarContainer = styled.div<{ active: boolean }>`
     transition: 0.35s ease-in-out;
     position: fixed;
     right: 10px;
+    color: black;
     top: 80px;
     margin: 0 0 0 50px;
     .calendar-container{

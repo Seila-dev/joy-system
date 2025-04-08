@@ -151,6 +151,7 @@ export const NotesSystem = () => {
         filterStatus={filterStatus}
         filterPriority={filterPriority}
         searchQuery={searchQuery}
+        filterQuantity={null}
       />
     </NotesContainer>
   );
