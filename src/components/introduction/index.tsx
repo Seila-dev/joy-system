@@ -22,7 +22,7 @@ export const Introduction = () => {
                 <span className="lowOpacity afterParagraph">Invista em você para alcançar seus objetivos dia após dia</span>
                 <div className="ctaSection">
                     <Link to="/quests" className="btn cta">Ir para sistema de Quests</Link>
-                    <Link to="/quests" className="btn noCta">Ir para anotações</Link>
+                    <Link to="/notes" className="btn noCta">Ir para anotações</Link>
                 </div>
             </div>   
             <div className="highlightedQuests">

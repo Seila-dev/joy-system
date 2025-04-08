@@ -14,7 +14,8 @@ interface NoteContextProps {
   filterNotes: (
     category: NoteCategory | null,
     status: NoteStatus | null,
-    searchQuery: string | null
+    searchQuery: string | null,
+    quantity: number | null
   ) => void;
 }
 
@@ -126,7 +127,8 @@ export const NoteProvider: React.FC<NoteProviderProps> = ({ children }) => {
   const filterNotes = (
     category: NoteCategory | null,
     status: NoteStatus | null,
-    searchQuery: string | null
+    searchQuery: string | null,
+    quantity: number | null
   ) => {
     let filtered = [...notes];
 
@@ -136,6 +138,10 @@ export const NoteProvider: React.FC<NoteProviderProps> = ({ children }) => {
 
     if (status) {
       filtered = filtered.filter((note) => note.status === status);
+    }
+
+    if (quantity !== null) {
+      filtered = filtered.slice(0, quantity);
     }
 
     if (searchQuery) {

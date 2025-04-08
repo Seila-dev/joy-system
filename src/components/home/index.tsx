@@ -20,6 +20,7 @@ export const Home = () => {
                          filterStatus={null}
                          filterPriority={null}
                          searchQuery={null}
+                         filterQuantity={2}
                         />
                     </div>
                 </div>
