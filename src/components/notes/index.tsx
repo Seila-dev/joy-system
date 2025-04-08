@@ -30,7 +30,7 @@ export const NoteItem = ({
       searchQuery,
       filterQuantity
     );
-  }, [selectedCategory, filterStatus, filterPriority, filterQuantity, searchQuery])
+  }, [ filterQuantity, selectedCategory, filterStatus, filterPriority, searchQuery])
 
   const closeCreateForm = () => {
     setOpen(false)
