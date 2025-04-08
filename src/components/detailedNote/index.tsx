@@ -11,11 +11,17 @@ export const DetailedNote = () => {
   const { id } = useParams();
   const [note, setNote] = useState<Note | undefined>();
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  // const [openNav, setOpenNav] = useState<boolean>(false);
   const [editedTitle, setEditedTitle] = useState<string>("");
   const [editedContent, setEditedContent] = useState<string>("");
+  const [openSidebar, setOpenSidebar] = useState<boolean>(false);
   const { 'joysystem.token': token } = parseCookies();
   const { deleteNote, loading, updateNote, setStatus } = useContext(NoteContext);
   const navigate = useNavigate();
+
+  const handleToggleNav = () => {
+    setOpenSidebar(!openSidebar);
+  };
 
   useEffect(() => {
     async function fetchAsync() {
@@ -94,7 +100,8 @@ export const DetailedNote = () => {
 
   return (
     <NoteDetailContainer>
-      <Sidebar>
+      {openSidebar && <Overlay onClick={() => handleToggleNav()} />}
+      <Sidebar className={openSidebar ? "open" : ""}>
         <Link to="/notes" className="backButton">
           <span className="material-symbols-outlined">arrow_back</span>
           <span>Voltar</span>
@@ -207,6 +214,7 @@ export const DetailedNote = () => {
       <MainContent>
         {isEditing ? (
           <>
+            <OpenMenu onClick={() => setOpenSidebar(!openSidebar)}>Abrir menu</OpenMenu>
             <TitleInput
               value={editedTitle}
               onChange={(e) => setEditedTitle(e.target.value)}
@@ -221,6 +229,7 @@ export const DetailedNote = () => {
           </>
         ) : (
           <>
+            <OpenMenu onClick={() => setOpenSidebar(!openSidebar)}>Abrir menu</OpenMenu>
             <NoteTitle>{note.title}</NoteTitle>
             <NoteContent>{note.content}</NoteContent>
           </>
@@ -229,6 +238,17 @@ export const DetailedNote = () => {
     </NoteDetailContainer>
   );
 };
+
+const Overlay = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 4; 
+    pointer-events: all; 
+`
 
 const NoteDetailContainer = styled.div`
   display: flex;
@@ -243,6 +263,10 @@ const Sidebar = styled.aside`
   border-right: 1px solid #1e2140;
   padding: 20px;
   overflow-y: auto;
+
+  &.open {
+    transform: translateX(0);
+  }
   
   .backButton {
     display: flex;
@@ -256,6 +280,13 @@ const Sidebar = styled.aside`
     
     &:hover {
       background: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+    @media (max-width: 576px) {
+      &.active.toggleMenu{
+        display: flex;
+        cursor: pointer;
     }
   }
   
@@ -466,6 +497,24 @@ const NoteTitle = styled.h1`
   font-size: 32px;
   font-weight: 700;
   margin-bottom: 24px;
+`;
+
+const OpenMenu = styled.button`
+  font-size: 12px;
+  margin-bottom: 24px;
+  width: fit-content;
+  padding: 8px 30px;
+  background: var(--secondary);
+  border: 1px solid var(--secondary);
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-weight: 700;
+  display: none;
+
+  @media (max-width: 576px) {
+    display: flex;
+  }
 `;
 
 const NoteContent = styled.div`
