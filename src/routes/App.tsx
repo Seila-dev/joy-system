@@ -10,6 +10,7 @@ import { NotFound } from "../pages/NotFound"
 import { NotesSystem } from "../components/notesSystem"
 import { DetailedNote } from "../components/detailedNote"
 import CalendarPage from "../components/calendarPage"
+import App from "../pages/Landing/app"
 
 function AppRoutes() {
 
@@ -26,6 +27,7 @@ function AppRoutes() {
       </Route>
       <Route path="/login" element={<SignIn />} />
       <Route path="/register" element={<SignUp />} />
+      <Route path="/about" element={<App />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )
