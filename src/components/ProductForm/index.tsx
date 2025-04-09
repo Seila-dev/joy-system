@@ -41,7 +41,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         mode: 'onBlur',
         defaultValues: mode === 'edit' && initialData ? {
             name: initialData.name ?? "",
-            description: initialData.description ?? "",
+            description: initialData.description ?? '',
             price: initialData.price ?? 0,
             featured: initialData.featured ?? false,
             isActive: initialData.isActive ?? true
@@ -146,8 +146,14 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                 <input
                                     {...field}
                                     id="price"
-                                    type="number"
-                                    onChange={(e) => onChange(Number(e.target.value))}
+                                    type="text"
+                                    onChange={(e) => {
+                                        const value = e.target.value.replace(/\D/g, '');
+                                        onChange(Number(value));
+                                    }}
+                                    value={field.value.toString()}
+                                    placeholder="0"
+                                    maxLength={5}
                                 />
                             )}
                         />
