@@ -41,13 +41,13 @@ export const MenuBurguer = ({ active, toggleMenu }: MenuBurguerProps) => {
                     </span>
                     <li>JoyStore</li>
                 </Link>
-                <Link to="/quests" onClick={toggleMenu}>
+                <Link to="/notes" onClick={toggleMenu}>
                     <span className="material-symbols-outlined close-icon" >
                         edit
                     </span>
                     <li>Notes</li>
                 </Link>
-                <Link to="/quests" onClick={toggleMenu}>
+                <Link to="/calendar" onClick={toggleMenu}>
                     <span className="material-symbols-outlined close-icon" >
                         calendar_today
                     </span>
