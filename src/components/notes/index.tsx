@@ -30,7 +30,7 @@ export const NoteItem = ({
       searchQuery,
       filterQuantity
     );
-  }, [ filterQuantity, selectedCategory, filterStatus, filterPriority, searchQuery])
+  }, [filterQuantity, selectedCategory, filterStatus, filterPriority, searchQuery])
 
   const closeCreateForm = () => {
     setOpen(false)
@@ -95,6 +95,11 @@ export const NoteItem = ({
                     schedule
                   </span>
                   <p>{note.category}</p>
+                </div>
+                <div>
+                  <span className="material-symbols-outlined icon status">
+                    {note.status === 'FIXADO' ? 'push_pin' : note.status === 'ARQUIVADO' ? 'archive' : ''}
+                  </span>
                 </div>
               </div>
               <div className="body">
@@ -200,15 +205,8 @@ const Card = styled.div`
       .header .category .icon {
         font-size: 18px;
       }
-      .header .options {
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 30px;
-        height: 30px;
-        cursor: pointer;
-        user-select: none;
+      .header .icon.status {
+        opacity: 0.5;
       }
       .header .options:hover {
         background: #ccc2;
