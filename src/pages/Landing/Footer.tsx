@@ -35,6 +35,7 @@ const FooterLogo = styled.div`
   
   span {
     color: ${props => props.theme.colors.secondary};
+    font-size: 18px;
   }
 `;
 
@@ -132,7 +133,7 @@ const Footer: React.FC = () => {
       <FooterContainer>
         <FooterContent>
           <FooterColumn>
-            <FooterLogo>Quest<span>Joy</span></FooterLogo>
+            <FooterLogo>JOY<span>System</span></FooterLogo>
             <FooterDescription>
               Transforme seus objetivos em conquistas diárias com o QuestJoy. Nossa plataforma gamificada torna o cumprimento de tarefas mais divertido e motivador.
             </FooterDescription>
@@ -145,7 +146,7 @@ const Footer: React.FC = () => {
           </FooterColumn>
           
           <FooterColumn>
-            <ColumnTitle>QuestJoy</ColumnTitle>
+            <ColumnTitle>JoySystem</ColumnTitle>
             <LinksList>
               <LinkItem><FooterLink href="#">Sobre Nós</FooterLink></LinkItem>
               <LinkItem><FooterLink href="#">Blog</FooterLink></LinkItem>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const JoyStoreSection = styled.section`
-  background-color: ${props => props.theme.colors.white};
+  background-color: #00041a;
 `;
 
 const JoyStoreContainer = styled.div`
