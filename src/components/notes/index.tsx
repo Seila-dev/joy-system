@@ -274,6 +274,10 @@ const Card = styled.div`
         padding: 5px 15px;
         border-radius: 10px;
       }
+
+      .footer p.description{
+        margin: 0 !important;
+      }
     
       .footer .status .circleProgress {
         width: 10px;
