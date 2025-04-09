@@ -10,25 +10,35 @@ export const Introduction = () => {
     const { user } = useContext(AuthContext)
 
     const formattedDate = DateTime.now()
-  .setLocale('pt-BR')  
-  .toLocaleString({ weekday: 'long', day: 'numeric', month: 'long' });
+        .setLocale('pt-BR')
+        .toLocaleString({ weekday: 'long', day: 'numeric', month: 'long' });
 
 
     return (
         <Section >
             <div className="greetings">
                 <h1 className="paragraph">Olá, {user?.username ? user?.username : "seja bem vindo"}!</h1>
-                <span className="lowOpacity afterParagraph">{formattedDate}</span>    
-                <h2 className="paragraph h2">O que você quer <span className="secondary">aprender</span> hoje?</h2>
-                <span className="lowOpacity afterParagraph">Invista em você para alcançar seus objetivos dia após dia</span>
-                <div className="ctaSection">
-                    <div>
-                        <Link to="/quests" className="btn cta">Ir para sistema de Quests</Link>
-                        <Link to="/notes" className="btn noCta">Ir para anotações</Link>
+                <span className="lowOpacity afterParagraph">{formattedDate}</span>
+                {user ? (
+                    <>
+                        <h2 className="paragraph h2">O que você quer <span className="secondary">aprender</span> hoje?</h2>
+                        <span className="lowOpacity afterParagraph">Invista em você para alcançar seus objetivos dia após dia</span>
+                        <div className="ctaSection">
+                            <div>
+                                <Link to="/quests" className="btn cta">Ir para sistema de Quests</Link>
+                                <Link to="/notes" className="btn noCta">Ir para anotações</Link>
+                            </div>
+                            <CalendarButton />
+                        </div>
+                    </>
+                ) : (
+                    <div className="ctaSection">
+                        <p>Para usar o site, é necessário fazer login</p>
+                        <Link to="login" className="btn noCta">Fazer login</Link>
                     </div>
-                    <CalendarButton />
-                </div>
-            </div>   
+                )}
+
+            </div>
             <div className="highlightedQuests">
                 <h2 className="paragraph">Sugestões para você (In Dev.)</h2>
                 <div className="item-list">
@@ -47,7 +57,7 @@ export const Introduction = () => {
                         <span className="lowOpacity madeby">Esportes</span>
                     </div>
                 </div>
-            </div>     
+            </div>
         </Section>
     )
 }
