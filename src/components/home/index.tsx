@@ -14,6 +14,7 @@ export const Home = () => {
                     <TodoList />
                     <div className="notesSection">
                         <h2>Notas Recentes</h2>
+                        <p className="description">Suas anotações mais <strong>recentes</strong></p>
                         <NoteItem
                          selectedCategory={null}
                          filterStatus={null}
@@ -61,7 +62,9 @@ const Dashboard = styled.section`
     .leftContent .notesSection h2{
         font-weight: 500;
         color: #e0e4ff;
-        margin-bottom: 30px;
+    }
+    .leftContent .notesSection p.description{
+        margin: 10px 0 30px 0;
     }
 
     @media(max-width: 450px){

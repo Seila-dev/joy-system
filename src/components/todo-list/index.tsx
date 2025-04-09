@@ -25,7 +25,11 @@ export const TodoList = () => {
     return (
         <TodoComponent>
             <div className="header">
-                <h2>Quests em destaque</h2>
+                <div>
+                    <h2>Quests em destaque</h2>
+                    <p className="description">Apenas quests <strong>em andamento</strong> com o filtro em <strong>destaque</strong></p>
+                </div>
+                
 
                 <div className="flexContainer">
                     <Link to="/quests" className="btn viewAllBtn">
@@ -83,6 +87,10 @@ const TodoComponent = styled.div`
     }
     .header .btn .icon{
         font-size: 18px;
+    }
+
+    .header p.description{
+        margin-top: 10px;
     }
 
     .flexContainer{

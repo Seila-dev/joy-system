@@ -55,7 +55,7 @@ export const QuestSystem = () => {
                 const parsed = JSON.parse(savedStatus);
                 setSelectedStatus(parsed);
             } catch (e) {}
-        }
+        } 
     }, []);
 
     useEffect(() => {
@@ -215,7 +215,13 @@ export const QuestSystem = () => {
                                 </button>
                             </div>
                             <div className="filterByDate">
-                                <h4>Status de conclusão</h4>
+                                <h4>Status</h4>
+                                <button
+                                    className={`filterItem ${selectedStatus === null ? "selected" : ""}`}
+                                    onClick={() => handleStatusChange(null)}
+                                >
+                                    Todos
+                                </button>
                                 <button
                                     className={`filterItem ${selectedStatus === "PENDENTE" ? "selected" : ""}`}
                                     onClick={() => handleStatusChange("PENDENTE")}
@@ -234,12 +240,7 @@ export const QuestSystem = () => {
                                 >
                                     Falhas
                                 </button>
-                                <button
-                                    className={`filterItem ${selectedStatus === null ? "selected" : ""}`}
-                                    onClick={() => handleStatusChange(null)}
-                                >
-                                    Todos
-                                </button>
+                               
                             </div>
                         </div>
                     </div>
@@ -442,6 +443,7 @@ const Filters = styled.div`
     }
     .filtersByDate .filterContainer{
         display: flex;
+        gap: 10px;
     }
     .filtersByDate .filterByDate h4{
         padding-bottom: 20px;
