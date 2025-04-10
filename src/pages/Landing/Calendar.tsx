@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const CalendarSection = styled.section`
-  background-color: ${props => props.theme.colors.white};
+  background: linear-gradient(135deg, #00041a, #00043a);
 `;
 
 const CalendarContainer = styled.div`

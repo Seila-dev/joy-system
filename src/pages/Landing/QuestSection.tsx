@@ -1,5 +1,47 @@
 import React from 'react';
 import styled from 'styled-components';
+import QuestPreview from '../../assets/landingpage-1.png'
+
+const QuestSection: React.FC = () => {
+  return (
+    <QuestSectionContainer id="quests">
+      <ContentContainer>
+        <QuestImage>
+          <img src={QuestPreview} alt="Quest System" />
+        </QuestImage>
+        <QuestContent>
+          <SectionTitle>
+            Sistema de <span>Quests</span>
+          </SectionTitle>
+          <QuestDescription>
+            Transforme suas tarefas em aventuras diárias! Crie quests personalizadas, defina dificuldades, prazos e recompensas. A cada quest completada, você ganha moedas Joy que podem ser trocadas por recompensas na Joy Store.
+          </QuestDescription>
+          <QuestFeatures>
+            <QuestFeature>
+              <FeatureIcon>✓</FeatureIcon>
+              <FeatureText>Crie quests com níveis de dificuldade e prioridade</FeatureText>
+            </QuestFeature>
+            <QuestFeature>
+              <FeatureIcon>✓</FeatureIcon>
+              <FeatureText>Ganhe moedas Joy baseadas no desafio completado</FeatureText>
+            </QuestFeature>
+            <QuestFeature>
+              <FeatureIcon>✓</FeatureIcon>
+              <FeatureText>Acompanhe seu progresso e veja estatísticas</FeatureText>
+            </QuestFeature>
+            <QuestFeature>
+              <FeatureIcon>✓</FeatureIcon>
+              <FeatureText>Organize quests por categorias e projetos</FeatureText>
+            </QuestFeature>
+          </QuestFeatures>
+          <QuestButton>Criar Minha Primeira Quest</QuestButton>
+        </QuestContent>
+      </ContentContainer>
+    </QuestSectionContainer>
+  );
+};
+
+export default QuestSection;
 
 const QuestSectionContainer = styled.section`
   background-color: ${props => props.theme.colors.background};
@@ -101,44 +143,3 @@ const QuestButton = styled.button`
     transform: translateY(-2px);
   }
 `;
-
-const QuestSection: React.FC = () => {
-  return (
-    <QuestSectionContainer id="quests">
-      <ContentContainer>
-        <QuestImage>
-          <img src="/api/placeholder/500/400" alt="Quest System" />
-        </QuestImage>
-        <QuestContent>
-          <SectionTitle>
-            Sistema de <span>Quests</span>
-          </SectionTitle>
-          <QuestDescription>
-            Transforme suas tarefas em aventuras diárias! Crie quests personalizadas, defina dificuldades, prazos e recompensas. A cada quest completada, você ganha moedas Joy que podem ser trocadas por recompensas na Joy Store.
-          </QuestDescription>
-          <QuestFeatures>
-            <QuestFeature>
-              <FeatureIcon>✓</FeatureIcon>
-              <FeatureText>Crie quests com níveis de dificuldade e prioridade</FeatureText>
-            </QuestFeature>
-            <QuestFeature>
-              <FeatureIcon>✓</FeatureIcon>
-              <FeatureText>Ganhe moedas Joy baseadas no desafio completado</FeatureText>
-            </QuestFeature>
-            <QuestFeature>
-              <FeatureIcon>✓</FeatureIcon>
-              <FeatureText>Acompanhe seu progresso e veja estatísticas</FeatureText>
-            </QuestFeature>
-            <QuestFeature>
-              <FeatureIcon>✓</FeatureIcon>
-              <FeatureText>Organize quests por categorias e projetos</FeatureText>
-            </QuestFeature>
-          </QuestFeatures>
-          <QuestButton>Criar Minha Primeira Quest</QuestButton>
-        </QuestContent>
-      </ContentContainer>
-    </QuestSectionContainer>
-  );
-};
-
-export default QuestSection;

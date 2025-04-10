@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import heroImg from '../../assets/teste.png'
+import heroImg from '../../assets/landingpage-2.png'
 
 const HeroSection = styled.section`
   padding-top: 140px;
   padding-bottom: 80px;
-  background: linear-gradient(135deg, ${props => props.theme.colors.primary + '15'}, ${props => props.theme.colors.secondary + '15'});
+  background: linear-gradient(135deg, #00043a, #00041a);
 `;
 
 const HeroContainer = styled.div`
@@ -108,6 +108,7 @@ const HeroImage = styled.div`
   img {
     width: 100%;
     height: auto;
+    border-radius: 10px;
   }
   
   @media (max-width: ${props => props.theme.breakpoints.tablet}) {

@@ -6,7 +6,7 @@ const HeaderContainer = styled.header`
   top: 0;
   left: 0;
   right: 0;
-  background-color: ${props => props.theme.colors.white};
+  background-color: #00041a;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   z-index: 100;
   padding: 15px 0;
@@ -24,12 +24,13 @@ const NavContainer = styled.div`
 const Logo = styled.div`
   font-size: 24px;
   font-weight: 700;
-  color: ${props => props.theme.colors.primary};
+  color: ${props => props.theme.colors.secondary};
   display: flex;
   align-items: center;
   
   span {
-    color: ${props => props.theme.colors.secondary};
+    color: ${props => props.theme.colors.primary};
+    font-size: 15px;
   }
 `;
 
@@ -91,7 +92,7 @@ const Header: React.FC<HeaderProps> = ({ activeSection, scrollToSection }) => {
   return (
     <HeaderContainer>
       <NavContainer>
-        <Logo>Quest<span>Joy</span></Logo>
+        <Logo>JOY<span>System</span></Logo>
         <NavLinks>
           <NavLink 
             href="#features" 

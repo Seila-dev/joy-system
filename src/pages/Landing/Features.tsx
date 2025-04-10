@@ -1,8 +1,66 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const Features: React.FC = () => {
+  const features = [
+    {
+      icon: "stack",
+      title: "Sistema de Quests",
+      description: "Crie e organize tarefas como quests para tornar seus objetivos mais divertidos e realizáveis."
+    },
+    {
+      icon: "paid",
+      title: "Moeda Joy",
+      description: "Ganhe recompensas por completar quests na forma de moedas Joy que podem ser trocadas por prêmios."
+    },
+    {
+      icon: "shopping_cart",
+      title: "Joy Store",
+      description: "Troque suas moedas Joy por recompensas personalizadas que você mesmo define como motivação."
+    },
+    {
+      icon: "edit",
+      title: "Anotações",
+      description: "Mantenha suas ideias organizadas com um sistema de anotações integrado às suas quests."
+    },
+    {
+      icon: "switch_access",
+      title: "Sugestões por IA",
+      description: "Receba sugestões personalizadas de quests geradas por IA para ajudar a alcançar seus objetivos."
+    },
+    {
+      icon: "calendar_today",
+      title: "Calendário Integrado",
+      description: "Visualize e planeje suas quests em um calendário para melhor organização do seu tempo."
+    }
+  ];
+
+  return (
+    <FeaturesSection id="features">
+      <FeaturesContainer>
+        <SectionTitle>
+          Recursos do <span>JoySystem</span>
+        </SectionTitle>
+        <FeaturesGrid>
+          {features.map((feature, index) => (
+            <FeatureCard key={index}>
+              <FeatureIcon>
+              <span className="material-symbols-outlined">{feature.icon}</span>
+              </FeatureIcon>
+              <FeatureTitle>{feature.title}</FeatureTitle>
+              <FeatureDescription>{feature.description}</FeatureDescription>
+            </FeatureCard>
+          ))}
+        </FeaturesGrid>
+      </FeaturesContainer>
+    </FeaturesSection>
+  );
+};
+
+export default Features;
+
 const FeaturesSection = styled.section`
-  background-color: ${props => props.theme.colors.white};
+  background-color: #00041a;
 `;
 
 const FeaturesContainer = styled.div`
@@ -81,61 +139,3 @@ const FeatureDescription = styled.p`
   color: ${props => props.theme.colors.lightText};
   line-height: 1.6;
 `;
-
-const Features: React.FC = () => {
-  const features = [
-    {
-      icon: "/api/placeholder/30/30",
-      title: "Sistema de Quests",
-      description: "Crie e organize tarefas como quests para tornar seus objetivos mais divertidos e realizáveis."
-    },
-    {
-      icon: "/api/placeholder/30/30",
-      title: "Moeda Joy",
-      description: "Ganhe recompensas por completar quests na forma de moedas Joy que podem ser trocadas por prêmios."
-    },
-    {
-      icon: "/api/placeholder/30/30",
-      title: "Joy Store",
-      description: "Troque suas moedas Joy por recompensas personalizadas que você mesmo define como motivação."
-    },
-    {
-      icon: "/api/placeholder/30/30",
-      title: "Anotações",
-      description: "Mantenha suas ideias organizadas com um sistema de anotações integrado às suas quests."
-    },
-    {
-      icon: "/api/placeholder/30/30",
-      title: "Sugestões por IA",
-      description: "Receba sugestões personalizadas de quests geradas por IA para ajudar a alcançar seus objetivos."
-    },
-    {
-      icon: "/api/placeholder/30/30",
-      title: "Calendário Integrado",
-      description: "Visualize e planeje suas quests em um calendário para melhor organização do seu tempo."
-    }
-  ];
-
-  return (
-    <FeaturesSection id="features">
-      <FeaturesContainer>
-        <SectionTitle>
-          Recursos do <span>QuestJoy</span>
-        </SectionTitle>
-        <FeaturesGrid>
-          {features.map((feature, index) => (
-            <FeatureCard key={index}>
-              <FeatureIcon>
-                <img src={feature.icon} alt={feature.title} />
-              </FeatureIcon>
-              <FeatureTitle>{feature.title}</FeatureTitle>
-              <FeatureDescription>{feature.description}</FeatureDescription>
-            </FeatureCard>
-          ))}
-        </FeaturesGrid>
-      </FeaturesContainer>
-    </FeaturesSection>
-  );
-};
-
-export default Features;
