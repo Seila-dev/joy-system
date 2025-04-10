@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Ilustration from '../../assets/landingpage-3.png'
 
-
-
 const AIPrompt: React.FC = () => {
   const [prompt, setPrompt] = useState('');
   
@@ -11,17 +9,17 @@ const AIPrompt: React.FC = () => {
     {
       title: "Praticar meditação por 10 minutos",
       difficulty: "Fácil",
-      joy: 20
+      joys: 2
     },
     {
       title: "Ler 30 páginas do livro sobre produtividade",
       difficulty: "Médio",
-      joy: 40
+      joys: 4
     },
     {
       title: "Fazer exercícios físicos por 30 minutos",
       difficulty: "Médio",
-      joy: 50
+      joys: 4
     }
   ];
 
@@ -50,7 +48,7 @@ const AIPrompt: React.FC = () => {
               {questSuggestions.map((quest, index) => (
                 <QuestSuggestion key={index}>
                   <QuestTitle>{quest.title}</QuestTitle>
-                  <QuestInfo>Dificuldade: {quest.difficulty} | Recompensa: {quest.joy} Joy</QuestInfo>
+                  <QuestInfo>Dificuldade: {quest.difficulty} | Recompensa: {quest.joys} Joys</QuestInfo>
                 </QuestSuggestion>
               ))}
             </PromptResult>
@@ -133,6 +131,11 @@ const TextInput = styled.input`
   &:focus {
     outline: none;
     border-color: ${props => props.theme.colors.secondary};
+  }
+
+  @media(max-width: 400px){
+    width: 100%;
+    height: 100%;
   }
 `;
 

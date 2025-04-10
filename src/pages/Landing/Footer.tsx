@@ -1,6 +1,66 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const Footer: React.FC = () => {
+  return (
+    <FooterSection>
+      <FooterContainer>
+        <FooterContent>
+          <FooterColumn>
+            <FooterLogo>JOY<span>System</span></FooterLogo>
+            <FooterDescription>
+              Transforme seus objetivos em conquistas diárias com o JoySystem. Nossa plataforma gamificada torna o cumprimento de tarefas mais divertido e motivador.
+            </FooterDescription>
+            <SocialLinks>
+              <SocialLink href="https://www.linkedin.com/in/erickrodrigues-dev/" aria-label="LinkedIn" target='BLANK'>in</SocialLink>
+            </SocialLinks>
+          </FooterColumn>
+          
+          <FooterColumn>
+            <ColumnTitle>JoySystem</ColumnTitle>
+            <LinksList>
+              <LinkItem><FooterLink href="https://www.linkedin.com/in/erickrodrigues-dev/" target='BLANK'>Sobre Nós</FooterLink></LinkItem>
+              <LinkItem><FooterLink href="https://www.linkedin.com/in/erickrodrigues-dev/" target='BLANK'>Blog</FooterLink></LinkItem>
+              <LinkItem><FooterLink href="https://www.linkedin.com/in/erickrodrigues-dev/" target='BLANK'>Carreiras</FooterLink></LinkItem>
+              <LinkItem><FooterLink href="https://www.linkedin.com/in/erickrodrigues-dev/" target='BLANK'>Contato</FooterLink></LinkItem>
+            </LinksList>
+          </FooterColumn>
+          
+          <FooterColumn>
+            <ColumnTitle>Recursos</ColumnTitle>
+            <LinksList>
+              <LinkItem><FooterLink href="#quests">Quests</FooterLink></LinkItem>
+              <LinkItem><FooterLink href="#joystore">Joy Store</FooterLink></LinkItem>
+              <LinkItem><FooterLink href="#ai-prompt">Sugestões IA</FooterLink></LinkItem>
+              <LinkItem><FooterLink href="#calendar">Calendário</FooterLink></LinkItem>
+            </LinksList>
+          </FooterColumn>
+          
+          <FooterColumn>
+            <ColumnTitle>Suporte</ColumnTitle>
+            <LinksList>
+              <LinkItem><FooterLink href="#">FAQs</FooterLink></LinkItem>
+              <LinkItem><FooterLink href="#">Tutoriais</FooterLink></LinkItem>
+              <LinkItem><FooterLink href="https://www.linkedin.com/in/erickrodrigues-dev/" target='BLANK'>Central de Ajuda</FooterLink></LinkItem>
+              <LinkItem><FooterLink href="#">Comunidade</FooterLink></LinkItem>
+            </LinksList>
+          </FooterColumn>
+        </FooterContent>
+        
+        <FooterBottom>
+          <Copyright>© 2025 JoySystem. Todos os direitos reservados.</Copyright>
+          <BottomLinks>
+            <BottomLink href="#">Termos de Uso</BottomLink>
+            <BottomLink href="#">Política de Privacidade</BottomLink>
+          </BottomLinks>
+        </FooterBottom>
+      </FooterContainer>
+    </FooterSection>
+  );
+};
+
+export default Footer;
+
 const FooterSection = styled.footer`
   background-color: ${props => props.theme.colors.primary + '10'};
   padding: 60px 0 30px;
@@ -73,7 +133,7 @@ const FooterColumn = styled.div``;
 const ColumnTitle = styled.h3`
   font-size: 16px;
   margin-bottom: 20px;
-  color: ${props => props.theme.colors.text};
+  color: ${props => props.theme.colors.gray};
 `;
 
 const LinksList = styled.ul`
@@ -126,66 +186,3 @@ const BottomLink = styled.a`
     color: ${props => props.theme.colors.primary};
   }
 `;
-
-const Footer: React.FC = () => {
-  return (
-    <FooterSection>
-      <FooterContainer>
-        <FooterContent>
-          <FooterColumn>
-            <FooterLogo>JOY<span>System</span></FooterLogo>
-            <FooterDescription>
-              Transforme seus objetivos em conquistas diárias com o QuestJoy. Nossa plataforma gamificada torna o cumprimento de tarefas mais divertido e motivador.
-            </FooterDescription>
-            <SocialLinks>
-              <SocialLink href="#" aria-label="Facebook">f</SocialLink>
-              <SocialLink href="#" aria-label="Twitter">t</SocialLink>
-              <SocialLink href="#" aria-label="Instagram">i</SocialLink>
-              <SocialLink href="#" aria-label="LinkedIn">in</SocialLink>
-            </SocialLinks>
-          </FooterColumn>
-          
-          <FooterColumn>
-            <ColumnTitle>JoySystem</ColumnTitle>
-            <LinksList>
-              <LinkItem><FooterLink href="#">Sobre Nós</FooterLink></LinkItem>
-              <LinkItem><FooterLink href="#">Blog</FooterLink></LinkItem>
-              <LinkItem><FooterLink href="#">Carreiras</FooterLink></LinkItem>
-              <LinkItem><FooterLink href="#">Contato</FooterLink></LinkItem>
-            </LinksList>
-          </FooterColumn>
-          
-          <FooterColumn>
-            <ColumnTitle>Recursos</ColumnTitle>
-            <LinksList>
-              <LinkItem><FooterLink href="#">Quests</FooterLink></LinkItem>
-              <LinkItem><FooterLink href="#">Joy Store</FooterLink></LinkItem>
-              <LinkItem><FooterLink href="#">Sugestões IA</FooterLink></LinkItem>
-              <LinkItem><FooterLink href="#">Calendário</FooterLink></LinkItem>
-            </LinksList>
-          </FooterColumn>
-          
-          <FooterColumn>
-            <ColumnTitle>Suporte</ColumnTitle>
-            <LinksList>
-              <LinkItem><FooterLink href="#">FAQs</FooterLink></LinkItem>
-              <LinkItem><FooterLink href="#">Tutoriais</FooterLink></LinkItem>
-              <LinkItem><FooterLink href="#">Central de Ajuda</FooterLink></LinkItem>
-              <LinkItem><FooterLink href="#">Comunidade</FooterLink></LinkItem>
-            </LinksList>
-          </FooterColumn>
-        </FooterContent>
-        
-        <FooterBottom>
-          <Copyright>© 2025 QuestJoy. Todos os direitos reservados.</Copyright>
-          <BottomLinks>
-            <BottomLink href="#">Termos de Uso</BottomLink>
-            <BottomLink href="#">Política de Privacidade</BottomLink>
-          </BottomLinks>
-        </FooterBottom>
-      </FooterContainer>
-    </FooterSection>
-  );
-};
-
-export default Footer;

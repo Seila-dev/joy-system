@@ -6,16 +6,12 @@ const Calendar: React.FC = () => {
   
   const weekdays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
   
-  // Simulated days for April 2025
   const days = Array.from({ length: 30 }, (_, i) => i + 1);
   
-  // Days with quests (for demonstration)
   const daysWithEvents = [1, 3, 5, 8, 10, 15, 20, 25];
   
-  // Today's date (for demonstration)
-  const today = 9; // April 9th, 2025
-  
-  // Fill the first week with empty days (April 1st is a Tuesday in 2025)
+  const today = 9;
+
   const emptyDays = [0, 0];
   
   const calendarFeatures = [
@@ -178,6 +174,10 @@ const WeekdaysRow = styled.div`
   grid-template-columns: repeat(7, 1fr);
   gap: 10px;
   margin-bottom: 15px;
+
+  @media(max-width: 500px){
+    gap: 5px;
+  }
 `;
 
 const Weekday = styled.div`
@@ -191,6 +191,10 @@ const DaysGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 10px;
+
+  @media(max-width: 500px){
+    gap: 5px;
+  }
 `;
 
 const Day = styled.div<{ isToday?: boolean; hasEvents?: boolean }>`
@@ -220,12 +224,23 @@ const Day = styled.div<{ isToday?: boolean; hasEvents?: boolean }>`
     border-radius: 50%;
     background-color: ${props => props.theme.colors.accent};
   }
+
+  @media(max-width: 500px) {
+    &::after {
+      width: 4px;
+      height: 4px;
+    }
+  }
 `;
 
 const DayNumber = styled.span<{ isToday?: boolean }>`
   font-size: 20px;
   font-weight: ${props => props.isToday ? '700' : '400'};
   color: ${props => props.isToday ? props.theme.colors.white : props.theme.colors.black};
+
+  @media(max-width: 500px) {
+    font-size: 12px;
+  }
 `;
 
 const CalendarFeatures = styled.div`
