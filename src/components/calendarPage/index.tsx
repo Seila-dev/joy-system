@@ -202,7 +202,7 @@ export default function CalendarPage() {
                         {quest.description && <EventDescription>{quest.description}</EventDescription>}
                         <QuestReward>Recompensa: {quest.joys} joys</QuestReward>
                       </EventContent>
-                      <ViewButton onClick={() => navigate(`/quests/${quest.id}`)}>
+                      <ViewButton onClick={() => navigate(`/dashboard/quests`)}>
                         <span className="material-symbols-outlined">visibility</span>
                       </ViewButton>
                     </QuestItem>
