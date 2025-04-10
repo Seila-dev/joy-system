@@ -44,28 +44,28 @@ export const Header = () => {
                             </Link>
                             <Link to="quests">
                                 <li
-                                    className={location.pathname === 'quests' ? 'highlight' : ''}
+                                    className={location.pathname === '/dashboard/quests' ? 'highlight' : ''}
                                 >
                                     Metas
                                 </li>
                             </Link>
                             <Link to="notes">
                                 <li
-                                    className={location.pathname === 'notes' ? 'highlight' : ''}
+                                    className={location.pathname === '/dashboard/notes' ? 'highlight' : ''}
                                 >
                                     Notas
                                 </li>
                             </Link>
                             <Link to="store">
                                 <li
-                                    className={location.pathname === 'store' ? 'highlight' : ''}
+                                    className={location.pathname === '/dashboard/store' ? 'highlight' : ''}
                                 >
                                     JoyStore
                                 </li>
                             </Link>
                             <Link to="calendar">
                                 <li
-                                    className={location.pathname === 'calendar' ? 'highlight' : ''}
+                                    className={location.pathname === '/dashboard/calendar' ? 'highlight' : ''}
                                 >
                                     Calendário
                                 </li>
