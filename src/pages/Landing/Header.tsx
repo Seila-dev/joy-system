@@ -15,7 +15,7 @@ const Header: React.FC<HeaderProps> = ({ activeSection, scrollToSection }) => {
         <NavLinks>
           <NavLink 
             href="#features" 
-            active={activeSection === 'features'} 
+            $active={activeSection === 'features'} 
             onClick={(e) => {
               e.preventDefault();
               scrollToSection('features');
@@ -25,7 +25,7 @@ const Header: React.FC<HeaderProps> = ({ activeSection, scrollToSection }) => {
           </NavLink>
           <NavLink 
             href="#quests" 
-            active={activeSection === 'quests'}
+            $active={activeSection === 'quests'}
             onClick={(e) => {
               e.preventDefault();
               scrollToSection('quests');
@@ -35,7 +35,7 @@ const Header: React.FC<HeaderProps> = ({ activeSection, scrollToSection }) => {
           </NavLink>
           <NavLink 
             href="#joystore" 
-            active={activeSection === 'joystore'}
+            $active={activeSection === 'joystore'}
             onClick={(e) => {
               e.preventDefault();
               scrollToSection('joystore');
@@ -45,7 +45,7 @@ const Header: React.FC<HeaderProps> = ({ activeSection, scrollToSection }) => {
           </NavLink>
           <NavLink 
             href="#ai-prompt" 
-            active={activeSection === 'ai-prompt'}
+            $active={activeSection === 'ai-prompt'}
             onClick={(e) => {
               e.preventDefault();
               scrollToSection('ai-prompt');
@@ -55,7 +55,7 @@ const Header: React.FC<HeaderProps> = ({ activeSection, scrollToSection }) => {
           </NavLink>
           <NavLink 
             href="#calendar" 
-            active={activeSection === 'calendar'}
+            $active={activeSection === 'calendar'}
             onClick={(e) => {
               e.preventDefault();
               scrollToSection('calendar');
@@ -114,9 +114,9 @@ const NavLinks = styled.nav`
   }
 `;
 
-const NavLink = styled.a<{ active: boolean }>`
+const NavLink = styled.a<{ $active: boolean }>`
   font-weight: 500;
-  color: ${props => props.active ? props.theme.colors.primary : props.theme.colors.text};
+  color: ${props => props.$active ? props.theme.colors.primary : props.theme.colors.text};
   transition: color 0.3s ease;
   position: relative;
   
@@ -125,7 +125,7 @@ const NavLink = styled.a<{ active: boolean }>`
     position: absolute;
     bottom: -5px;
     left: 0;
-    width: ${props => props.active ? '100%' : '0'};
+    width: ${props => props.$active ? '100%' : '0'};
     height: 2px;
     background-color: ${props => props.theme.colors.primary};
     transition: width 0.3s ease;
