@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
     
             setUser(response.user)
     
-            navigate("/")
+            navigate("/dashboard")
 
             window.location.reload()
     
@@ -119,7 +119,7 @@ export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
         destroyCookie(null, 'joysystem.token')
         setUser(null)
 
-        navigate("/login")
+        navigate("/")
     }, [])
 
 

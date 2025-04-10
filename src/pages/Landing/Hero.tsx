@@ -108,6 +108,7 @@ const PrimaryButton = styled.button`
   font-weight: 500;
   font-size: 16px;
   transition: all 0.3s ease;
+  border: 2px solid ${props => props.theme.colors.primary};
   
   &:hover {
     background-color: ${props => props.theme.colors.secondary};

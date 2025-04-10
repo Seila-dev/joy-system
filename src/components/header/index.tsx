@@ -35,37 +35,37 @@ export const Header = () => {
                     <h1 className="headerTitle">JOY <span className="logo">System</span></h1>
                     <nav className="navBar">
                         <ul>
-                            <Link to="/">
+                            <Link to="/dashboard">
                                 <li
-                                    className={location.pathname === '/' ? 'highlight' : ''}
+                                    className={location.pathname === '/dashboard' ? 'highlight' : '/dashboard'}
                                 >
                                     Home
                                 </li>
                             </Link>
-                            <Link to="/quests">
+                            <Link to="quests">
                                 <li
-                                    className={location.pathname === '/quests' ? 'highlight' : ''}
+                                    className={location.pathname === 'quests' ? 'highlight' : ''}
                                 >
                                     Metas
                                 </li>
                             </Link>
-                            <Link to="/notes">
+                            <Link to="notes">
                                 <li
-                                    className={location.pathname === '/notes' ? 'highlight' : ''}
+                                    className={location.pathname === 'notes' ? 'highlight' : ''}
                                 >
                                     Notas
                                 </li>
                             </Link>
-                            <Link to="/store">
+                            <Link to="store">
                                 <li
-                                    className={location.pathname === '/store' ? 'highlight' : ''}
+                                    className={location.pathname === 'store' ? 'highlight' : ''}
                                 >
                                     JoyStore
                                 </li>
                             </Link>
-                            <Link to="/calendar">
+                            <Link to="calendar">
                                 <li
-                                    className={location.pathname === '/calendar' ? 'highlight' : ''}
+                                    className={location.pathname === 'calendar' ? 'highlight' : ''}
                                 >
                                     Calendário
                                 </li>
@@ -75,13 +75,13 @@ export const Header = () => {
                 </div>
                 <nav className="rightColumn">
                     {isAuthenticated && user?.username ? (
-                        <Link className="userSetup" to="/user">{loadingJoy ? '0' : balance}<span className="material-symbols-outlined icon">
+                        <Link className="userSetup" to="user">{loadingJoy ? '0' : balance}<span className="material-symbols-outlined icon">
                             paid
                         </span> {user?.username} </Link>
                     ) : (
                         <Link className="signIn" to="/login">Sign In</Link>
                     )}
-                    <Link to="/user" className="settingsLink">
+                    <Link to="user" className="settingsLink">
                         <span className="material-symbols-outlined icon userProfile">
                             person
                         </span>

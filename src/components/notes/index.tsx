@@ -87,7 +87,7 @@ export const NoteItem = ({
             <Card
               key={note.id}
               style={{ borderLeft: `5px solid ${note.color || "#4A5CFF"}` }}
-              onClick={() => { navigate(`/notes/${note.id}`) }}
+              onClick={() => { navigate(`notes/${note.id}`) }}
             >
               <div className="header">
                 <div className={`category ${note.category}`}>

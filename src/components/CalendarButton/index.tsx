@@ -5,7 +5,7 @@ export const CalendarButton = () => {
   const navigate = useNavigate();
   
   return (
-    <StyledButton onClick={() => navigate('/calendar')}>
+    <StyledButton onClick={() => navigate('calendar')}>
       <span className="material-symbols-outlined">calendar_month</span>
       <span className="text">Calendário</span>
     </StyledButton>

@@ -102,7 +102,7 @@ export const DetailedNote = () => {
     <NoteDetailContainer>
       {openSidebar && <Overlay onClick={() => handleToggleNav()} />}
       <Sidebar className={openSidebar ? "open" : ""}>
-        <Link to="/notes" className="backButton">
+        <Link to="/dashboard/notes" className="backButton">
           <span className="material-symbols-outlined">arrow_back</span>
           <span>Voltar</span>
         </Link>

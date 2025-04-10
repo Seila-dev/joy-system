@@ -17,37 +17,37 @@ export const MenuBurguer = ({ active, toggleMenu }: MenuBurguerProps) => {
                 <p className="headerTitle">JOY <span className="logo">System</span></p>
             </div>
             <ul className="menu-nav">
-                <Link to="/" onClick={toggleMenu}>
+                <Link to="/dashboard" onClick={toggleMenu}>
                     <span className="material-symbols-outlined close-icon" >
                         home
                     </span>
                     <li>Home</li>
                 </Link>
-                <Link to="/user" onClick={toggleMenu}>
+                <Link to="user" onClick={toggleMenu}>
                     <span className="material-symbols-outlined close-icon" >
                         person
                     </span>
                     <li>Perfil</li>
                 </Link>
-                <Link to="/quests" onClick={toggleMenu}>
+                <Link to="quests" onClick={toggleMenu}>
                     <span className="material-symbols-outlined close-icon" >
                         stack
                     </span>
                     <li>Quest System</li>
                 </Link>
-                <Link to="/store" onClick={toggleMenu}>
+                <Link to="store" onClick={toggleMenu}>
                     <span className="material-symbols-outlined close-icon" >
                         shopping_cart
                     </span>
                     <li>JoyStore</li>
                 </Link>
-                <Link to="/notes" onClick={toggleMenu}>
+                <Link to="notes" onClick={toggleMenu}>
                     <span className="material-symbols-outlined close-icon" >
                         edit
                     </span>
                     <li>Notes</li>
                 </Link>
-                <Link to="/calendar" onClick={toggleMenu}>
+                <Link to="calendar" onClick={toggleMenu}>
                     <span className="material-symbols-outlined close-icon" >
                         calendar_today
                     </span>
