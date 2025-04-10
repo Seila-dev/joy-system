@@ -209,7 +209,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 <div className="buttons">
                     <button className='cancelBtn btnForm' onClick={() => onClose?.()}>Cancel</button>
                     <button type="submit" disabled={isSubmitting} className='submitBtn btnForm'>
-                        {mode === 'create' ? 'Criar Quest' : 'Atualizar Quest'}
+                        {mode === 'create' ? 'Criar Produto' : 'Atualizar Produto'}
                     </button>
                 </div>
             </Form>
