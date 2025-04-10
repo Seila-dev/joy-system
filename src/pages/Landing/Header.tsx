@@ -1,5 +1,76 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
+interface HeaderProps {
+  activeSection: string;
+  scrollToSection: (section: string) => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ activeSection, scrollToSection }) => {
+  return (
+    <HeaderContainer>
+      <NavContainer>
+        <Logo>JOY<span>System</span></Logo>
+        <NavLinks>
+          <NavLink 
+            href="#features" 
+            active={activeSection === 'features'} 
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection('features');
+            }}
+          >
+            Recursos
+          </NavLink>
+          <NavLink 
+            href="#quests" 
+            active={activeSection === 'quests'}
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection('quests');
+            }}
+          >
+            Quests
+          </NavLink>
+          <NavLink 
+            href="#joystore" 
+            active={activeSection === 'joystore'}
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection('joystore');
+            }}
+          >
+            Joy Store
+          </NavLink>
+          <NavLink 
+            href="#ai-prompt" 
+            active={activeSection === 'ai-prompt'}
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection('ai-prompt');
+            }}
+          >
+            Sugestões IA
+          </NavLink>
+          <NavLink 
+            href="#calendar" 
+            active={activeSection === 'calendar'}
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection('calendar');
+            }}
+          >
+            Calendário
+          </NavLink>
+        </NavLinks>
+        <Link to="/register"><SignUpButton>Começar Agora</SignUpButton></Link>
+      </NavContainer>
+    </HeaderContainer>
+  );
+};
+
+export default Header;
 
 const HeaderContainer = styled.header`
   position: fixed;
@@ -82,73 +153,3 @@ const SignUpButton = styled.button`
     transform: translateY(-2px);
   }
 `;
-
-interface HeaderProps {
-  activeSection: string;
-  scrollToSection: (section: string) => void;
-}
-
-const Header: React.FC<HeaderProps> = ({ activeSection, scrollToSection }) => {
-  return (
-    <HeaderContainer>
-      <NavContainer>
-        <Logo>JOY<span>System</span></Logo>
-        <NavLinks>
-          <NavLink 
-            href="#features" 
-            active={activeSection === 'features'} 
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection('features');
-            }}
-          >
-            Recursos
-          </NavLink>
-          <NavLink 
-            href="#quests" 
-            active={activeSection === 'quests'}
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection('quests');
-            }}
-          >
-            Quests
-          </NavLink>
-          <NavLink 
-            href="#joystore" 
-            active={activeSection === 'joystore'}
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection('joystore');
-            }}
-          >
-            Joy Store
-          </NavLink>
-          <NavLink 
-            href="#ai-prompt" 
-            active={activeSection === 'ai-prompt'}
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection('ai-prompt');
-            }}
-          >
-            Sugestões IA
-          </NavLink>
-          <NavLink 
-            href="#calendar" 
-            active={activeSection === 'calendar'}
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection('calendar');
-            }}
-          >
-            Calendário
-          </NavLink>
-        </NavLinks>
-        <SignUpButton>Começar Agora</SignUpButton>
-      </NavContainer>
-    </HeaderContainer>
-  );
-};
-
-export default Header;

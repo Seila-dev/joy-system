@@ -15,8 +15,12 @@ const Hero: React.FC = () => {
             Crie quests, ganhe recompensas e alcance seus objetivos de forma divertida e motivadora com o QuestJoy.
           </HeroSubtitle>
           <HeroButtons>
-            <PrimaryButton><Link to="register">Criar Conta</Link></PrimaryButton>
-            <SecondaryButton><Link to="login">Entrar</Link></SecondaryButton>
+            <Link to="/register">
+              <PrimaryButton>Criar Conta</PrimaryButton>
+            </Link>
+            <Link to="/login">
+              <SecondaryButton>Entrar</SecondaryButton>
+            </Link>
           </HeroButtons>
         </HeroContent>
         <HeroImage>

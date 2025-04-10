@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import QuestPreview from '../../assets/landingpage-1.png'
+import { Link } from 'react-router-dom';
 
 const QuestSection: React.FC = () => {
   return (
@@ -34,7 +35,9 @@ const QuestSection: React.FC = () => {
               <FeatureText>Organize quests por categorias e projetos</FeatureText>
             </QuestFeature>
           </QuestFeatures>
-          <QuestButton>Criar Minha Primeira Quest</QuestButton>
+          <Link to ="/register">
+            <QuestButton>Criar Minha Primeira Quest</QuestButton>
+          </Link>
         </QuestContent>
       </ContentContainer>
     </QuestSectionContainer>

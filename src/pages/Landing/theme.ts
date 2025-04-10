@@ -4,7 +4,7 @@ export const theme = {
       secondary: 'rgb(155 135 245)', 
       accent: '#43CEA2',
       background: '#00043a',
-      text: '#666',
+      text: '#ccc',
       lightText: '#999',
       white: '#fff',
       black: '#000000',
