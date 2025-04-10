@@ -1,6 +1,97 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+const JoyStore: React.FC = () => {
+  const [activeCategory, setActiveCategory] = useState('all');
+  
+  const categories = [
+    { id: 'all', name: 'Todos' },
+    { id: 'digital', name: 'Digital' },
+    { id: 'physical', name: 'Físico' },
+    { id: 'experience', name: 'Experiências' }
+  ];
+  
+  const rewards = [
+    {
+      title: "30 minutos de tempo livre",
+      price: 50,
+      category: 'experience'
+    },
+    {
+      title: "Ler um novo livro",
+      price: 200,
+      category: 'physical'
+    },
+    {
+      title: "Assistir minha série favorita",
+      price: 100,
+      category: 'digital'
+    }
+  ];
+
+  return (
+    <JoyStoreSection id="joystore">
+      <JoyStoreContainer>
+        <SectionTitle>
+          <span>Joy</span> Store
+        </SectionTitle>
+        <SectionDescription>
+          Troque suas moedas Joy por recompensas personalizadas que você mesmo define como motivação para completar suas quests.
+        </SectionDescription>
+        
+        <StoreShowcase>
+          <StoreDemo>
+            <StoreHeader>
+              <StoreCurrency>
+                <CurrencyIcon>J</CurrencyIcon>
+                350 Joys
+              </StoreCurrency>
+              <StoreCategories>
+                {categories.map(category => (
+                  <CategoryButton 
+                    key={category.id}
+                    active={activeCategory === category.id}
+                    onClick={() => setActiveCategory(category.id)}
+                  >
+                    {category.name}
+                  </CategoryButton>
+                ))}
+              </StoreCategories>
+            </StoreHeader>
+            
+            <RewardsGrid>
+              {rewards.map((reward, index) => (
+                <RewardCard key={index}>
+                  <RewardTitle>{reward.title}</RewardTitle>
+                  <RewardPrice>
+                    <Price>
+                      <CurrencyIcon>J</CurrencyIcon>
+                      {reward.price}
+                    </Price>
+                    <RedeemButton>Resgatar</RedeemButton>
+                  </RewardPrice>
+                </RewardCard>
+              ))}
+            </RewardsGrid>
+          </StoreDemo>
+          
+          <StoreExplanation>
+            <ExplanationTitle>Como funciona a Joy Store?</ExplanationTitle>
+            <ExplanationText>
+              1. Complete quests para ganhar moedas Joy<br />
+              2. Defina suas próprias recompensas na Joy Store<br />
+              3. Troque suas moedas Joy pelas recompensas quando atingir o valor necessário<br />
+              4. Aproveite sua recompensa e continue motivado em suas jornadas!
+            </ExplanationText>
+          </StoreExplanation>
+        </StoreShowcase>
+      </JoyStoreContainer>
+    </JoyStoreSection>
+  );
+};
+
+export default JoyStore;
+
 const JoyStoreSection = styled.section`
   background-color: #00041a;
 `;
@@ -80,6 +171,10 @@ const CurrencyIcon = styled.div`
 const StoreCategories = styled.div`
   display: flex;
   gap: 15px;
+
+  @media(max-width: 768px){
+    display: none;
+  }
 `;
 
 const CategoryButton = styled.button<{ active: boolean }>`
@@ -111,29 +206,19 @@ const RewardsGrid = styled.div`
 `;
 
 const RewardCard = styled.div`
-  background-color: ${props => props.theme.colors.white};
+  background-color: #101320;
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   transition: all 0.3s ease;
-  
+  color: ${props => props.theme.colors.gray};
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  }
-`;
-
-const RewardImage = styled.div`
-  width: 100%;
-  height: 150px;
-  border-radius: 5px;
-  overflow: hidden;
-  margin-bottom: 15px;
-  
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
   }
 `;
 
@@ -187,100 +272,3 @@ const ExplanationText = styled.p`
   color: ${props => props.theme.colors.text};
   line-height: 1.6;
 `;
-
-const JoyStore: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState('all');
-  
-  const categories = [
-    { id: 'all', name: 'Todos' },
-    { id: 'digital', name: 'Digital' },
-    { id: 'physical', name: 'Físico' },
-    { id: 'experience', name: 'Experiências' }
-  ];
-  
-  const rewards = [
-    {
-      image: "/api/placeholder/300/150",
-      title: "30 minutos de tempo livre",
-      price: 50,
-      category: 'experience'
-    },
-    {
-      image: "/api/placeholder/300/150",
-      title: "Novo livro",
-      price: 200,
-      category: 'physical'
-    },
-    {
-      image: "/api/placeholder/300/150",
-      title: "Filme favorito",
-      price: 100,
-      category: 'digital'
-    }
-  ];
-
-  return (
-    <JoyStoreSection id="joystore">
-      <JoyStoreContainer>
-        <SectionTitle>
-          <span>Joy</span> Store
-        </SectionTitle>
-        <SectionDescription>
-          Troque suas moedas Joy por recompensas personalizadas que você mesmo define como motivação para completar suas quests.
-        </SectionDescription>
-        
-        <StoreShowcase>
-          <StoreDemo>
-            <StoreHeader>
-              <StoreCurrency>
-                <CurrencyIcon>J</CurrencyIcon>
-                350 Joy
-              </StoreCurrency>
-              <StoreCategories>
-                {categories.map(category => (
-                  <CategoryButton 
-                    key={category.id}
-                    active={activeCategory === category.id}
-                    onClick={() => setActiveCategory(category.id)}
-                  >
-                    {category.name}
-                  </CategoryButton>
-                ))}
-              </StoreCategories>
-            </StoreHeader>
-            
-            <RewardsGrid>
-              {rewards.map((reward, index) => (
-                <RewardCard key={index}>
-                  <RewardImage>
-                    <img src={reward.image} alt={reward.title} />
-                  </RewardImage>
-                  <RewardTitle>{reward.title}</RewardTitle>
-                  <RewardPrice>
-                    <Price>
-                      <CurrencyIcon>J</CurrencyIcon>
-                      {reward.price}
-                    </Price>
-                    <RedeemButton>Resgatar</RedeemButton>
-                  </RewardPrice>
-                </RewardCard>
-              ))}
-            </RewardsGrid>
-          </StoreDemo>
-          
-          <StoreExplanation>
-            <ExplanationTitle>Como funciona a Joy Store?</ExplanationTitle>
-            <ExplanationText>
-              1. Complete quests para ganhar moedas Joy<br />
-              2. Defina suas próprias recompensas na Joy Store<br />
-              3. Troque suas moedas Joy pelas recompensas quando atingir o valor necessário<br />
-              4. Aproveite sua recompensa e continue motivado em suas jornadas!
-            </ExplanationText>
-          </StoreExplanation>
-        </StoreShowcase>
-      </JoyStoreContainer>
-    </JoyStoreSection>
-  );
-};
-
-export default JoyStore;

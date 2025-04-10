@@ -1,6 +1,33 @@
 import React from 'react';
 import styled from 'styled-components';
 import heroImg from '../../assets/landingpage-2.png'
+import { Link } from 'react-router-dom';
+
+const Hero: React.FC = () => {
+  return (
+    <HeroSection id="hero">
+      <HeroContainer>
+        <HeroContent>
+          <HeroTitle>
+            Transforme seus objetivos em <span>conquistas diárias</span>
+          </HeroTitle>
+          <HeroSubtitle>
+            Crie quests, ganhe recompensas e alcance seus objetivos de forma divertida e motivadora com o QuestJoy.
+          </HeroSubtitle>
+          <HeroButtons>
+            <PrimaryButton><Link to="register">Criar Conta</Link></PrimaryButton>
+            <SecondaryButton><Link to="login">Entrar</Link></SecondaryButton>
+          </HeroButtons>
+        </HeroContent>
+        <HeroImage>
+          <img src={heroImg} alt="Hero illustration" />
+        </HeroImage>
+      </HeroContainer>
+    </HeroSection>
+  );
+};
+
+export default Hero;
 
 const HeroSection = styled.section`
   padding-top: 140px;
@@ -115,29 +142,3 @@ const HeroImage = styled.div`
     max-width: 400px;
   }
 `;
-
-const Hero: React.FC = () => {
-  return (
-    <HeroSection id="hero">
-      <HeroContainer>
-        <HeroContent>
-          <HeroTitle>
-            Transforme seus objetivos em <span>conquistas diárias</span>
-          </HeroTitle>
-          <HeroSubtitle>
-            Crie quests, ganhe recompensas e alcance seus objetivos de forma divertida e motivadora com o QuestJoy.
-          </HeroSubtitle>
-          <HeroButtons>
-            <PrimaryButton>Criar Conta</PrimaryButton>
-            <SecondaryButton>Saber Mais</SecondaryButton>
-          </HeroButtons>
-        </HeroContent>
-        <HeroImage>
-          <img src={heroImg} alt="Hero illustration" />
-        </HeroImage>
-      </HeroContainer>
-    </HeroSection>
-  );
-};
-
-export default Hero;
