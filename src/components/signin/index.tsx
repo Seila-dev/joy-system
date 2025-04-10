@@ -84,7 +84,7 @@ const SignInComponent = styled.main`
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f2f2f2;
+    background: transparent;
     .flexContainer{
         display: flex;
         max-width: 500px;
@@ -92,9 +92,10 @@ const SignInComponent = styled.main`
         width: 100%;
         flex-direction: column;
         box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
-        background: white;
+        background: transparent;
+        border: 1px solid white;
         padding: 30px;
-        color: black;
+        color: white;
         text-align: center;
         border-radius: 10px;
         border-top: 10px solid var(--secondary);
@@ -120,6 +121,8 @@ const SignInComponent = styled.main`
         margin: 5px 0;
         border: 1px solid #ccc;
         outline: none;
+        background: transparent;
+        color: white;
         border-radius: 5px;
     }
     form button{
@@ -130,6 +133,7 @@ const SignInComponent = styled.main`
         padding: 8px;
         border: none;
         gap: 5px;
+        font-weight: 700;
         background: var(--secondary);
         border-radius: 5px;
         cursor: pointer;
