@@ -25,8 +25,8 @@ export const Introduction = () => {
                         <span className="lowOpacity afterParagraph">Invista em você para alcançar seus objetivos dia após dia</span>
                         <div className="ctaSection">
                             <div>
-                                <Link to="/quests" className="btn cta">Ir para sistema de Quests</Link>
-                                <Link to="/notes" className="btn noCta">Ir para anotações</Link>
+                                <Link to="quests" className="btn cta">Ir para sistema de Quests</Link>
+                                <Link to="notes" className="btn noCta">Ir para anotações</Link>
                             </div>
                             <CalendarButton />
                         </div>
@@ -34,7 +34,7 @@ export const Introduction = () => {
                 ) : (
                     <div className="ctaSection">
                         <p>Para usar o site, é necessário fazer login</p>
-                        <Link to="login" className="btn noCta">Fazer login</Link>
+                        <Link to="/login" className="btn noCta">Fazer login</Link>
                     </div>
                 )}
 

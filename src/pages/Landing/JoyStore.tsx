@@ -50,7 +50,7 @@ const JoyStore: React.FC = () => {
                 {categories.map(category => (
                   <CategoryButton 
                     key={category.id}
-                    active={activeCategory === category.id}
+                    $active={activeCategory === category.id}
                     onClick={() => setActiveCategory(category.id)}
                   >
                     {category.name}
@@ -177,17 +177,17 @@ const StoreCategories = styled.div`
   }
 `;
 
-const CategoryButton = styled.button<{ active: boolean }>`
+const CategoryButton = styled.button<{ $active: boolean }>`
   padding: 8px 16px;
   border-radius: 20px;
   font-size: 14px;
   font-weight: 500;
-  background-color: ${props => props.active ? props.theme.colors.primary : props.theme.colors.gray};
-  color: ${props => props.active ? props.theme.colors.white : props.theme.colors.text};
+  background-color: ${props => props.$active ? props.theme.colors.primary : props.theme.colors.gray};
+  color: ${props => props.$active ? props.theme.colors.white : props.theme.colors.text};
   transition: all 0.3s ease;
   
   &:hover {
-    background-color: ${props => props.active ? props.theme.colors.primary : props.theme.colors.primary + '20'};
+    background-color: ${props => props.$active ? props.theme.colors.primary : props.theme.colors.primary + '20'};
   }
 `;
 

@@ -30,7 +30,6 @@ export const UserPage = () => {
                         Authorization: `Bearer ${token}`,
                     },
                 })
-                console.log(response.data)
                 setUserProducts(response.data)
             } catch (error) {
                 console.error('Failed to load products', error)
@@ -50,7 +49,7 @@ export const UserPage = () => {
     return (
         <UserElement>
             <div className="headerActionButtons">
-                <Link to="/" className="prevPage">
+                <Link to="/dashboard" className="prevPage">
                     <span className="material-symbols-outlined arrowBack">
                         arrow_back
                     </span>

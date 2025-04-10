@@ -16,18 +16,18 @@ function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/" element={<MainPage />}>
+      <Route path="/dashboard" element={<MainPage />}>
         <Route index element={<Home />} />
-        <Route path="/quests" element={<QuestSystem />} />
-        <Route path="/notes" element={<NotesSystem />} />
-        <Route path="/notes/:id" element={<DetailedNote />} />
-        <Route path="/store" element={<JoysStore />} />
-        <Route path="/user" element={<UserPage />} />
-        <Route path="/calendar" element={<CalendarPage />} />
+        <Route path="quests" element={<QuestSystem />} />
+        <Route path="notes" element={<NotesSystem />} />
+        <Route path="notes/:id" element={<DetailedNote />} />
+        <Route path="store" element={<JoysStore />} />
+        <Route path="user" element={<UserPage />} />
+        <Route path="calendar" element={<CalendarPage />} />
       </Route>
       <Route path="/login" element={<SignIn />} />
       <Route path="/register" element={<SignUp />} />
-      <Route path="/about" element={<App />} />
+      <Route path="/" element={<App />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )

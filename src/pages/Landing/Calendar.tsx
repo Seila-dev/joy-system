@@ -67,10 +67,10 @@ const Calendar: React.FC = () => {
             {days.map(day => (
               <Day 
                 key={day} 
-                isToday={day === today}
-                hasEvents={daysWithEvents.includes(day)}
+                $isToday={day === today}
+                $hasEvents={daysWithEvents.includes(day)}
               >
-                <DayNumber isToday={day === today}>{day}</DayNumber>
+                <DayNumber $isToday={day === today}>{day}</DayNumber>
               </Day>
             ))}
           </DaysGrid>
@@ -197,14 +197,14 @@ const DaysGrid = styled.div`
   }
 `;
 
-const Day = styled.div<{ isToday?: boolean; hasEvents?: boolean }>`
+const Day = styled.div<{ $isToday?: boolean; $hasEvents?: boolean }>`
   position: relative;
   aspect-ratio: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: ${props => props.isToday ? 'linear-gradient(135deg, #7742e6, #a57bff)' : '#4d54e8'};
+  background: ${props => props.$isToday ? 'linear-gradient(135deg, #7742e6, #a57bff)' : '#4d54e8'};
   padding: 5px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -215,7 +215,7 @@ const Day = styled.div<{ isToday?: boolean; hasEvents?: boolean }>`
   
   &::after {
     content: '';
-    display: ${props => props.hasEvents ? 'block' : 'none'};
+    display: ${props => props.$hasEvents ? 'block' : 'none'};
     position: absolute;
     top: 5px;
     right: 5px;
@@ -233,10 +233,10 @@ const Day = styled.div<{ isToday?: boolean; hasEvents?: boolean }>`
   }
 `;
 
-const DayNumber = styled.span<{ isToday?: boolean }>`
+const DayNumber = styled.span<{ $isToday?: boolean }>`
   font-size: 20px;
-  font-weight: ${props => props.isToday ? '700' : '400'};
-  color: ${props => props.isToday ? props.theme.colors.white : props.theme.colors.black};
+  font-weight: ${props => props.$isToday ? '700' : '400'};
+  color: ${props => props.$isToday ? props.theme.colors.white : props.theme.colors.black};
 
   @media(max-width: 500px) {
     font-size: 12px;

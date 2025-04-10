@@ -32,13 +32,13 @@ export const TodoList = () => {
                 
 
                 <div className="flexContainer">
-                    <Link to="/quests" className="btn viewAllBtn">
+                    <Link to="quests" className="btn viewAllBtn">
                             <span className="material-symbols-outlined viewAllIcon icon">
                                 stack
                             </span>
                             <span className="text viewAllText">View all</span>
                     </Link>
-                    <Link to="/quests" className="btn editBtn">
+                    <Link to="quests" className="btn editBtn">
                             <span className="material-symbols-outlined editIcon icon">
                                 edit_square
                             </span>

@@ -112,7 +112,7 @@ export const QuestSystem = () => {
     return (
         <QuestComponent>
             <Toaster theme="dark"></Toaster>
-            <Link to="/" className="prevPage">
+            <Link to="/dashboard" className="prevPage">
                 <span className="material-symbols-outlined arrowBack">
                     arrow_back
                 </span>
