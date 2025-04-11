@@ -204,10 +204,10 @@ export const QuestForm: React.FC<QuestFormProps> = ({
                                     {...field}
                                     id="timeline"
                                 >
-                                    <option value="DIARIO">Diário</option>
-                                    <option value="SEMANAL">Semanal</option>
-                                    <option value="MENSAL">Mensal</option>
-                                    <option value="ANUAL">Anual</option>
+                                    <option value="DIARIO">Diário (24h)</option>
+                                    <option value="SEMANAL">Semanal (7d)</option>
+                                    <option value="MENSAL">Mensal (30d)</option>
+                                    <option value="ANUAL">Anual (+1 ano)</option>
                                 </select>
                             )}
                         />

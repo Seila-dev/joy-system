@@ -125,7 +125,7 @@ export const QuestSystem = () => {
                     <p className="description">Gerencie e acompanhe suas tarefas em diferentes categorias para ganhar recompensas.</p>
                 </div>
                 <div className="rightSide">
-                    <Link to="store" className="joysStore">
+                    <Link to="/dashboard/store" className="joysStore">
                         <span className="material-symbols-outlined">
                             shopping_bag
                         </span>
