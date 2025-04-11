@@ -9,7 +9,7 @@ import { Toaster } from "sonner";
 
 export const NotesSystem = () => {
   const [showForm, setShowForm] = useState<boolean>(false);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, ] = useState<string | null>(null);
   const [filterStatus, setFilterStatus] = useState<NoteStatus | null>(null);
   const [filterPriority, _] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState<string | null>(null);
@@ -19,9 +19,10 @@ export const NotesSystem = () => {
     setSearchQuery(e.target.value || null);
   };
 
-  const handleCategoryChange = (category: string | null) => {
-    setSelectedCategory(category === selectedCategory ? null : category);
-  };
+  // const handleCategoryChange = (category: string | null) => {
+  //   setSelectedCategory(category === selectedCategory ? null : category);
+  // };
+
 
   const handleStatusChange = (status: NoteStatus | null) => {
     setFilterStatus(status === filterStatus ? null : status);
@@ -64,7 +65,7 @@ export const NotesSystem = () => {
       </Header>
 
       <FiltersSection>
-        <div className="filterCategories">
+        {/* <div className="filterCategories">
           <button
             className={`filterItem ${selectedCategory === null ? "selected" : ""}`}
             onClick={() => handleCategoryChange(null)}
@@ -92,7 +93,7 @@ export const NotesSystem = () => {
             <span className="material-symbols-outlined icon">school</span>
             Estudo
           </button>
-        </div>
+        </div> */}
 
         <div className="filtersByStatus">
           <button
