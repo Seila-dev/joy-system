@@ -31,52 +31,53 @@ export const QuestSystem = () => {
         setFilterState(!filterState)
     }
 
-    useEffect(() => {
-        const savedTimeline = localStorage.getItem('selectedTimeline');
-        const savedDifficulty = localStorage.getItem('selectedDifficulty');
-        const savedStatus = localStorage.getItem('selectedStatus');
+    
+    // useEffect(() => {
+    //     const savedTimeline = localStorage.getItem('selectedTimeline');
+    //     const savedDifficulty = localStorage.getItem('selectedDifficulty');
+    //     const savedStatus = localStorage.getItem('selectedStatus');
 
-        if (savedTimeline !== null) {
-            try {
-                const parsed = JSON.parse(savedTimeline);
-                setSelectedTimeline(parsed);
-            } catch (e) {}
-        }
+    //     if (savedTimeline !== null) {
+    //         try {
+    //             const parsed = JSON.parse(savedTimeline);
+    //             setSelectedTimeline(parsed);
+    //         } catch (e) {}
+    //     }
 
-        if (savedDifficulty !== null) {
-            try {
-                const parsed = JSON.parse(savedDifficulty);
-                setSelectedDifficulty(parsed);
-            } catch (e) {}
-        }
+    //     if (savedDifficulty !== null) {
+    //         try {
+    //             const parsed = JSON.parse(savedDifficulty);
+    //             setSelectedDifficulty(parsed);
+    //         } catch (e) {}
+    //     }
 
-        if (savedStatus !== null) {
-            try {
-                const parsed = JSON.parse(savedStatus);
-                setSelectedStatus(parsed);
-            } catch (e) {}
-        } 
-    }, []);
+    //     if (savedStatus !== null) {
+    //         try {
+    //             const parsed = JSON.parse(savedStatus);
+    //             setSelectedStatus(parsed);
+    //         } catch (e) {}
+    //     } 
+    // }, []);
 
-    useEffect(() => {
-        if (selectedTimeline !== null) {
-            localStorage.setItem('selectedTimeline', JSON.stringify(selectedTimeline));
-        } else {
-            localStorage.removeItem('selectedTimeline');
-        }
+    // useEffect(() => {
+    //     if (selectedTimeline !== null) {
+    //         localStorage.setItem('selectedTimeline', JSON.stringify(selectedTimeline));
+    //     } else {
+    //         localStorage.removeItem('selectedTimeline');
+    //     }
 
-        if (selectedDifficulty !== null) {
-            localStorage.setItem('selectedDifficulty', JSON.stringify(selectedDifficulty));
-        } else {
-            localStorage.removeItem('selectedDifficulty');
-        }
+    //     if (selectedDifficulty !== null) {
+    //         localStorage.setItem('selectedDifficulty', JSON.stringify(selectedDifficulty));
+    //     } else {
+    //         localStorage.removeItem('selectedDifficulty');
+    //     }
 
-        if (selectedStatus !== null) {
-            localStorage.setItem('selectedStatus', JSON.stringify(selectedStatus));
-        } else {
-            localStorage.removeItem('selectedStatus');
-        }
-    }, [selectedTimeline, selectedDifficulty, selectedStatus]);
+    //     if (selectedStatus !== null) {
+    //         localStorage.setItem('selectedStatus', JSON.stringify(selectedStatus));
+    //     } else {
+    //         localStorage.removeItem('selectedStatus');
+    //     }
+    // }, [selectedTimeline, selectedDifficulty, selectedStatus]);
 
     useEffect(() => {
         if (editQuestData) {

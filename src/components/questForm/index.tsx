@@ -195,7 +195,7 @@ export const QuestForm: React.FC<QuestFormProps> = ({
 
                 <div className="gridContainer">
                     <div className='item'>
-                        <label htmlFor="timeline">Timeline</label>
+                        <label htmlFor="timeline">Período da Quest</label>
                         <Controller
                             name="timeline"
                             control={control}
@@ -211,7 +211,7 @@ export const QuestForm: React.FC<QuestFormProps> = ({
                                 </select>
                             )}
                         />
-                        <p className="description">Frequência da sua Quest</p>
+                        <p className="description">Período entre o inicio até a conclusão da sua Quest</p>
                     </div>
 
                     <div className='item'>
