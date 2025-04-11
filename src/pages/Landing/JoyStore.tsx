@@ -183,8 +183,8 @@ const CategoryButton = styled.button<{ $active: boolean }>`
   font-size: 14px;
   font-weight: 500;
   background-color: ${props => props.$active ? props.theme.colors.primary : props.theme.colors.gray};
-  color: ${props => props.$active ? props.theme.colors.white : props.theme.colors.text};
-  transition: all 0.3s ease;
+  color: ${props => props.$active ? props.theme.colors.white : props.theme.colors.primary};
+  transition: all 0.3s easeblack;
   
   &:hover {
     background-color: ${props => props.$active ? props.theme.colors.primary : props.theme.colors.primary + '20'};

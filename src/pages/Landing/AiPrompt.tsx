@@ -28,7 +28,7 @@ const AIPrompt: React.FC = () => {
       <ContentContainer>
         <AIContent>
           <SectionTitle>
-            Sugestões por <span>IA</span>
+            Sugestões por <span>IA</span> (Em Breve)
           </SectionTitle>
           <AIDescription>
             Não sabe quais quests criar para alcançar seus objetivos? Nossa IA pode ajudar! Basta compartilhar seus objetivos e receber sugestões personalizadas de quests diárias que o ajudarão a progredir consistentemente.
