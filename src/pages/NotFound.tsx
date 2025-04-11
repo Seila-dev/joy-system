@@ -1,12 +1,20 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { AuthContext } from "../contexts/AuthContext";
 
 export const NotFound = () =>  {
+  const { isAuthenticated } = useContext(AuthContext)
   return (
     <Element>
       <h1>404 - Page Not Found</h1>
       <p>A Página que você está procurando não existe.</p>
-      <Link to="/">Voltar para página principal</Link>
+      { isAuthenticated ? (
+        <Link to="/dashboard">Voltar para dashboard</Link>
+      ) : (
+        <Link to="/">Voltar para página principal</Link>
+      )}
+      
     </Element>
   );
 }

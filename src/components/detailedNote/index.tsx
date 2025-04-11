@@ -204,7 +204,7 @@ export const DetailedNote = () => {
               Salvar alterações
             </ActionButton>
           )}
-          <ActionButton className="remove" onClick={() => {deleteNote(note.id); navigate('/notes')}}>
+          <ActionButton className="remove" onClick={() => {deleteNote(note.id); navigate('/dashboard/notes')}}>
               <span className="material-symbols-outlined">delete</span>
               Deletar nota
             </ActionButton>
