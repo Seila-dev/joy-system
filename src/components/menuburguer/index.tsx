@@ -33,19 +33,19 @@ export const MenuBurguer = ({ active, toggleMenu }: MenuBurguerProps) => {
                     <span className="material-symbols-outlined close-icon" >
                         stack
                     </span>
-                    <li>Quest System</li>
+                    <li>Tarefas</li>
                 </Link>
                 <Link to="store" onClick={toggleMenu}>
                     <span className="material-symbols-outlined close-icon" >
                         shopping_cart
                     </span>
-                    <li>JoyStore</li>
+                    <li>Loja</li>
                 </Link>
                 <Link to="notes" onClick={toggleMenu}>
                     <span className="material-symbols-outlined close-icon" >
                         edit
                     </span>
-                    <li>Notes</li>
+                    <li>Anotações</li>
                 </Link>
                 <Link to="calendar" onClick={toggleMenu}>
                     <span className="material-symbols-outlined close-icon" >
@@ -68,7 +68,6 @@ const MenuContainer = styled.div<{ $active: boolean }>`
     top: 0;
     left: 0;
     height: 100%;
-    //background: #4c6759;
     background: var(--primary);
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;

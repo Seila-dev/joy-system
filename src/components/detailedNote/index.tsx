@@ -11,7 +11,6 @@ export const DetailedNote = () => {
   const { id } = useParams();
   const [note, setNote] = useState<Note | undefined>();
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  // const [openNav, setOpenNav] = useState<boolean>(false);
   const [editedTitle, setEditedTitle] = useState<string>("");
   const [editedContent, setEditedContent] = useState<string>("");
   const [openSidebar, setOpenSidebar] = useState<boolean>(false);

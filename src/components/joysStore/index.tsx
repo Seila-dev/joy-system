@@ -28,12 +28,12 @@ export const JoysStore = () => {
                 <span className="material-symbols-outlined arrowBack">
                     arrow_back
                 </span>
-                <p>Voltar para Home</p>
+                <p>Voltar para menu</p>
             </Link>
             <div className="headerActionButtons">
                 <div className="leftSide">
-                    <h1 className="title">JoyStore</h1>
-                    <p className="description">Gerencie e acompanhe suas tarefas em diferentes categorias para ganhar recompensas.</p>
+                    <h1 className="title">Loja</h1>
+                    <p className="description">Aqui você pode adicionar metas ou recompensas para alcançar após ganhar mais moedas de suas tarefas concluidas.</p>
                 </div>
                 <div className="rightColumn">
                     <span className="material-symbols-outlined icon">
@@ -65,7 +65,7 @@ export const JoysStore = () => {
 
 
                 <div className="joysHistory">
-                    <h2>Histórico de Joys - Recentes</h2>
+                    <h2>Histórico de Moedas - Recentes</h2>
                     <div className="gridContainer history">
                         <Transactions limit={3} />
                     </div>
@@ -206,7 +206,6 @@ const JoysStoreComponent = styled.section`
     }
 
     @media(max-width: 550px){
-
         .gridContainer{
             grid-template-columns: 1fr;
         }

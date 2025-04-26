@@ -33,10 +33,10 @@ export const SignUp = () => {
   const onSubmit: SubmitHandler<signUpUserFormData> = async (data) => {
 
     try {
-        // Chama o backend para verificar se o e-mail já existe
-        const response = await api.post("/users", data);  // Aqui você envia os dados para criar o usuário
-
-        console.log("Usuário criado com sucesso:", response.data);
+        const response = await api.post("/users", data);
+        if (response.status !== 201) {
+            throw new Error("Erro ao registrar usuário")
+        }
         await registerAccount(data);  
         navigate("/login")
 

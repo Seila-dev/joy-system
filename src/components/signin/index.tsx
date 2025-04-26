@@ -32,11 +32,11 @@ export const SignIn = () => {
         } catch (error: any) {
             setError("email", {
                 type: "manual",
-                message: "Invalid email or password",
+                message: "Email ou senha inválidos",
             });
             setError("password", {
                 type: "manual",
-                message: "Invalid email or password",
+                message: "Email ou senha inválidos",
             });
         }
     };

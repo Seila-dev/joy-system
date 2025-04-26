@@ -142,8 +142,8 @@ export const QuestForm: React.FC<QuestFormProps> = ({
             reset();
             onClose?.();
         } catch (error) {
-            console.error('Erro ao adicionar ou editar quest:', error);
-            alert('Erro ao adicionar ou editar quest');
+            console.error('Erro ao adicionar ou editar tarefa:', error);
+            alert('Erro ao adicionar ou editar tarefa');
         }
     };
 
@@ -152,11 +152,11 @@ export const QuestForm: React.FC<QuestFormProps> = ({
         <Container>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <div className="headerForm">
-                    <h2>{mode === 'create' ? 'Criar Nova Quest' : 'Editar Quest'}</h2>
+                    <h2>{mode === 'create' ? 'Criar Nova Tarefa' : 'Editar Tarefa'}</h2>
                     <p className='description'>
                         {mode === 'create'
-                            ? 'Crie uma nova quest para sua jornada.'
-                            : 'Edite os detalhes da sua quest.'}
+                            ? 'Crie uma nova tarefa para seu cronograma.'
+                            : 'Edite os detalhes da sua tarefa.'}
                     </p>
                 </div>
 
@@ -195,7 +195,7 @@ export const QuestForm: React.FC<QuestFormProps> = ({
 
                 <div className="gridContainer">
                     <div className='item'>
-                        <label htmlFor="timeline">Período da Quest</label>
+                        <label htmlFor="timeline">Período da Tarefa</label>
                         <Controller
                             name="timeline"
                             control={control}
@@ -211,7 +211,7 @@ export const QuestForm: React.FC<QuestFormProps> = ({
                                 </select>
                             )}
                         />
-                        <p className="description">Período entre o inicio até a conclusão da sua Quest</p>
+                        <p className="description">Período entre o inicio até a conclusão da sua Tarefa</p>
                     </div>
 
                     <div className='item'>
@@ -261,7 +261,7 @@ export const QuestForm: React.FC<QuestFormProps> = ({
                     </div>
 
                     <div className='item'>
-                        <label htmlFor="joys">Joys</label>
+                        <label htmlFor="joys">Moedas</label>
                         <Controller
                             name="joys"
                             control={control}
@@ -278,7 +278,7 @@ export const QuestForm: React.FC<QuestFormProps> = ({
                                 />
                             )}
                         />
-                        <p className="description">Recompensa baseada na dificuldade da quest</p>
+                        <p className="description">Recompensa baseada na dificuldade da tarefa</p>
                     </div>
 
                     <div className='item'>
@@ -308,7 +308,7 @@ export const QuestForm: React.FC<QuestFormProps> = ({
                 <div className="buttons">
                     <button className='cancelBtn btnForm' onClick={() => onClose?.()}>Cancel</button>
                     <button type="submit" disabled={isSubmitting} className='submitBtn btnForm'>
-                        {mode === 'create' ? 'Criar Quest' : 'Atualizar Quest'}
+                        {mode === 'create' ? 'Criar Tarefa' : 'Atualizar Tarefa'}
                     </button>
                 </div>
             </Form>

@@ -13,9 +13,9 @@ const JoyStore: React.FC = () => {
   
   const rewards = [
     {
-      title: "30 minutos de tempo livre",
+      title: "Jogar valorant por 2h",
       price: 50,
-      category: 'experience'
+      category: 'digital'
     },
     {
       title: "Ler um novo livro",
@@ -33,18 +33,18 @@ const JoyStore: React.FC = () => {
     <JoyStoreSection id="joystore">
       <JoyStoreContainer>
         <SectionTitle>
-          <span>Joy</span> Store
+          <span>Loja</span>
         </SectionTitle>
         <SectionDescription>
-          Troque suas moedas Joy por recompensas personalizadas que você mesmo define como motivação para completar suas quests.
+          Troque suas moedas por recompensas personalizadas que você mesmo define como motivação para completar suas tarefas.
         </SectionDescription>
         
         <StoreShowcase>
           <StoreDemo>
             <StoreHeader>
               <StoreCurrency>
-                <CurrencyIcon>J</CurrencyIcon>
-                350 Joys
+                <CurrencyIcon>M</CurrencyIcon>
+                350 Moedas
               </StoreCurrency>
               <StoreCategories>
                 {categories.map(category => (
@@ -65,7 +65,7 @@ const JoyStore: React.FC = () => {
                   <RewardTitle>{reward.title}</RewardTitle>
                   <RewardPrice>
                     <Price>
-                      <CurrencyIcon>J</CurrencyIcon>
+                      <CurrencyIcon>M</CurrencyIcon>
                       {reward.price}
                     </Price>
                     <RedeemButton>Resgatar</RedeemButton>
@@ -76,11 +76,11 @@ const JoyStore: React.FC = () => {
           </StoreDemo>
           
           <StoreExplanation>
-            <ExplanationTitle>Como funciona a Joy Store?</ExplanationTitle>
+            <ExplanationTitle>Como funciona a Loja?</ExplanationTitle>
             <ExplanationText>
-              1. Complete quests para ganhar moedas Joy<br />
-              2. Defina suas próprias recompensas na Joy Store<br />
-              3. Troque suas moedas Joy pelas recompensas quando atingir o valor necessário<br />
+              1. Complete tarefas para ganhar moedas<br />
+              2. Defina suas próprias recompensas na Loja<br />
+              3. Troque suas Moedas pelas recompensas quando atingir o valor necessário<br />
               4. Aproveite sua recompensa e continue motivado em suas jornadas!
             </ExplanationText>
           </StoreExplanation>

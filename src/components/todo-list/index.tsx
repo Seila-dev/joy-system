@@ -26,8 +26,8 @@ export const TodoList = () => {
         <TodoComponent>
             <div className="header">
                 <div>
-                    <h2>Quests em destaque</h2>
-                    <p className="description">Apenas quests <strong>em andamento</strong> com o filtro em <strong>destaque</strong></p>
+                    <h2>Tarefas em destaque</h2>
+                    <p className="description">Apenas tarefas <strong>em andamento</strong> com o filtro em <strong>destaque</strong></p>
                 </div>
                 
 
@@ -36,13 +36,13 @@ export const TodoList = () => {
                             <span className="material-symbols-outlined viewAllIcon icon">
                                 stack
                             </span>
-                            <span className="text viewAllText">View all</span>
+                            <span className="text viewAllText">Ver tudo</span>
                     </Link>
                     <Link to="quests" className="btn editBtn">
                             <span className="material-symbols-outlined editIcon icon">
                                 edit_square
                             </span>
-                            <span className="text editText">Edit</span>
+                            <span className="text editText">Editar</span>
                     </Link>
                 </div>
             </div>

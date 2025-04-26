@@ -59,12 +59,12 @@ export const JoysStoreProducts = ({ active }: ProductActiveProp) => {
             }
 
             if ((balance ? balance : 0) < product.price) {
-                toast.error(`Não é o suficiente! Precisa de ${product.price} Joys para esse produto.`);
+                toast.error(`Não é o suficiente! Precisa de ${product.price} Moedas para esse produto.`);
                 return;
             }
 
             const confirmed = window.confirm(
-                `Você quer comprar ${product.name} por ${product.price} Joys?`
+                `Você quer comprar ${product.name} por ${product.price} Moedas?`
             );
 
             if (confirmed) {
@@ -120,7 +120,7 @@ export const JoysStoreProducts = ({ active }: ProductActiveProp) => {
                             <span className="material-symbols-outlined icon">
                                 shopping_cart
                             </span>
-                            <p > {!user ? 'Login to Buy' : (balance ? balance : 0) < product.price ? 'Saldo Joy Insuficiente' : 'Purchase'}</p>
+                            <p > {!user ? 'Você não está logado.' : (balance ? balance : 0) < product.price ? 'Saldo de Moedas Insuficiente' : 'Comprar'}</p>
                         </button>
                         ) : (
                             <button className="purchaseBtn stopActions" disabled>Produto inativo</button>

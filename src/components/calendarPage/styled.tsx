@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-// Styled Components
 export const PageContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
@@ -34,7 +33,6 @@ export const PageContainer = styled.div`
 
 `;
 
-// Calendar wrapper with more dimension
 export const CalendarWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -89,7 +87,6 @@ export const Header = styled.header`
   }
 `;
 
-// Improved header with glowing effects
 export const CalendarHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -131,7 +128,6 @@ export const CalendarHeader = styled.div`
   }
 `;
 
-// Calendar grid with improved spacing and design
 export const CalendarGrid = styled.div`
   display: flex;
   flex-direction: column;
@@ -167,7 +163,6 @@ export const DaysGrid = styled.div`
   margin-top: 5px;
 `;
 
-// Updated DayItem component with quest indicator
 export const DayItem = styled.div`
   display: flex;
   justify-content: center;
@@ -182,7 +177,6 @@ export const DayItem = styled.div`
   color: #d0d5ff;
   border: 1px solid rgba(80, 100, 200, 0.1);
 
-  /* Quest indicator dot */
   &.has-quest::after {
     content: "";
     position: absolute;
@@ -234,7 +228,6 @@ export const DayItem = styled.div`
   }
 `;
 
-// Day details with enhanced appearance
 export const DayDetails = styled.div`
   margin-top: 40px;
   background: rgba(15, 20, 60, 0.5);
@@ -288,7 +281,6 @@ export const EventsList = styled.div`
   gap: 15px;
 `;
 
-// Quest item design with glowing effects based on status
 export const QuestItem = styled.div<{ status: string }>`
   display: flex;
   justify-content: space-between;
