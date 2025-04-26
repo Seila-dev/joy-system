@@ -52,7 +52,7 @@ export function QuestProvider({ children }: { children: React.ReactNode }) {
         },
       })
 
-      toast.success("Tarefa criado com sucesso!");
+      toast.success("Tarefa criada com sucesso!");
       setQuests((prevQuests) => [...prevQuests, response.data]);
     } catch (err) {
       setError('Erro ao adicionar a tarefa');
