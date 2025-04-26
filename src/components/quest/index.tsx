@@ -14,6 +14,13 @@ interface QuestItemProps {
     filterQuery: Quest[] | null;
 }
 
+interface Notification {
+    id: number;
+    questId: number;
+    message: string;
+    questTitle: string;
+}
+
 export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, filterQuantity, filterQuery }: QuestItemProps) => {
 
     const [activeMenuId, setActiveMenuId] = useState<number | null>(null)
@@ -22,12 +29,13 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
     const [openStatus, setOpenStatus] = useState<number | null>(null)
     const { deleteQuest, loading, setStatus } = useContext(QuestContext)
     const { getBalance } = useContext(JoysContext)
-    const [notifications, setNotifications] = useState<string[]>([])
+    const [notifications, setNotifications] = useState<Notification[]>([])
+    const [currentNotificationIndex, setCurrentNotificationIndex] = useState<number>(0)
 
     const createQuestForm = (questData: Quest) => {
-        setEditQuestData(questData);
-        setOpen(true);
-    };
+        setEditQuestData(questData)
+        setOpen(true)
+    }
 
     const closeCreateForm = () => {
         setOpen(false)
@@ -35,10 +43,10 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
 
     const updateMenu = (id: number) => {
         if (activeMenuId === id) {
-            setActiveMenuId(null);
+            setActiveMenuId(null)
         } else {
-            setActiveMenuId(id);
-            setOpenStatus(null);
+            setActiveMenuId(id)
+            setOpenStatus(null)
         }
     }
 
@@ -51,34 +59,39 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
         }
     }
 
-    const changeStatus = (questId: number, newStatus: QuestStatus) => {
-        const quest = filterQuery?.find(q => q.id === questId);
+    const dismissNotification = (notificationId: number) => {
+        setNotifications(prev => prev.filter(notification => notification.id !== notificationId))
+    }
 
-        if (!quest) return;
+    const changeStatus = (questId: number, newStatus: QuestStatus, notificationId?: number) => {
+        const quest = filterQuery?.find(q => q.id === questId)
 
-        if (quest.status === newStatus || quest.status === 'COMPLETO' || quest.status === 'INCOMPLETO') return;
+        if (!quest) return
+
+        if (quest.status === newStatus || quest.status === 'COMPLETO' || quest.status === 'INCOMPLETO') return
 
         if (newStatus === 'COMPLETO' || newStatus === 'INCOMPLETO') {
-            const confirmed = window.confirm(`Você tem certeza que quer mudar o status para ${newStatus}? Você não poderá voltar atrás depois..`);
-            if (!confirmed) return;
+            const confirmed = window.confirm(`Você tem certeza que quer mudar o status para ${newStatus}? Você não poderá voltar atrás depois..`)
+            if (!confirmed) return
         }
 
         setStatus(questId, newStatus)
         getBalance()
 
-        if (newStatus === 'COMPLETO' || newStatus === 'INCOMPLETO') {
-            setNotifications([])
-        } else {
-            setTimeout(() => {
-                const updatedQuests = filterQuery?.map(q =>
-                    q.id === questId ? { ...q, status: newStatus } : q
-                );
-                const updatedFilteredQuests = getFilteredQuests(updatedQuests || []);
-                const updatedNotifications = checkQuestsTimeLimit(updatedFilteredQuests || []);
-                setNotifications(updatedNotifications);
-            }, 100);
+        if (notificationId !== undefined) {
+            dismissNotification(notificationId);
         }
-    };
+        
+        setTimeout(() => {
+            const updatedQuests = filterQuery?.map(q =>
+                q.id === questId ? { ...q, status: newStatus } : q
+            )
+            const updatedFilteredQuests = getFilteredQuests(updatedQuests || [])
+            const updatedNotifications = checkQuestsTimeLimit(updatedFilteredQuests || [])
+            setNotifications(updatedNotifications)
+        }, 100)
+    }
+
     const filterByTimeline = selectedTimeline === null
         ? filterQuery?.slice(0, filterQuantity ?? filterQuery?.length)
         : filterQuery?.filter(quest => quest.timeline === selectedTimeline)
@@ -103,9 +116,9 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
         return filterStatus
             ? difficultyFiltered?.filter(quest => quest.status === filterStatus)
             : difficultyFiltered;
-    };
+    }
 
-    const hasQuests = filteredQuests && filteredQuests.length > 0;
+    const hasQuests = filteredQuests && filteredQuests.length > 0
     
     const transformDateToPtbr = (newDate: string | number): string => {
         const dt = DateTime.fromJSDate(new Date(newDate)).setLocale('pt-BR')
@@ -113,30 +126,53 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
         return dt.toFormat('dd/MM/yyyy - HH:mm')
     }
 
-    const checkQuestsTimeLimit = (quests: Quest[]) => {
-        const newNotifications: string[] = [];
+    const checkQuestsTimeLimit = (quests: Quest[]): Notification[] => {
+        const newNotifications: Notification[] = []
 
         quests?.forEach((quest) => {
-            const questTimeLimit = DateTime.fromISO(quest.validation);
+            const questTimeLimit = DateTime.fromISO(quest.validation)
 
             if (quest.status === 'COMPLETO' || quest.status === 'INCOMPLETO') {
                 return
             }
 
             if (questTimeLimit < DateTime.now()) {
-                newNotifications.push(`A quest "${quest.title}" passou do tempo limite! Você concluiu?`);
+                newNotifications.push({
+                    id: Date.now() + Math.random(),
+                    questId: quest.id,
+                    message: `A quest "${quest.title}" passou do tempo limite! Você concluiu?`,
+                    questTitle: quest.title
+                })
             }
-        });
+        })
 
         return newNotifications
     }
 
+    const handleNextNotification = () => {
+        if (currentNotificationIndex < notifications.length - 1) {
+            setCurrentNotificationIndex(prev => prev + 1)
+        } else {
+            setCurrentNotificationIndex(0)
+        }
+    }
+
+    const handlePrevNotification = () => {
+        if (currentNotificationIndex > 0) {
+            setCurrentNotificationIndex(prev => prev - 1)
+        } else {
+            setCurrentNotificationIndex(notifications.length - 1)
+        }
+    }
+
     useEffect(() => {
         if (filteredQuests && filteredQuests.length > 0) {
-            const newNotifications = checkQuestsTimeLimit(filteredQuests);
-
-            if (JSON.stringify(newNotifications) !== JSON.stringify(notifications)) {
+            const newNotifications = checkQuestsTimeLimit(filteredQuests)
+            
+            if (JSON.stringify(newNotifications.map(n => n.questId)) !== 
+                JSON.stringify(notifications.map(n => n.questId))) {
                 setNotifications(newNotifications);
+                setCurrentNotificationIndex(0);
             }
         }
     }, [filterDifficulty, filterStatus, filterQuery, selectedTimeline, filterQuantity])
@@ -147,42 +183,73 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
 
     if (loading) return <div>Loading..</div>
 
-
     return (
         <>
-            {notifications.length > 0 && <Overlay />}
+            {notifications.length > 0 && <Overlay onClick={() => {}} />}
             {notifications.length > 0 && (
                 <Notifications>
                     <div className="notificationHeader">
                         <h2 className="title">Notificações</h2>
-                        <p className="description">Todas suas notificações estarão aqui!</p>
+                        <p className="description">
+                            {notifications.length > 1 
+                                ? `${currentNotificationIndex + 1}/${notifications.length} notificações pendentes` 
+                                : "1 notificação pendente"}
+                        </p>
                     </div>
-                    {notifications.map((notification, index) => (
-                        <div key={index} className="notificationItem">
-                            <div className="message">{notification}</div>
+                    
+                    {notifications.length > 0 && (
+                        <div className="notificationItem">
+                            <div className="message">
+                                {notifications[currentNotificationIndex].message}
+                            </div>
                             <div className="buttonContainer">
                                 <button onClick={() => {
-                                    filteredQuests?.forEach(quest => {
-                                        if (quest.status !== 'COMPLETO' && quest.status !== 'INCOMPLETO') {
-                                            changeStatus(quest.id, 'COMPLETO')
-                                        }
-                                    });
-                                    setNotifications([])
-                                }}
-                                >
-                                    Sim. Terminei.</button>
+                                    const notification = notifications[currentNotificationIndex];
+                                    changeStatus(notification.questId, 'COMPLETO', notification.id);
+                                }}>
+                                    Sim. Terminei.
+                                </button>
                                 <button className="failed" onClick={() => {
-                                    filteredQuests?.forEach(quest => {
-                                        if (quest.status !== 'INCOMPLETO') {
-                                            changeStatus(quest.id, 'INCOMPLETO');
-                                        }
-                                    });
-                                    // setNotifications([])
-                                }}
-                                >Não consegui.</button>
+                                    const notification = notifications[currentNotificationIndex];
+                                    changeStatus(notification.questId, 'INCOMPLETO', notification.id);
+                                }}>
+                                    Não consegui.
+                                </button>
                             </div>
+                            
+                            {notifications.length > 1 && (
+                                <div className="navigationButtons">
+                                    <button onClick={handlePrevNotification} className="navButton">
+                                        <span className="material-symbols-outlined">
+                                            arrow_back
+                                        </span>
+                                    </button>
+                                    <button onClick={() => dismissNotification(notifications[currentNotificationIndex].id)} className="dismissButton">
+                                        <span className="material-symbols-outlined">
+                                            close
+                                        </span>
+                                        Ignorar esta notificação
+                                    </button>
+                                    <button onClick={handleNextNotification} className="navButton">
+                                        <span className="material-symbols-outlined">
+                                            arrow_forward
+                                        </span>
+                                    </button>
+                                </div>
+                            )}
+                            
+                            {notifications.length === 1 && (
+                                <div className="navigationButtons">
+                                    <button onClick={() => dismissNotification(notifications[0].id)} className="dismissButton">
+                                        <span className="material-symbols-outlined">
+                                            close
+                                        </span>
+                                        Ignorar esta notificação
+                                    </button>
+                                </div>
+                            )}
                         </div>
-                    ))}
+                    )}
                 </Notifications>
             )}
             <CardsContainer>
@@ -227,9 +294,10 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
                                 <span className="circleProgress"></span>
                                 <p>{quest.status}</p>
                             </div>
-                            <button className="setStatus" onClick={() => updateStatusMenu(quest.id)}><span className="material-symbols-outlined icon">check_circle</span>Status</button>
+                            <button className="setStatus" onClick={() => updateStatusMenu(quest.id)}>
+                                <span className="material-symbols-outlined icon">check_circle</span>Status
+                            </button>
                         </div>
-
 
                         {activeMenuId === quest.id &&
                             <EditPopup>
@@ -282,15 +350,12 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
                                     <button className="complete-btn status-complete">Desistir</button>
                                 </div>
                             </StatusPopup>
-                        )
-                        }
+                        )}
                     </Card>
                 ))) : (
                     <span className="warn">Não há tarefas para o filtro selecionado.</span>
-                )
-                }
-
-            </CardsContainer >
+                )}
+            </CardsContainer>
         </>
     )
 }
@@ -366,6 +431,47 @@ const Notifications = styled.div`
             border: 1px solid transparent;
         }
     }
+    .navigationButtons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+        width: 100%;
+    }
+    .navigationButtons .navButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--primary);
+        border: none;
+        color: white;
+        cursor: pointer;
+        transition: 0.15s ease-out;
+        &:hover {
+            background: var(--tertiary);
+        }
+    }
+    .navigationButtons .dismissButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 15px;
+        height: 40px;
+        border-radius: 20px;
+        background: rgba(255, 0, 0, 0.2);
+        border: 1px solid rgba(255, 0, 0, 0.3);
+        color: white;
+        cursor: pointer;
+        transition: 0.15s ease-out;
+        &:hover {
+            background: rgba(255, 0, 0, 0.4);
+        }
+        .material-symbols-outlined {
+            margin-right: 5px;
+        }
+    }
 `
 
 const CardsContainer = styled.section`
@@ -392,11 +498,10 @@ const CardsContainer = styled.section`
     @media(max-width: 580px){
         grid-template-columns: 1fr;
     }
-
 `
+
 const Card = styled.div`
     background: #03061a;
-    //box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
     padding: 25px;
     border: 1px solid #00031a;
     width: 100%;
