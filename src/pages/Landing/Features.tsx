@@ -5,33 +5,33 @@ const Features: React.FC = () => {
   const features = [
     {
       icon: "stack",
-      title: "Sistema de Quests",
-      description: "Crie e organize tarefas como quests para tornar seus objetivos mais divertidos e realizáveis."
+      title: "Gestão de Tarefas",
+      description: "Crie e organize tarefas para tornar seus objetivos mais divertidos e realizáveis."
     },
     {
       icon: "paid",
-      title: "Moeda Joy",
-      description: "Ganhe recompensas por completar quests na forma de moedas Joy que podem ser trocadas por prêmios."
+      title: "Moedas",
+      description: "Ganhe recompensas por completar tarefas na forma de moedas do website que podem ser trocadas por prêmios."
     },
     {
       icon: "shopping_cart",
-      title: "Joy Store",
-      description: "Troque suas moedas Joy por recompensas personalizadas que você mesmo define como motivação."
+      title: "Loja",
+      description: "Troque suas moedas por recompensas personalizadas que você mesmo define como motivação."
     },
     {
       icon: "edit",
       title: "Anotações",
-      description: "Mantenha suas ideias organizadas com um sistema de anotações integrado às suas quests."
+      description: "Mantenha suas ideias organizadas com um sistema de anotações integrado às suas tarefas."
     },
     {
       icon: "switch_access",
       title: "Sugestões por IA",
-      description: "Receba sugestões personalizadas de quests geradas por IA para ajudar a alcançar seus objetivos."
+      description: "Receba sugestões personalizadas de tarefas geradas por IA para ajudar a alcançar seus objetivos."
     },
     {
       icon: "calendar_today",
       title: "Calendário Integrado",
-      description: "Visualize e planeje suas quests em um calendário para melhor organização do seu tempo."
+      description: "Visualize e planeje suas tarefas em um calendário para melhor organização do seu tempo."
     }
   ];
 

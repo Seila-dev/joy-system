@@ -8,23 +8,23 @@ const QuestSection: React.FC = () => {
     <QuestSectionContainer id="quests">
       <ContentContainer>
         <QuestImage>
-          <img src={QuestPreview} alt="Quest System" />
+          <img src={QuestPreview} alt="Task System" />
         </QuestImage>
         <QuestContent>
           <SectionTitle>
-            Sistema de <span>Quests</span>
+            Gestão de <span>Tarefas</span>
           </SectionTitle>
           <QuestDescription>
-            Transforme suas tarefas em aventuras diárias! Crie quests personalizadas, defina dificuldades, prazos e recompensas. A cada quest completada, você ganha moedas Joy que podem ser trocadas por recompensas na Joy Store.
+            Transforme suas tarefas em aventuras diárias! Crie tarefas personalizadas, defina dificuldades, prazos e recompensas. A cada tarefa completada, você ganha Moedas que podem ser trocadas por recompensas na Loja.
           </QuestDescription>
           <QuestFeatures>
             <QuestFeature>
               <FeatureIcon>✓</FeatureIcon>
-              <FeatureText>Crie quests com níveis de dificuldade e prioridade</FeatureText>
+              <FeatureText>Crie tarefas com níveis de dificuldade e prioridade</FeatureText>
             </QuestFeature>
             <QuestFeature>
               <FeatureIcon>✓</FeatureIcon>
-              <FeatureText>Ganhe moedas Joy baseadas no desafio completado</FeatureText>
+              <FeatureText>Ganhe Moedas baseadas no desafio completado</FeatureText>
             </QuestFeature>
             <QuestFeature>
               <FeatureIcon>✓</FeatureIcon>
@@ -32,11 +32,11 @@ const QuestSection: React.FC = () => {
             </QuestFeature>
             <QuestFeature>
               <FeatureIcon>✓</FeatureIcon>
-              <FeatureText>Organize quests por categorias e projetos</FeatureText>
+              <FeatureText>Organize tarefas por categorias e projetos</FeatureText>
             </QuestFeature>
           </QuestFeatures>
           <Link to ="/register">
-            <QuestButton>Criar Minha Primeira Quest</QuestButton>
+            <QuestButton>Criar Minha Primeira Tarefa</QuestButton>
           </Link>
         </QuestContent>
       </ContentContainer>

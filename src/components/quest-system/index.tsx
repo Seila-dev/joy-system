@@ -117,11 +117,11 @@ export const QuestSystem = () => {
                 <span className="material-symbols-outlined arrowBack">
                     arrow_back
                 </span>
-                <p>Voltar para Home</p>
+                <p>Voltar para menu</p>
             </Link>
             <Introduction>
                 <div className="leftSide">
-                    <h1 className="title">Sistema de Quests</h1>
+                    <h1 className="title">Painel de tarefas</h1>
                     <p className="description">Gerencie e acompanhe suas tarefas em diferentes categorias para ganhar recompensas.</p>
                 </div>
                 <div className="rightSide">
@@ -130,7 +130,7 @@ export const QuestSystem = () => {
                             shopping_bag
                         </span>
                     </Link>
-                    <button className="addQuest btn cta" onClick={() => openCreateForm()}><span className="material-symbols-outlined icon">add</span> <span className="removeResponsive">New Quest</span></button>
+                    <button className="addQuest btn cta" onClick={() => openCreateForm()}><span className="material-symbols-outlined icon">add</span> <span className="removeResponsive">Nova tarefa</span></button>
                 </div>
             </Introduction>
             <Filters>
@@ -253,7 +253,7 @@ export const QuestSystem = () => {
                     <input
                         type="text"
                         id="searchQuery"
-                        placeholder="Pesquisar Quests.."
+                        placeholder="Pesquisar tarefas.."
                         accept="abnt"
                         name="search"
                         value={q}

@@ -29,8 +29,8 @@ const Footer: React.FC = () => {
           <FooterColumn>
             <ColumnTitle>Recursos</ColumnTitle>
             <LinksList>
-              <LinkItem><FooterLink href="#quests">Quests</FooterLink></LinkItem>
-              <LinkItem><FooterLink href="#joystore">Joy Store</FooterLink></LinkItem>
+              <LinkItem><FooterLink href="#quests">Tarefas</FooterLink></LinkItem>
+              <LinkItem><FooterLink href="#joystore">Loja</FooterLink></LinkItem>
               <LinkItem><FooterLink href="#ai-prompt">Sugestões IA</FooterLink></LinkItem>
               <LinkItem><FooterLink href="#calendar">Calendário</FooterLink></LinkItem>
             </LinksList>

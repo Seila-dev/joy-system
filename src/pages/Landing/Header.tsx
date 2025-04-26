@@ -31,7 +31,7 @@ const Header: React.FC<HeaderProps> = ({ activeSection, scrollToSection }) => {
               scrollToSection('quests');
             }}
           >
-            Quests
+            Tarefas
           </NavLink>
           <NavLink 
             href="#joystore" 
@@ -41,7 +41,7 @@ const Header: React.FC<HeaderProps> = ({ activeSection, scrollToSection }) => {
               scrollToSection('joystore');
             }}
           >
-            Joy Store
+            Loja
           </NavLink>
           <NavLink 
             href="#ai-prompt" 

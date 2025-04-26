@@ -25,7 +25,7 @@ const [loadingJoy, setLoadingJoy] = useState<boolean>(false);
 const [error, setError] = useState<string | null>(null);
 const { 'joysystem.token': token } = parseCookies();
 
-//REPETIÇÃO DE CÓDIGO DETECTADA
+//REPETIÇÃO DE CÓDIGO AQUI!!
   useEffect(() => {
     if (token) {
       setLoadingJoy(true)
@@ -39,8 +39,8 @@ const { 'joysystem.token': token } = parseCookies();
           setJoys(data)
         })
         .catch((error) => {
-          console.error('Error on searching quests', error)
-          setError('error on searching quests')
+          console.error('Error on searching tasks', error)
+          setError('error on searching tasks')
         })
         .finally(() => setLoadingJoy(false))
     }

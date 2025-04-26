@@ -138,7 +138,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
                 <div className="gridContainer">
                     <div className='item'>
-                        <label htmlFor="price">Preço em Joys</label>
+                        <label htmlFor="price">Preço em Moedas</label>
                         <Controller
                             name="price"
                             control={control}
@@ -157,7 +157,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                 />
                             )}
                         />
-                        <p className="description">Recompensa em joys pela quest</p>
+                        <p className="description">Recompensa em moedas pela quest</p>
                     </div>
 
                     <div className='item'>

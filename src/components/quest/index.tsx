@@ -177,7 +177,7 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
                                             changeStatus(quest.id, 'INCOMPLETO');
                                         }
                                     });
-                                    setNotifications([])
+                                    // setNotifications([])
                                 }}
                                 >Não consegui.</button>
                             </div>
@@ -215,7 +215,7 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
                                     <span className="material-symbols-outlined joyLogo">
                                         paid
                                     </span>
-                                    <p className="joys">{quest.joys} Joys</p>
+                                    <p className="joys">{quest.joys} Moedas</p>
                                 </div>
                                 <div className={`difficultyLevel ${quest.difficulty}`}>
                                     <p>{quest.difficulty}</p>
@@ -286,7 +286,7 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
                         }
                     </Card>
                 ))) : (
-                    <span className="warn">Não há quests para o filtro selecionado.</span>
+                    <span className="warn">Não há tarefas para o filtro selecionado.</span>
                 )
                 }
 
@@ -560,7 +560,6 @@ const Card = styled.div`
         background: red;
     }
 
-    //fácil, médio, difícil, muito difícil
     .body .difficultyLevel.FACIL{
         color: var(--greenText);
         background: var(--greenBg);

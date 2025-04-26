@@ -18,17 +18,17 @@ const Calendar: React.FC = () => {
     {
       icon: "schedule",
       title: "Visualização Mensal",
-      text: "Veja todas as suas quests programadas para o mês em um calendário organizado."
+      text: "Veja todas as suas tarefas programadas para o mês em um calendário organizado."
     },
     {
       icon: "calendar_month",
-      title: "Planejamento de Quests",
-      text: "Agende quests para datas específicas e nunca perca um prazo importante."
+      title: "Planejamento de Tarefas",
+      text: "Agende tarefas para datas específicas e nunca perca um prazo importante."
     },
     {
       icon: "switch_access",
       title: "Sincronização",
-      text: "Sincronize com seu calendário externo para manter tudo em um só lugar."
+      text: "Sincronize com seu calendário externo para manter tudo em um só lugar. (Em breve)"
     }
   ];
 
@@ -39,7 +39,7 @@ const Calendar: React.FC = () => {
           <span>Calendário</span> Integrado
         </SectionTitle>
         <SectionDescription>
-          Visualize e planeje suas quests em um calendário completo, mantendo-se organizado e focado em seus objetivos diários.
+          Visualize e planeje suas tarefas em um calendário completo, mantendo-se organizado e focado em seus objetivos diários.
         </SectionDescription>
       
         <CalendarWrapper>

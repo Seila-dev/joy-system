@@ -41,14 +41,14 @@ const AIPrompt: React.FC = () => {
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
               />
-              <SubmitButton>Gerar Quests</SubmitButton>
+              <SubmitButton>Gerar Tarefas</SubmitButton>
             </PromptInput>
             <PromptResult>
-              <ResultTitle>Sugestões de Quests:</ResultTitle>
+              <ResultTitle>Sugestões de Tarefas:</ResultTitle>
               {questSuggestions.map((quest, index) => (
                 <QuestSuggestion key={index}>
                   <QuestTitle>{quest.title}</QuestTitle>
-                  <QuestInfo>Dificuldade: {quest.difficulty} | Recompensa: {quest.joys} Joys</QuestInfo>
+                  <QuestInfo>Dificuldade: {quest.difficulty} | Recompensa: {quest.joys} Moedas</QuestInfo>
                 </QuestSuggestion>
               ))}
             </PromptResult>

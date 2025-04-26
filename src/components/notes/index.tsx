@@ -304,7 +304,7 @@ const Card = styled.div`
         margin-right: 5px;
       }
     
-      // Status styling
+      // Status
       .footer.ATIVO .setStatus,
       .footer.ATIVO p {
         color: white;
@@ -335,7 +335,7 @@ const Card = styled.div`
         background: #888;
       }
     
-      // Prioridade styling
+      // Prioridade
       .body .priorityLevel.FACIL {
         color: var(--greenText);
         background: var(--greenBg);

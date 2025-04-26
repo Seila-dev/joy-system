@@ -39,12 +39,10 @@ export default function CalendarPage() {
     "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
   ];
 
-  // Get current date
   const date = new Date();
   const today = date.getDate();
   const currentMonthDate = date.getMonth();
 
-  // Function to get days in a month
   const getDaysInMonth = (month: number, year: number) => {
     const lastDateofMonth = new Date(year, month + 1, 0).getDate();
     const firstDayOfMonth = new Date(year, month, 1).getDay();
@@ -61,7 +59,6 @@ export default function CalendarPage() {
     return daysArray;
   };
 
-  // Navigation functions
   function nextMonth() {
     if (currentMonth === 11) {
       setCurrentMonth(0);
@@ -80,7 +77,6 @@ export default function CalendarPage() {
     }
   }
 
-  // Get quests for selected day
   const getQuestsForDay = (day = selectedDay) => {
     if (!day) return [];
 
@@ -95,26 +91,22 @@ export default function CalendarPage() {
     }) || [];
   };
 
-  // Check if a day has any quests
   const dayHasQuests = (day: number) => {
     if (day === 0) return false;
     return getQuestsForDay(day).length > 0;
   };
 
-  // Handle day selection
   const handleDayClick = (day: number) => {
     if (day === 0) return;
     setSelectedDay(day);
   };
 
-  // Update current date and days array
   useEffect(() => {
     const actualDate = `${months[currentMonth]} ${currentYear}`;
     setCurrentDate(actualDate);
     setDays(getDaysInMonth(currentMonth, currentYear));
   }, [currentMonth, currentYear]);
 
-  // Get filtered quests for the selected day
   const dayQuests = getQuestsForDay();
 
       const transformDateToPtbr = (newDate: string | number): string => {
@@ -129,12 +121,12 @@ export default function CalendarPage() {
         <span className="material-symbols-outlined arrowBack">
           arrow_back
         </span>
-        <p>Voltar para Home</p>
+        <p>Voltar para o menu</p>
       </Link>
       <Header>
         <div className="leftSide">
           <h1 className="title">Calendário</h1>
-          <p className="description">Todas as suas quests pendentes apareceram aqui</p>
+          <p className="description">Todas as suas tarefas pendentes apareceram aqui</p>
         </div>
       </Header>
 
@@ -189,10 +181,10 @@ export default function CalendarPage() {
 
           <EventsSection>
             {dayQuests.length === 0 ? (
-              <p>Nenhuma quest para este dia.</p>
+              <p>Nenhuma tarefa para este dia.</p>
             ) : (
               <div>
-                <h3>Quests</h3>
+                <h3>Tarefas</h3>
                 <EventsList>
                   {dayQuests.map(quest => (
                     <QuestItem key={quest.id} status={quest.status}>
@@ -200,7 +192,7 @@ export default function CalendarPage() {
                         <EventTitle>{quest.title} - {transformDateToPtbr(quest.validation)}</EventTitle>
                         <QuestStatus status={quest.status}>{quest.status}</QuestStatus>
                         {quest.description && <EventDescription>{quest.description}</EventDescription>}
-                        <QuestReward>Recompensa: {quest.joys} joys</QuestReward>
+                        <QuestReward>Recompensa: {quest.joys} moedas</QuestReward>
                       </EventContent>
                       <ViewButton onClick={() => navigate(`/dashboard/quests`)}>
                         <span className="material-symbols-outlined">visibility</span>

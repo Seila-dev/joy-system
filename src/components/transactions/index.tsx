@@ -22,7 +22,7 @@ export const Transactions = ({ limit }: transactionProps) => {
     return (
         <TransactionHistoryElement>
             <h3 className="title">Histórico de Transações</h3>
-            <p className="description">Histórico de ganhos e gastos de seus Joys</p>
+            <p className="description">Histórico de ganhos e gastos de moedas</p>
             {joyTransactions && joyTransactions.length > 0 ? (
                 joyTransactions.map(item => (
                     <UserTransaction
@@ -44,18 +44,6 @@ export const Transactions = ({ limit }: transactionProps) => {
                                 {item.amount}
                             </p>
                         </div>
-                        {/* <div className="header">
-                            <p className="transactionDate">{transformDateToPtbr(item.createdAt)}</p>
-                            <span className="material-symbols-outlined icon">
-                                {item.type === 'GANHO' || item.type === 'BONUS' ? 'check_circle'
-                                    : (item.type === 'PENALIDADE' || item.type === 'GASTO' ? 'close' : '')}
-                            </span>
-                        </div>
-                        <p className="description">{item.description}</p>
-                        <p className="quantity">{item.type === 'GANHO' || item.type === 'BONUS' ? '+'
-                                    : (item.type === 'PENALIDADE' || item.type === 'GASTO' ? '-' : '')}
-                            {item.amount} {item.type}
-                        </p> */}
                     </UserTransaction>
                 ))
             ) : (

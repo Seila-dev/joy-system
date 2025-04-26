@@ -36,8 +36,8 @@ export function QuestProvider({ children }: { children: React.ReactNode }) {
           setQuests(data)
         })
         .catch((error) => {
-          console.error('Error on searching quests', error)
-          setError('error on searching quests')
+          console.error('Error on searching tasks', error)
+          setError('error on searching tasks')
         })
         .finally(() => setLoading(false))
     }
@@ -52,11 +52,12 @@ export function QuestProvider({ children }: { children: React.ReactNode }) {
         },
       })
 
-      toast.success("Quest created successfully!");
+      toast.success("Tarefa criado com sucesso!");
       setQuests((prevQuests) => [...prevQuests, response.data]);
     } catch (err) {
-      setError('Erro ao adicionar a quest');
-      toast.error("Quest was not created")
+      setError('Erro ao adicionar a tarefa');
+      toast.error("Tarefa não criada. Verifique se você está logado ou com internet.")
+      console.error('Detailed error on adding task:', err)
     } finally {
       setLoading(false)
     }
@@ -77,16 +78,16 @@ export function QuestProvider({ children }: { children: React.ReactNode }) {
         }
       });
 
-      toast.success("Quest updated successfully!");
+      toast.success("Tarefa atualizada com sucesso!");
       setQuests(response.data);
     } catch (err) {
-      console.error('Detailed error on editing quest:', err)
-      setError('Erro ao editar a quest');
+      console.error('Detailed error on editing task:', err)
+      setError('Erro ao editar a tarefa');
+      toast.error("Tarefa não editada. Verifique se você está logado ou com internet.")
     } finally {
       setLoading(false);
     }
   }
-
 
   const deleteQuest = async (questId: number) => {
     try {
@@ -95,11 +96,11 @@ export function QuestProvider({ children }: { children: React.ReactNode }) {
           Authorization: `Bearer ${token}`,
         },
       });
-      toast.success("Quest deleted successfully!");
+      toast.success("Tarefa deletada com sucesso!");
       setQuests((prevQuests) => prevQuests.filter((quest) => quest.id !== questId));
     } catch (err) {
-      setError('Erro ao deletar a quest');
-      toast.error("Something went wrong ond eleting")
+      setError('Erro ao deletar a tarefa');
+      toast.error("Tarefa não deletada. Verifique se você está logado ou com internet.")
     } finally {
       setLoading(false)
     }
@@ -122,7 +123,7 @@ export function QuestProvider({ children }: { children: React.ReactNode }) {
               Authorization: `Bearer ${token}`,
             },
           })
-          toast.success('Quest concluida. Seus joys foram adicionados a sua conta com sucesso.')
+          toast.success('Tarefa concluida. Suas moedas foram adicionados a sua conta com sucesso.')
         }
         if(status === 'INCOMPLETO'){
           await api.post(`/quests/${questId}/fail`, {}, {
@@ -130,7 +131,7 @@ export function QuestProvider({ children }: { children: React.ReactNode }) {
               Authorization: `Bearer ${token}`,
             },
           })
-          toast.error('Você falhou na quest. Alguns joys foram removidos da sua conta.')
+          toast.error('Você falhou na tarefa. Algumas moedas foram removidos da sua conta.')
         }
 
         if(status === 'PENDENTE' && 'NULO'){
@@ -144,7 +145,7 @@ export function QuestProvider({ children }: { children: React.ReactNode }) {
         })
       } catch (error) {
         console.error('Erro ao atualizar status no banco de dados:', error);
-        toast.error('Erro ao atualizar status');
+        toast.error('Erro ao atualizar status no banco de dados. Verifique se você está logado ou com internet.');
       }
     }
   };

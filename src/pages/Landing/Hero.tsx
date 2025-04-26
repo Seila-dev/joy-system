@@ -12,7 +12,7 @@ const Hero: React.FC = () => {
             Transforme seus objetivos em <span>conquistas diárias</span>
           </HeroTitle>
           <HeroSubtitle>
-            Crie quests, ganhe recompensas e alcance seus objetivos de forma divertida e motivadora com o Joy System.
+            Crie tarefas, ganhe recompensas e alcance seus objetivos de forma divertida e motivadora com o Joy System.
           </HeroSubtitle>
           <HeroButtons>
             <Link to="/register">

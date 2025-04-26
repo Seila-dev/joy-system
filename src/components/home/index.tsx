@@ -3,6 +3,7 @@ import { Introduction } from "../introduction"
 import { TodoList } from "../todo-list"
 import { Toaster } from "sonner"
 import { NoteItem } from "../notes"
+import { Link } from "react-router-dom"
 
 export const Home = () => {
     return (
@@ -13,14 +14,34 @@ export const Home = () => {
                 <div className="leftContent">
                     <TodoList />
                     <div className="notesSection">
-                        <h2>Notas Recentes</h2>
-                        <p className="description">Suas anotações mais <strong>recentes</strong></p>
+                        <Header>
+                            <div>
+                                <h2>Notas recentes</h2>
+                                <p className="description">Suas anotações mais <strong>recentes</strong></p>
+                            </div>
+
+
+                            <div className="flexContainer">
+                                <Link to="notes" className="btn viewAllBtn">
+                                    <span className="material-symbols-outlined viewAllIcon icon">
+                                        stack
+                                    </span>
+                                    <span className="text viewAllText">Ver tudo</span>
+                                </Link>
+                                <Link to="notes" className="btn editBtn">
+                                    <span className="material-symbols-outlined editIcon icon">
+                                        edit_square
+                                    </span>
+                                    <span className="text editText">Editar</span>
+                                </Link>
+                            </div>
+                        </Header>
                         <NoteItem
-                         selectedCategory={null}
-                         filterStatus={null}
-                         filterPriority={null}
-                         searchQuery={null}
-                         filterQuantity={2}
+                            selectedCategory={null}
+                            filterStatus={null}
+                            filterPriority={null}
+                            searchQuery={null}
+                            filterQuantity={2}
                         />
                     </div>
                 </div>
@@ -69,5 +90,41 @@ const Dashboard = styled.section`
 
     @media(max-width: 450px){
         padding: 20px;
+    }
+`
+
+const Header = styled.header`
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: #e0e4ff;
+    .flexContainer{
+        display: flex;
+    }
+    .btn, .icon{
+        color: #e0e4ff;
+    }
+    .btn{
+        opacity: 0.7;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        width: fit-content;
+        align-items: center;
+        font-size: 12px;
+        margin-left: 10px;
+        &:hover{
+            opacity: 1;
+        }
+    }
+    .btn .icon{
+        font-size: 18px;
+    }
+
+    p.description{
+        margin-top: 10px;
     }
 `

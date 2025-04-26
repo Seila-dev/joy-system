@@ -46,7 +46,7 @@ export const Header = () => {
                                 <li
                                     className={location.pathname === '/dashboard/quests' ? 'highlight' : ''}
                                 >
-                                    Metas
+                                    Tarefas
                                 </li>
                             </Link>
                             <Link to="notes">
@@ -60,7 +60,7 @@ export const Header = () => {
                                 <li
                                     className={location.pathname === '/dashboard/store' ? 'highlight' : ''}
                                 >
-                                    JoyStore
+                                    Loja
                                 </li>
                             </Link>
                             <Link to="calendar">
@@ -171,9 +171,6 @@ const HeaderElement = styled.header`
         display: flex;
         align-items: center;
     }
-    // .rightColumn .settingsLink{
-    //     height: 24px;
-    // }
     .rightColumn .signIn{
         background: black;
         color: white;

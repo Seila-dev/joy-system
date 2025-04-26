@@ -53,7 +53,7 @@ export const UserPage = () => {
                     <span className="material-symbols-outlined arrowBack">
                         arrow_back
                     </span>
-                    <p>Voltar para Home</p>
+                    <p>Voltar para menu</p>
                 </Link>
                 <div className="controllers">
                     <button className={userInfo === false ? 'active' : ''} onClick={() => toggleWindow()}>Usuário</button>
@@ -69,7 +69,7 @@ export const UserPage = () => {
                         <h2>{user?.email}</h2>
 
                         {isAuthenticated && user?.username ? (
-                            <p className="userSetup">Seus joys: <span className="alignUserContent">
+                            <p className="userSetup">Suas moedas: <span className="alignUserContent">
                                 <span className="material-symbols-outlined icon">
                                     paid
                                 </span>  {loadingJoy ? '0' : balance}
@@ -79,7 +79,7 @@ export const UserPage = () => {
                         )}
                         <div className="purchaseHistory">
                             <h2 className="title">Seus itens</h2>
-                            <p className="description">Itens que você comprou na Joy Store</p>
+                            <p className="description">Itens que você comprou na Loja</p>
                             {userProducts && userProducts.map(product => (
                                 <div key={product.id} className="purchaseItem">
                                     <h3>{product.product.name}</h3>
