@@ -48,7 +48,7 @@ export const NotesSystem = () => {
         <span className="material-symbols-outlined arrowBack">
           arrow_back
         </span>
-        <p>Voltar para Home</p>
+        <p>Voltar para menu</p>
       </Link>
       
       <Header>

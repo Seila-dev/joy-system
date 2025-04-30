@@ -11,6 +11,7 @@ import { NotesSystem } from "../components/notesSystem"
 import { DetailedNote } from "../components/detailedNote"
 import CalendarPage from "../components/calendarPage"
 import App from "../pages/Landing/app"
+import { HabitPage } from "../components/habitPage"
 
 function AppRoutes() {
 
@@ -24,6 +25,7 @@ function AppRoutes() {
         <Route path="store" element={<JoysStore />} />
         <Route path="user" element={<UserPage />} />
         <Route path="calendar" element={<CalendarPage />} />
+        <Route path="habits" element={<HabitPage />} />
       </Route>
       <Route path="/login" element={<SignIn />} />
       <Route path="/register" element={<SignUp />} />
