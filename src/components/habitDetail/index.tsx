@@ -377,14 +377,14 @@ const InfoSection = styled.div`
 
 const Title = styled.h1<{ habitType: HabitType | undefined }>`
   font-size: 20px;
+  margin-bottom: 20px;
   color: ${props => props.habitType === HabitType.BOM ? '#328E6E' : '#f5222d'};
 `;
 
 const Description = styled.p`
   font-size: 16px;
   color: #f2f2f2;
-  margin: 10px 0;
-  line-height: 1.5;
+  margin: 10px 0 20px;
 `;
 
 const MetaGrid = styled.div`
