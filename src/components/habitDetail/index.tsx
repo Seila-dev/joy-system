@@ -10,13 +10,13 @@ export const HabitDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const habitId = parseInt(id || '0', 10);
   const navigate = useNavigate();
-  
-  const { 
+
+  const {
     habits,
     //selectedHabit,  
-    habitProgress, 
+    habitProgress,
     habitStats,
-    fetchHabitProgress, 
+    fetchHabitProgress,
     fetchHabitStats,
     recordProgress,
     deleteHabit,
@@ -30,7 +30,7 @@ export const HabitDetail: React.FC = () => {
     isSuccess: true,
     notes: ''
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [currentHabit, setCurrentHabit] = useState<Habit | null>(null);
 
@@ -64,7 +64,7 @@ export const HabitDetail: React.FC = () => {
   const handleProgressSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!habitId) return;
-    
+
     setLoading(true);
     try {
       await recordProgress(habitId, progressForm);
@@ -75,7 +75,7 @@ export const HabitDetail: React.FC = () => {
         isSuccess: true,
         notes: ''
       });
-      
+
       // Refresh progress and stats
       fetchHabitProgress(habitId);
       fetchHabitStats(habitId);
@@ -88,7 +88,7 @@ export const HabitDetail: React.FC = () => {
 
   const handleDeleteHabit = async () => {
     if (!habitId || !window.confirm('Tem certeza que deseja excluir este hábito?')) return;
-    
+
     try {
       await deleteHabit(habitId);
       navigate('/dashboard/habits');
@@ -137,15 +137,18 @@ export const HabitDetail: React.FC = () => {
   return (
     <Container>
       <Header>
-      <BackButton onClick={() => navigate('/dashboard/habits')}>
-            Voltar
+        <BackButton onClick={() => navigate('/dashboard/habits')}>
+          Voltar
         </BackButton>
-        <Title habitType={currentHabit.type}>
-          {currentHabit.title}
-        </Title>
+
       </Header>
 
       <InfoSection>
+        {currentHabit.title && (
+          <Title habitType={currentHabit.type}>
+            {currentHabit.title}
+          </Title>
+        )}
         {currentHabit.description && (
           <Description>{currentHabit.description}</Description>
         )}
@@ -222,14 +225,14 @@ export const HabitDetail: React.FC = () => {
               required
             />
           </FormGroup>
-          
+
           <FormGroup>
             <Label htmlFor="value">
               {currentHabit.method === HabitMethod.INSTANTANEO
                 ? 'Completado'
                 : currentHabit.method === HabitMethod.QUANTIDADE
-                ? 'Duração (minutos)'
-                : 'Quantidade'}
+                  ? 'Duração (minutos)'
+                  : 'Quantidade'}
             </Label>
             {currentHabit.method === HabitMethod.INSTANTANEO ? (
               <ButtonGroup>
@@ -261,7 +264,7 @@ export const HabitDetail: React.FC = () => {
               />
             )}
           </FormGroup>
-          
+
           <FormGroup>
             <Label>Resultado</Label>
             <ButtonGroup>
@@ -281,7 +284,7 @@ export const HabitDetail: React.FC = () => {
               </Button>
             </ButtonGroup>
           </FormGroup>
-          
+
           <FormGroup>
             <Label htmlFor="notes">Observações</Label>
             <TextArea
@@ -292,14 +295,14 @@ export const HabitDetail: React.FC = () => {
               placeholder="Adicione observações (opcional)"
             />
           </FormGroup>
-          
+
           <ButtonGroup>
             <Button type="submit" disabled={loading}>
               {loading ? 'Salvando...' : 'Salvar Progresso'}
             </Button>
-            <Button 
-              type="button" 
-              variant="danger" 
+            <Button
+              type="button"
+              variant="danger"
               onClick={handleDeleteHabit}
             >
               Excluir Hábito
@@ -314,16 +317,15 @@ export const HabitDetail: React.FC = () => {
               <ProgressItem key={index} $isSuccess={item.isSuccess}>
                 <div>
                   <ProgressDate>{formatDate(item.date)}</ProgressDate>
-                  {item.habitId && <ProgressNotes>{item.habitId}</ProgressNotes>}
+                  {item.habitId && <ProgressNotes></ProgressNotes>}
                 </div>
                 <ProgressValue>
                   {currentHabit.method === HabitMethod.INSTANTANEO
                     ? item.value === 1 ? 'Sim' : 'Não'
-                    : `${item.value}${
-                        currentHabit.method === HabitMethod.QUANTIDADE
-                          ? ' min'
-                          : ''
-                      }`}
+                    : `${item.value}${currentHabit.method === HabitMethod.QUANTIDADE
+                      ? ' min'
+                      : ''
+                    }`}
                   <StatusBadge $isSuccess={item.isSuccess}>
                     {item.isSuccess ? 'Sucesso' : 'Falha'}
                   </StatusBadge>
@@ -353,11 +355,6 @@ const Header = styled.div`
   margin-bottom: 24px;
 `;
 
-const Title = styled.h1<{ habitType: HabitType | undefined }>`
-  font-size: 28px;
-  color: ${props => props.habitType === HabitType.BOM ? '#52c41a' : '#f5222d'};
-`;
-
 const BackButton = styled.button`
   background: transparent;
   border: none;
@@ -372,16 +369,21 @@ const BackButton = styled.button`
 `;
 
 const InfoSection = styled.div`
-  background-color: #f9f9f9;
+  background-color: var(--background);
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 24px;
 `;
 
+const Title = styled.h1<{ habitType: HabitType | undefined }>`
+  font-size: 20px;
+  color: ${props => props.habitType === HabitType.BOM ? '#328E6E' : '#f5222d'};
+`;
+
 const Description = styled.p`
   font-size: 16px;
-  color: #333;
-  margin-bottom: 16px;
+  color: #f2f2f2;
+  margin: 10px 0;
   line-height: 1.5;
 `;
 
@@ -392,7 +394,7 @@ const MetaGrid = styled.div`
 `;
 
 const MetaItem = styled.div`
-  background-color: white;
+  background-color: var(--primary);
   padding: 12px;
   border-radius: 6px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -400,18 +402,21 @@ const MetaItem = styled.div`
 
 const MetaLabel = styled.div`
   font-size: 12px;
-  color: #888;
+  //color: #888;
+  color: white;
   margin-bottom: 4px;
 `;
 
 const MetaValue = styled.div`
   font-size: 16px;
-  color: #333;
+  color: #f9f9f9;
+  opacity: 0.8;
+  //color: #333;
   font-weight: 500;
 `;
 
 const StatsSection = styled.div`
-  background-color: #f0f5ff;
+  background-color: var(--background);
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 24px;
@@ -441,7 +446,7 @@ const StatLabel = styled.div`
 `;
 
 const ProgressSection = styled.div`
-  background-color: white;
+  background-color: var(--background);
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 24px;
@@ -450,7 +455,7 @@ const ProgressSection = styled.div`
 
 const SectionTitle = styled.h2`
   font-size: 20px;
-  color: #333;
+  color: white;
   margin-bottom: 16px;
 `;
 
@@ -467,15 +472,17 @@ const FormGroup = styled.div`
 
 const Label = styled.label`
   font-size: 14px;
-  color: #666;
+  color: white;
   margin-bottom: 6px;
 `;
 
 const Input = styled.input`
   padding: 8px 12px;
-  border: 1px solid #d9d9d9;
+  border: 1px solid gray;
   border-radius: 4px;
   font-size: 16px;
+  background: var(--background);
+  color: white;
   &:focus {
     border-color: #1890ff;
     outline: none;
@@ -520,10 +527,11 @@ const Button = styled.button<{ variant?: 'success' | 'danger' | 'default' }>`
 
 const TextArea = styled.textarea`
   padding: 8px 12px;
-  border: 1px solid #d9d9d9;
+  border: 1px solid gray;
   border-radius: 4px;
   font-size: 16px;
   min-height: 80px;
+  background: var(--background);
   resize: vertical;
   &:focus {
     border-color: #1890ff;
@@ -548,7 +556,7 @@ const ProgressItem = styled.div<{ $isSuccess: boolean }>`
 
 const ProgressDate = styled.div`
   font-size: 14px;
-  color: #888;
+  color: #f2f2f2;
 `;
 
 const ProgressValue = styled.div`
@@ -569,7 +577,7 @@ const StatusBadge = styled.span<{ $isSuccess: boolean }>`
 
 const ProgressNotes = styled.div`
   font-size: 14px;
-  color: #333;
+  color: white;
   margin-top: 4px;
 `;
 

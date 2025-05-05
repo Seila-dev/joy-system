@@ -1,12 +1,20 @@
 import styled from "styled-components"
 import { HabitList } from "../habitList"
 import useHabit from "../../contexts/hooks/useHabit";
+import { Link } from "react-router-dom";
 
 export const HabitPage = () => {
     const { habits } = useHabit();
     return (
         <Container>
             <Introduction>
+                <Link to="/dashboard" className="prevPage">
+                    <span className="material-symbols-outlined arrowBack">
+                        arrow_back
+                    </span>
+                    <p>Voltar para menu</p>
+                </Link>
+                <IntroductionWrapper>
                     <div className="leftSide">
                         <h1 className="title">Gestão de Hábitos</h1>
                         <p className="description">Adicione, gerencie e acompanhe hábitos que você quer melhorar ou remover da sua vida de uma vez por todas.</p>
@@ -14,16 +22,17 @@ export const HabitPage = () => {
                     <div className="rightSide">
                         <button className="addQuest btn cta"><span className="material-symbols-outlined icon">add</span> <span className="removeResponsive">Novo hábito</span></button>
                     </div>
-                </Introduction>
-                
-                { habits ? (
-                    <HabitList />
-                ) : (
-                    <HabitNotfound>
-                        <h1 className="title">Nenhum hábito encontrado</h1>
-                        <p className="description">Adicione seu primeiro hábito para começar sua jornada.</p>
-                    </HabitNotfound>
-                )}
+                </IntroductionWrapper>
+            </Introduction>
+
+            {habits ? (
+                <HabitList />
+            ) : (
+                <HabitNotfound>
+                    <h1 className="title">Nenhum hábito encontrado</h1>
+                    <p className="description">Adicione seu primeiro hábito para começar sua jornada.</p>
+                </HabitNotfound>
+            )}
         </Container>
     )
 }
@@ -41,11 +50,31 @@ const Container = styled.div`
 `
 
 const Introduction = styled.header`
-    margin: 50px 0;
+    margin-bottom: 50px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    flex-direction: column;
     width: 100%;
+
+    .prevPage{
+        width: fit-content;
+        margin: 20px 0;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: 0.15s ease-out;
+        cursor: pointer;
+        font-size: 14px;
+        color: #fff;
+        &:hover{
+            border-bottom: 1px solid var(--secondary);
+        }
+    }
+    .prevPage span{
+        font-size: 20px;
+    }
     .description{
         margin: 5px 20px 0 0;
     }
@@ -53,7 +82,6 @@ const Introduction = styled.header`
     .rightSide{
         display: flex;
         align-items: center;
-        margin-top: 10px;
         gap: 15px;
     }
     .btn{
@@ -89,6 +117,14 @@ const Introduction = styled.header`
             width: 100%;
         }
     }
+`
+
+const IntroductionWrapper = styled.div`
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 30px;
 `
 
 const HabitNotfound = styled.section`
