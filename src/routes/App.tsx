@@ -12,6 +12,7 @@ import { DetailedNote } from "../components/detailedNote"
 import CalendarPage from "../components/calendarPage"
 import App from "../pages/Landing/app"
 import { HabitPage } from "../components/habitPage"
+import { HabitDetail } from "../components/habitDetail"
 
 function AppRoutes() {
 
@@ -26,6 +27,7 @@ function AppRoutes() {
         <Route path="user" element={<UserPage />} />
         <Route path="calendar" element={<CalendarPage />} />
         <Route path="habits" element={<HabitPage />} />
+        <Route path="habits/:id" element={<HabitDetail />} />
       </Route>
       <Route path="/login" element={<SignIn />} />
       <Route path="/register" element={<SignUp />} />

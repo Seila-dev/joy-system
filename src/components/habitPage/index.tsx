@@ -1,6 +1,9 @@
 import styled from "styled-components"
+import { HabitList } from "../habitList"
+import useHabit from "../../contexts/hooks/useHabit";
 
 export const HabitPage = () => {
+    const { habits } = useHabit();
     return (
         <Container>
             <Introduction>
@@ -12,10 +15,15 @@ export const HabitPage = () => {
                         <button className="addQuest btn cta"><span className="material-symbols-outlined icon">add</span> <span className="removeResponsive">Novo hábito</span></button>
                     </div>
                 </Introduction>
-                <HabitNotfound>
-                    <h1 className="title">Nenhum hábito encontrado</h1>
-                    <p className="description">Adicione seu primeiro hábito para começar sua jornada.</p>
-                </HabitNotfound>
+                
+                { habits ? (
+                    <HabitList />
+                ) : (
+                    <HabitNotfound>
+                        <h1 className="title">Nenhum hábito encontrado</h1>
+                        <p className="description">Adicione seu primeiro hábito para começar sua jornada.</p>
+                    </HabitNotfound>
+                )}
         </Container>
     )
 }
@@ -33,7 +41,7 @@ const Container = styled.div`
 `
 
 const Introduction = styled.header`
-    margin-top: 50px;
+    margin: 50px 0;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
