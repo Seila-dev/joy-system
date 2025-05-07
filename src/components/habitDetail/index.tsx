@@ -6,6 +6,7 @@ import { RecordProgress } from '../../types/habitData';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ProgressRing } from '../ProgressRing';
 import { RecordProgressComponent } from '../RecordProgressComponent';
+import { HabitInfoModal } from '../HabitInfoModal';
 
 export const HabitDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -169,6 +170,7 @@ export const HabitDetail: React.FC = () => {
         </FilterNavigation>
       </InfoSection>
       <RecordProgressComponent habit={currentHabit} />
+      <HabitInfoModal habit={currentHabit} />
     </Container>
     // <Container>
     //   <Header>

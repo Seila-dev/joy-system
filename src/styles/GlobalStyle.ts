@@ -15,6 +15,7 @@ export const GlobalStyle = createGlobalStyle`
         --blue: #1D63FF;
         --greenText: rgb(34 197 94);
         --greenBg: #22c55e33;
+        --red: rgb(220 38 38);
         --yellowText: rgb(234 179 8);
         --yellowBg: #eab30833;
         --description-fontsize: 14px;
