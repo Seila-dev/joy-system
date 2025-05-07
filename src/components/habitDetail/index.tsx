@@ -397,6 +397,10 @@ const Container = styled.div`
   margin-bottom: 50px;
   padding: 10px 50px;
   color: #e0e4ff;
+
+  @media(max-width: 768px){
+    padding: 15px;
+  }
 `;
 
 const Header = styled.div`
@@ -440,7 +444,7 @@ const InfoSection = styled.div`
 `;
 
 const Title = styled.h1<{ habitType: HabitType | undefined }>`
-  font-size: 22px;
+  font-size: 25px;
   margin-bottom: 20px;
   color: white;
 `;

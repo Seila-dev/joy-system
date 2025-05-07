@@ -8,9 +8,14 @@ interface HabitProps {
     habit: Habit;
 }
 
-export const RecordProgressComponent = ({habit}: HabitProps) => {
+export const RecordProgressComponent = ({ habit }: HabitProps) => {
     const [selectedDateTime, setSelectedDateTime] = useState<Date | null>()
     const [duration, setDuration] = useState<number | null>(null);
+    const [chooseOption, setChooseOption] = useState<boolean>(false)
+
+    const toggleOption = () => {
+        setChooseOption(!chooseOption)
+    }
 
 
     return (
@@ -38,39 +43,59 @@ export const RecordProgressComponent = ({habit}: HabitProps) => {
                     Duração (minutos)
                 </Label>
                 <Input
-                        id="duration"
-                        type="text"
-                        inputMode="numeric"
-                        onChange={(e) => {
-                            const value = e.target.value.replace(/\D/g, '');
-                            setDuration(value ? Number(value) : null);
-                        }}
-                        value={duration !== null ? duration.toString() : ''}
-                        placeholder="0"
-                        maxLength={5}
+                    id="duration"
+                    type="text"
+                    inputMode="numeric"
+                    onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, '');
+                        setDuration(value ? Number(value) : null);
+                    }}
+                    value={duration !== null ? duration.toString() : ''}
+                    placeholder="0"
+                    maxLength={5}
                 />
             </FormItem>
             <FormItem>
                 <Label>
                     Resultado
                 </Label>
-                <FormResult>
-                    <FormButton type="button" variant="default">
-                        Sucesso (+{habit.successPoints} pontos)
+                <FormSubmitButtons>
+                    <FormButton
+                        type="button"
+                        variant={chooseOption === true ? 'failure' : 'default'}
+                        className={chooseOption === true ? 'active' : ''}
+                        onClick={() => toggleOption()}
+                    >
+                        Falha ( -{habit.failurePoints} )
                     </FormButton>
-                    <FormButton type="button" variant="default">
-                        Falha (-{habit.failurePoints} pontos)
+                    <FormButton
+                        type="button"
+                        variant={chooseOption === false ? 'success' : 'default'}
+                        className={chooseOption === false ? 'active' : ''}
+                        onClick={() => toggleOption()}
+                    >
+                        Sucesso ( +{habit.successPoints} )
                     </FormButton>
-                </FormResult>
+                </FormSubmitButtons>
             </FormItem>
             <FormItem>
                 <Label>Observações</Label>
-                <ProgressDetails placeholder="Adicione observações (opcional)"  />
+                <ProgressDetails placeholder="Adicione observações (opcional)" />
             </FormItem>
-            <FormItem>
-                <FormButton type="button" variant="save">Salvar progresso</FormButton>
-                <FormButton type="button" variant="delete">Excluir hábito</FormButton>
-            </FormItem>
+            <FormSubmitButtons>
+                <FormButton type="button" variant="delete">
+                    <span className="material-symbols-outlined viewAllIcon icon">
+                        delete
+                    </span>
+                    <span>Excluir hábito</span>
+                </FormButton>
+                <FormButton type="button" variant="save">
+                    <span className="material-symbols-outlined viewAllIcon icon">
+                        save
+                    </span>
+                    <span>Salvar</span>
+                </FormButton>
+            </FormSubmitButtons>
         </FormElement>
     )
 }
@@ -79,6 +104,12 @@ const FormElement = styled.form`
     background: var(--background);
     padding: 20px;
     border-radius: 10px;
+
+    @media(max-width: 768px){
+        *{
+            font-size: 12px !important;
+        }
+    }
 `
 
 const Title = styled.h2`
@@ -90,28 +121,28 @@ const Title = styled.h2`
 const FormItem = styled.div`
     display: flex;
     flex-direction: column;
+
 `
 
 const Label = styled.label`
     margin-bottom: 5px;
+    width: 100%;
 `
 
 const Input = styled.input`
-    background: black;
+    background: var(--light-background);
     color: white;
     border: 1px solid var(--light-background);
     border-radius: 5px;
     padding: 10px;
     width: 100%;
+    font-size: 18px;
     padding: 12px;
     margin: 5px 0 20px 0;
-`
-
-const FormResult = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin: 5px 0 20px 0;
+    transition: 0.05s ease-out;
+    &:focus {
+        outline: 1px solid #ccc;
+    }
 `
 
 const FormButton = styled.button<{ variant?: 'success' | 'failure' | 'save' | 'delete' | 'default' }>`
@@ -123,20 +154,52 @@ const FormButton = styled.button<{ variant?: 'success' | 'failure' | 'save' | 'd
     font-weight: 700;
     font-size: 18px;
     cursor: pointer;
+    transition: 0.15s ease-out;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
 
-  background: ${props => {
-    switch (props.variant) {
-      case 'save': return 'linear-gradient(to right, #4f46e5, #9333ea)';
-      case 'failure': return '#f5222d';
-      case 'save': return 'green';
-      case 'delete': return '#ef4444';
-      default: return 'var(--light-background)';
+    background: ${props => {
+        switch (props.variant) {
+            case 'save': return 'linear-gradient(to left, #4f46e5, #9333ea)';
+            case 'failure': return 'rgb(220 38 38)';
+            case 'success': return 'rgb(5 145 102)';
+            case 'delete': return '#ef4444';
+            default: return 'var(--light-background)';
+        }
+    }};
+
+    &:hover{
+        transform: scale(102%);
     }
-  }};
+
+    @media(max-width: 560px){
+        font-size: 10px !important;
+        padding: 10px;
+        width: 100%;
+    }
 `;
 const ProgressDetails = styled.textarea`
     resize: none;
     height: 150px;
-    border-radius: 10px;
+    border: 1px solid var(--light-background);
+    border-radius: 5px;
+    background: var(--light-background);
     padding: 10px;
+    outline: none;
+    color: white;
+    font-size: 16px;
+    margin: 5px 0 25px 0;
+`
+
+const FormSubmitButtons = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 5px 0 20px 0;
+
+    @media(max-width: 550px){
+        grid-template-columns: 1fr;
+    }
 `
