@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, useLocation } from "react-router-dom"
 import { MainPage } from "../pages/mainpage"
 import { Home } from "../components/home"
 import { QuestSystem } from "../components/quest-system"
@@ -13,11 +13,14 @@ import CalendarPage from "../components/calendarPage"
 import App from "../pages/Landing/app"
 import { HabitPage } from "../components/habitPage"
 import { HabitDetail } from "../components/habitDetail"
+import styled from "styled-components"
 
 function AppRoutes() {
+  const location = useLocation()
 
   return (
-    <Routes>
+    <AnimationSlideIn key={location.pathname}>
+    <Routes location={location} key={location.pathname}>
       <Route path="/dashboard" element={<MainPage />}>
         <Route index element={<Home />} />
         <Route path="quests" element={<QuestSystem />} />
@@ -34,7 +37,10 @@ function AppRoutes() {
       <Route path="/" element={<App />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
+    </AnimationSlideIn>
   )
 }
 
 export default AppRoutes
+
+const AnimationSlideIn = styled.div``

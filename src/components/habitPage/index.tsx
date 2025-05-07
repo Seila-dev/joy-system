@@ -20,7 +20,7 @@ export const HabitPage = () => {
                         <p className="description">Adicione, gerencie e acompanhe hábitos que você quer melhorar ou remover da sua vida de uma vez por todas.</p>
                     </div>
                     <div className="rightSide">
-                        <button className="addQuest btn cta"><span className="material-symbols-outlined icon">add</span> <span className="removeResponsive">Novo hábito</span></button>
+                        <ButtonCTA className="addQuest btn cta"><span className="material-symbols-outlined icon">add</span> <span className="removeResponsive">Novo hábito</span></ButtonCTA>
                     </div>
                 </IntroductionWrapper>
             </Introduction>
@@ -125,6 +125,28 @@ const IntroductionWrapper = styled.div`
     justify-content: space-between;
     width: 100%;
     margin-top: 30px;
+`
+
+const ButtonCTA = styled.button`
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+  color: white;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  box-shadow: 0 4px 14px rgba(0, 114, 255, 0.4);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 114, 255, 0.5);
+    cursor: pointer;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
 `
 
 const HabitNotfound = styled.section`

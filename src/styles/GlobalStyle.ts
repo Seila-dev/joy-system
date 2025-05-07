@@ -98,11 +98,13 @@ export const GlobalStyle = createGlobalStyle`
 
     @keyframes slideInLeft {
         from {
-            transform: translateX(-300px)
+            transform: translateX(-2%);
+            opacity: 0;
         }
 
         to {
             transform: translateX(0);
+            opacity: 1;
         }
     }
 
