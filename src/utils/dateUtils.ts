@@ -1,3 +1,5 @@
+import { Habit } from "../types/habitData";
+
 /**
  * Formata data para o formato brasileiro (DD/MM/YYYY)
  * @param dateString Data em formato string (ISO ou outro formato válido)
@@ -47,3 +49,32 @@ export const formatDate = (dateString: string): string => {
     
     return difference;
   };
+
+  export const remainingDays = (habit: Habit): number => {
+      const createdDate = new Date(habit.createdAt);
+      const today = new Date();
+  
+      createdDate.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
+  
+      const diffEmMs = today.getTime() - createdDate.getTime();
+      const diasPassados = Math.floor(diffEmMs / (1000 * 60 * 60 * 24));
+  
+      const diasRestantes = habit.duration - diasPassados;
+
+      return Math.max(diasRestantes, 0);
+    }
+
+    export function passedDays(habit: Habit): number {
+      const createdDate = new Date(habit.createdAt);
+      const today = new Date();
+    
+      createdDate.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
+    
+      const diffMs = today.getTime() - createdDate.getTime();
+      const diasPassados = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    
+      // Evita valores negativos (caso criado hoje ou no futuro)
+      return Math.max(1, diasPassados + 1); // Conta o dia atual como "em progresso"
+    }

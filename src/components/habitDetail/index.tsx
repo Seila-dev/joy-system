@@ -7,6 +7,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ProgressRing } from '../ProgressRing';
 import { RecordProgressComponent } from '../RecordProgressComponent';
 import { HabitInfoModal } from '../HabitInfoModal';
+import { StatsAnalysis } from '../StatsAnalysis';
 
 export const HabitDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,8 +23,6 @@ export const HabitDetail: React.FC = () => {
   const {
     habits,
     //selectedHabit,  
-    habitProgress,
-    habitStats,
     fetchHabitProgress,
     fetchHabitStats,
     recordProgress,
@@ -104,26 +103,6 @@ export const HabitDetail: React.FC = () => {
     }
   };
 
-  const getMethodLabel = (method: HabitMethod | undefined) => {
-    switch (method) {
-      case HabitMethod.QUANTIDADE: return 'Contagem';
-      case HabitMethod.INSTANTANEO: return 'Sim/Não';
-      default: return 'Não especificado';
-    }
-  };
-
-  const getFrequencyLabel = (frequency: HabitFrequency | undefined) => {
-    switch (frequency) {
-      case HabitFrequency.DIARIAMENTE: return 'Diáriamente';
-      case HabitFrequency.SEMANALMENTE: return 'Semanalmente';
-      case HabitFrequency.MENSALMENTE: return 'Mensalmente';
-      default: return 'Não especificado';
-    }
-  };
-
-  const progress = habitProgress[habitId] || [];
-  const stats = habitStats[habitId];
-
   if (!currentHabit) {
     return (
       <Container>
@@ -171,6 +150,7 @@ export const HabitDetail: React.FC = () => {
       </InfoSection>
       <RecordProgressComponent habit={currentHabit} />
       <HabitInfoModal habit={currentHabit} />
+      <StatsAnalysis id={habitId} habit={currentHabit} />
     </Container>
     // <Container>
     //   <Header>

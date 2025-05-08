@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { Habit, HabitMethod, HabitType } from "../../types/habitData"
+import { Habit, HabitType } from "../../types/habitData"
 import { formatDate } from "../../utils/dateUtils";
 
 interface HabitProps {
@@ -144,25 +144,4 @@ const HabitTypeSpan = styled.span<{ $habitType: HabitType | undefined }>`
     padding: 5px 10px;
     border-radius: 30px;
     font-weight: 600;
-`
-
-const Label = styled.label`
-    margin-bottom: 5px;
-    width: 100%;
-`
-
-const Input = styled.input`
-    background: var(--light-background);
-    color: white;
-    border: 1px solid var(--light-background);
-    border-radius: 5px;
-    padding: 10px;
-    width: 100%;
-    font-size: 18px;
-    padding: 12px;
-    margin: 5px 0 20px 0;
-    transition: 0.05s ease-out;
-    &:focus {
-        outline: 1px solid #ccc;
-    }
 `

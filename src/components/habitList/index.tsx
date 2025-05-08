@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { useHabit } from '../../contexts/hooks/useHabit';
-import { Habit, HabitType } from '../../types/habitData';
+import { HabitType } from '../../types/habitData';
 import { Link } from 'react-router-dom';
+import { remainingDays } from '../../utils/dateUtils';
 
 interface HabitListProps {
   onHabitClick?: (habitId: number) => void;
@@ -27,20 +28,6 @@ export const HabitList: React.FC<HabitListProps> = ({ onHabitClick }) => {
       onHabitClick(habitId);
     }
   };
-
-  function remainingDays(habit: Habit): number {
-    const createdDate = new Date(habit.createdAt);
-    const today = new Date();
-
-    createdDate.setHours(0, 0, 0, 0);
-    today.setHours(0, 0, 0, 0);
-
-    const diffEmMs = today.getTime() - createdDate.getTime();
-    const diasPassados = Math.floor(diffEmMs / (1000 * 60 * 60 * 24));
-
-    const diasRestantes = habit.duration - diasPassados;
-    return Math.max(diasRestantes, 0);
-  }
 
   function getCurrentStreak(habitId: number): number {
     if (!habitStats || !habitStats[habitId]) {
