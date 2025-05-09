@@ -2,9 +2,17 @@ import styled from "styled-components"
 import { HabitList } from "../habitList"
 import useHabit from "../../contexts/hooks/useHabit";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { HabitForm } from "../habitForm";
 
 export const HabitPage = () => {
     const { habits } = useHabit();
+    const [ openModal, setOpenModal ] = useState<boolean>(false);
+
+    const handleModal = () => {
+        setOpenModal(!openModal);
+    }
+
     return (
         <Container>
             <Introduction>
@@ -20,10 +28,18 @@ export const HabitPage = () => {
                         <p className="description">Adicione, gerencie e acompanhe hábitos que você quer melhorar ou remover da sua vida de uma vez por todas.</p>
                     </div>
                     <div className="rightSide">
-                        <ButtonCTA className="addQuest btn cta"><span className="material-symbols-outlined icon">add</span> <span className="removeResponsive">Novo hábito</span></ButtonCTA>
+                        <ButtonCTA 
+                            className="addQuest btn cta"
+                            onClick={() => handleModal()}
+                            ><span className="material-symbols-outlined icon">add</span> <span className="removeResponsive">Novo hábito</span></ButtonCTA>
                     </div>
                 </IntroductionWrapper>
             </Introduction>
+
+            { openModal && <Overlay onClick={handleModal} />}
+            { openModal && (
+                <HabitForm mode="create" onClose={handleModal}  />
+            )}
 
             {habits ? (
                 <HabitList />
@@ -36,6 +52,17 @@ export const HabitPage = () => {
         </Container>
     )
 }
+
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 4;
+  pointer-events: all;
+`;
 
 const Container = styled.div`
     padding: 10px 50px;

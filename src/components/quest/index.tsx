@@ -181,7 +181,7 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
         return text.length > limit ? text.substring(0, limit) + "..." : text;
     }
 
-    if (loading) return <div>Loading..</div>
+    if (loading) return <div>Carregando..</div>
 
     return (
         <>

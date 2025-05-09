@@ -12,7 +12,7 @@ type habitContextType = {
   error: string | null
   habitProgress: Record<number, HabitProgress[]>
   habitStats: Record<number, HabitStats>
-  addHabit: (newHabit: Habit) => Promise<void>
+  addHabit: (newHabit: CreateHabitPayload) => Promise<void>
   editHabit: (updatedHabit: Habit) => Promise<void>
   deleteHabit: (habitId: number) => Promise<void>
   viewProgress: (habitId: number) => Promise<void>
@@ -20,6 +20,8 @@ type habitContextType = {
   fetchHabitProgress: (habitId: number, startDate?: string, endDate?: string) => Promise<void>
   fetchHabitStats: (habitId: number) => Promise<void>
 }
+
+type CreateHabitPayload = Omit<Habit, 'id' | 'createdAt' | 'updatedAt' | 'userId'>;
 
 export const HabitContext = createContext({} as habitContextType)
 
@@ -66,7 +68,7 @@ export function HabitProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const addHabit = async (newHabit: Habit) => {
+  const addHabit = async (newHabit: CreateHabitPayload) => {
     setLoading(true)
     try {
       const response = await api.post('/habits', newHabit, {
