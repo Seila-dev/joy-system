@@ -1,14 +1,18 @@
 import styled from "styled-components";
-import { Habit, HabitMethod, HabitProgress } from "../../types/habitData";
+import { Habit, HabitMethod } from "../../types/habitData";
 import { formatDate } from "../../utils/dateUtils";
 import { Accordion } from "../Accordion";
+import useHabit from "../../contexts/hooks/useHabit";
 
 interface ProgressHistoryProps {
-  progress: HabitProgress[];
   currentHabit: Habit;
 }
 
-export const ProgressHistory = ({ progress, currentHabit }: ProgressHistoryProps) => {
+export const ProgressHistory = ({ currentHabit }: ProgressHistoryProps) => {
+  const { habitProgress } = useHabit();
+  const progress = habitProgress[currentHabit.id] || [];
+  console.log("Progress:", progress);
+
   const accordionItems = progress.map((item, index) => ({
     id: index,
     label: formatDate(item.date),
@@ -16,14 +20,15 @@ export const ProgressHistory = ({ progress, currentHabit }: ProgressHistoryProps
     isSuccess: item.isSuccess,
     renderContent: () => (
       <AccordionContent>
-        <p>
-          Tempo:{" "}
+        <ContentHeader>
+          {currentHabit.method === HabitMethod.INSTANTANEO
+              ? 'Resultado' : 'Contagem'}:{" "}
           {currentHabit.method === HabitMethod.INSTANTANEO
             ? item.value === 1
               ? "Sim"
               : "Não"
-            : `${item.value}${currentHabit.method === HabitMethod.QUANTIDADE ? " min" : ""}`}
-        </p>
+            : `${item.value}`}
+        </ContentHeader>
         <StatusBadge $isSuccess={item.isSuccess}>
           {item.isSuccess ? "Sucesso" : "Falha"}
         </StatusBadge>
@@ -51,13 +56,22 @@ const ProgressSection = styled.section`
   grid-area: RecordProgressComponent;
   width: 100%;
   padding: 20px;
-  min-width: 430px;
+
+  @media(max-width: 768px) {
+    *{
+    font-size: 12px !important;
+  }
 `;
+
+const ContentHeader = styled.p`
+
+`
 
 const SectionTitle = styled.h2`
   margin-bottom: 25px;
   font-weight: 600;
   font-size: 25px;
+  gap: 10px;
 `;
 
 const AccordionContainer = styled.div`

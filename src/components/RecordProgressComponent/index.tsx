@@ -1,79 +1,183 @@
-import { ptBR } from "date-fns/locale/pt-BR"
-import { useState } from "react"
+import { ptBR } from "date-fns/locale"
+import { useEffect, useState } from "react"
 import DatePicker from "react-datepicker"
 import styled from "styled-components"
-import { Habit } from "../../types/habitData"
+import { Habit, HabitMethod, RecordProgress } from "../../types/habitData"
+import { z } from "zod"
+import { Controller, useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { DateTime } from "luxon"
+import useHabit from "../../contexts/hooks/useHabit"
+import { toast } from "sonner"
 
 interface HabitProps {
     habit: Habit;
+    deleteFunction?: () => void;
+    saveFunction?: (e: React.FormEvent) => void;
+    progressForm: RecordProgress;
+    setProgressForm: React.Dispatch<React.SetStateAction<RecordProgress>>;
+    onClose?: () => void;
+    initialData?: RecordProgress | null;
+    mode?: 'create' | 'edit';
 }
 
-export const RecordProgressComponent = ({ habit }: HabitProps) => {
-    const [selectedDateTime, setSelectedDateTime] = useState<Date | null>()
-    const [duration, setDuration] = useState<number | null>(null);
-    const [chooseOption, setChooseOption] = useState<boolean>(false)
+const progressSchema = z.object({
+    notes: z.string().optional(),
+    joyPoints: z.number().optional(),
+    date: z.string().min(1, { message: 'Data é obrigatória' }),
+    value: z.number().min(0).optional(),
+    isSuccess: z.boolean()
+});
 
-    const toggleOption = () => {
-        setChooseOption(!chooseOption)
-    }
+type ProgressFormData = z.infer<typeof progressSchema>;
+
+export const RecordProgressComponent: React.FC<HabitProps> = ({
+    habit,
+    deleteFunction,
+    onClose,
+    initialData,
+    mode,
+}) => {
+    const {
+        register,
+        control,
+        handleSubmit,
+        setValue,
+        reset,
+        formState: { errors, isSubmitting }
+    } = useForm<ProgressFormData>({
+        resolver: zodResolver(progressSchema),
+        mode: 'onBlur',
+        defaultValues: mode === 'edit' && initialData ? {
+            notes: initialData.notes ?? "",
+            date: initialData.date ?? "",
+            joyPoints: initialData.joyPoints ?? 2,
+            isSuccess: initialData.isSuccess ?? false,
+            value: initialData.value ?? 0,
+        } : {
+            notes: "",
+            date: "",
+            joyPoints: 2,
+            isSuccess: false,
+            value: habit.method !== HabitMethod.INSTANTANEO ? 1 : 0
+        }
+    })
+
+    const { habitProgress } = useHabit();
+    const progress = habitProgress[habit.id] || [];
+
+    const [chooseOption, setChooseOption] = useState<boolean>(
+        !(initialData?.isSuccess === false)
+    );
+
+    useEffect(() => {
+        setValue("isSuccess", chooseOption); // sincroniza com react-hook-form
+    }, [chooseOption, setValue]);
+
+    const { recordProgress, viewProgress, fetchHabitProgress, fetchHabitStats } = useHabit();
+
+    const alreadyExistsProgressForDate = (date: string) => {
+        const selectedDay = DateTime.fromISO(date).toFormat('yyyy-MM-dd');
+        return progress?.some(prog => 
+            DateTime.fromISO(prog.date).toFormat('yyyy-MM-dd') === selectedDay
+        );
+    };
+
+    const onSubmit = async (data: ProgressFormData) => {
+        if (habit.method !== HabitMethod.INSTANTANEO && (!data.value || data.value <= 0)) {
+            toast.error('Preencha a duração ou quantidade com um valor maior que 0.');
+            return;
+        }
+        if (alreadyExistsProgressForDate(data.date)) {
+            toast.error('Você já registrou progresso para essa data.');
+            return;
+        }
+    
+        const isSuccess = chooseOption; 
+    
+        const progressData: RecordProgress = {
+            ...data,
+            isSuccess,
+            date: data.date,
+            joyPoints: isSuccess ? habit.successPoints : -habit.failurePoints,
+            value: habit.method === HabitMethod.INSTANTANEO
+                ? (isSuccess ? 1 : 0)
+                : data.value ?? 0,
+        };
+    
+        try {
+            if (mode === 'create') {
+                console.log('Sending to API:', progressData);
+                await recordProgress(habit.id, progressData);
+                await viewProgress(habit.id);
+            }
+    
+            fetchHabitProgress(habit.id);
+            fetchHabitStats(habit.id);
+            reset();
+            onClose?.();
+        } catch (error) {
+            console.error('Erro ao adicionar ou editar progresso:', error);
+            toast.error('Erro ao adicionar ou editar progresso. Tente novamente mais tarde.');
+        }
+    };
 
 
     return (
-        <FormElement>
+        <FormElement onSubmit={handleSubmit(onSubmit)}>
             <Title>Registrar progresso</Title>
             <FormItem>
                 <Label>Data</Label>
-                <DatePicker
-                    selected={selectedDateTime}
-                    onChange={(date) => setSelectedDateTime(date)}
-                    showTimeSelect
-                    timeIntervals={15}
-                    dateFormat="dd/MM/yyyy  HH:mm"
-                    locale={ptBR}
-                    timeCaption='Hora'
-                    placeholderText='Selecione a data e hora'
-                    isClearable
-                    maxDate={new Date()}
-                    customInput={
-                        <Input />
-                    }
+                <Controller
+                    name="date"
+                    control={control}
+                    render={({ field }) => (
+                        <DatePicker
+                            selected={field.value ? new Date(field.value) : null}
+                            onChange={(date) => field.onChange(date?.toISOString() ?? '')}
+                            dateFormat="dd/MM/yyyy"
+                            locale={ptBR}
+                            placeholderText="Selecione a data"
+                            isClearable
+                            maxDate={new Date()}
+                            customInput={<Input />}
+                        />
+                    )}
                 />
+                {errors.date && <span style={{ color: 'red' }}>{errors.date.message}</span>}
             </FormItem>
+            {habit.method !== HabitMethod.INSTANTANEO && (
+                <FormItem>
+                    <Label>Contagem (vezes)</Label>
+                    <Input
+                        id="duration"
+                        type="text"
+                        inputMode="numeric"
+                        placeholder="0"
+                        maxLength={5}
+                        {...register('value', {
+                            setValueAs: v => Number(String(v).replace(/\D/g, '')) || 0,
+                        })}
+                    />
+                    {errors.value && <span style={{ color: 'red' }}>{errors.value.message}</span>}
+                </FormItem>
+            )}
             <FormItem>
-                <Label>
-                    Duração (minutos)
-                </Label>
-                <Input
-                    id="duration"
-                    type="text"
-                    inputMode="numeric"
-                    onChange={(e) => {
-                        const value = e.target.value.replace(/\D/g, '');
-                        setDuration(value ? Number(value) : null);
-                    }}
-                    value={duration !== null ? duration.toString() : ''}
-                    placeholder="0"
-                    maxLength={5}
-                />
-            </FormItem>
-            <FormItem>
-                <Label>
-                    Resultado
-                </Label>
+                <Label>Resultado</Label>
                 <FormSubmitButtons>
                     <FormButton
                         type="button"
-                        variant={chooseOption === true ? 'failure' : 'default'}
-                        className={chooseOption === true ? 'active' : ''}
-                        onClick={() => toggleOption()}
+                        variant={chooseOption === false ? 'failure' : 'default'}
+                        className={!chooseOption ? 'active' : ''}
+                        onClick={() => setChooseOption(false)}
                     >
                         Falha ( -{habit.failurePoints} )
                     </FormButton>
                     <FormButton
                         type="button"
-                        variant={chooseOption === false ? 'success' : 'default'}
-                        className={chooseOption === false ? 'active' : ''}
-                        onClick={() => toggleOption()}
+                        variant={chooseOption === true ? 'success' : 'default'}
+                        className={chooseOption ? 'active' : ''}
+                        onClick={() => setChooseOption(true)}
                     >
                         Sucesso ( +{habit.successPoints} )
                     </FormButton>
@@ -81,16 +185,17 @@ export const RecordProgressComponent = ({ habit }: HabitProps) => {
             </FormItem>
             <FormItem>
                 <Label>Observações</Label>
-                <ProgressDetails placeholder="Adicione observações (opcional)" />
+                <ProgressDetails placeholder="Adicione observações (opcional)" {...register('notes')} />
+                {errors.notes && <span style={{ color: 'red' }}>{errors.notes.message}</span>}
             </FormItem>
             <FormSubmitButtons>
-                <FormButton type="button" variant="delete">
+                <FormButton type="button" variant="delete" onClick={deleteFunction}>
                     <span className="material-symbols-outlined viewAllIcon icon">
                         delete
                     </span>
                     <span>Excluir hábito</span>
                 </FormButton>
-                <FormButton type="button" variant="save">
+                <FormButton type="submit" variant="save" disabled={isSubmitting}>
                     <span className="material-symbols-outlined viewAllIcon icon">
                         save
                     </span>
@@ -156,6 +261,7 @@ const FormButton = styled.button<{ variant?: 'success' | 'failure' | 'save' | 'd
     width: 100%;
     color: white;
     font-weight: 700;
+    max-height: 50px;
     font-size: 18px;
     cursor: pointer;
     transition: 0.15s ease-out;

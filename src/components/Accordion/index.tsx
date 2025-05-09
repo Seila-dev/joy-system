@@ -107,6 +107,7 @@ const ToggleButton = styled.button`
 const LabelGroup = styled.div`
   display: flex;
   align-items: center;
+  margin-right: 30px;
   gap: 10px;
 `;
 
@@ -127,6 +128,6 @@ const ContentArea = styled.div`
 
   &.open {
     max-height: 500px;
-    padding: 1rem;
+    padding: 0.2rem;
   }
 `;

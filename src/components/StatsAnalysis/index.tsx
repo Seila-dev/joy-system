@@ -33,7 +33,7 @@ export const StatsAnalysis = ({ id, habit }: StatsProps) => {
                             </RingContent>
                         </ProgressRing>
                         <RingLabel>
-                            Taxa de conclusão
+                            Taxa de Vitórias
                         </RingLabel>
                     </StatItem>
                     <StatItem>
@@ -77,7 +77,7 @@ const Element = styled.section`
     max-width: 600px;
     padding: 20px;
     border-radius: 10px;
-    width: 100%:
+    width: 100%;
     display: grid;
     grid-area: StatsAnalysis;
 
@@ -85,14 +85,18 @@ const Element = styled.section`
         *{
             font-size: 18px !important;
         }
-        padding: 5px;
+        padding: 10px;
     }
 `
 
 const Title = styled.h2`
     margin-bottom: 20px;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 25px;
+
+    @media(max-width: 768px){
+        font-size: 12px !important;
+    }
 `
 
 const StatsGridContainer = styled.div`

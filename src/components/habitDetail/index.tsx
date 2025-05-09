@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useHabit } from '../../contexts/hooks/useHabit';
-import { HabitType, Habit, HabitProgress } from '../../types/habitData';
+import { HabitType, Habit } from '../../types/habitData';
 import { RecordProgress } from '../../types/habitData';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { RecordProgressComponent } from '../RecordProgressComponent';
@@ -16,17 +16,12 @@ export const HabitDetail: React.FC = () => {
 
   const [habitInfo, setHabitInfo] = useState<boolean>(false)
 
-  const toggleWindow = () => {
-    setHabitInfo(!habitInfo)
-  }
 
   const {
     habits,
-    //selectedHabit,  
     fetchHabitProgress,
     fetchHabitStats,
     recordProgress,
-    habitProgress,
     deleteHabit,
     error,
     //loading: contextLoading
@@ -39,7 +34,7 @@ export const HabitDetail: React.FC = () => {
     notes: ''
   });
 
-  const [loading, setLoading] = useState(false);
+  const [_, setLoading] = useState(false);
   const [currentHabit, setCurrentHabit] = useState<Habit | null>(null);
 
   useEffect(() => {
@@ -54,21 +49,6 @@ export const HabitDetail: React.FC = () => {
       fetchHabitStats(habitId);
     }
   }, [habitId, habits, fetchHabitProgress, fetchHabitStats]);
-
-  const handleProgressChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setProgressForm(prev => ({
-      ...prev,
-      [name]: name === 'value' ? parseFloat(value) : value
-    }));
-  };
-
-  const handleSuccessChange = (isSuccess: boolean) => {
-    setProgressForm(prev => ({
-      ...prev,
-      isSuccess
-    }));
-  };
 
   const handleProgressSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -152,231 +132,14 @@ export const HabitDetail: React.FC = () => {
       </InfoSection>
       <GridDetailedContainer>
         {habitInfo ? (
-          <ProgressHistory currentHabit={currentHabit} progress={habitProgress[habitId] || []} />
+          <ProgressHistory currentHabit={currentHabit} />
         ) : (
-          <RecordProgressComponent habit={currentHabit} />
+          <RecordProgressComponent habit={currentHabit} deleteFunction={handleDeleteHabit} saveFunction={handleProgressSubmit} progressForm={progressForm} setProgressForm={setProgressForm} mode='create' />
         )}
         <HabitInfoModal habit={currentHabit} />
         <StatsAnalysis id={habitId} habit={currentHabit} />
       </GridDetailedContainer>
     </Container>
-    // <Container>
-    //   <Header>
-    //     <BackButton onClick={() => navigate('/dashboard/habits')}>
-    //       Voltar
-    //     </BackButton>
-
-    //   </Header>
-
-    //   <InfoSection>
-    //     {currentHabit.title && (
-    //       <Title habitType={currentHabit.type}>
-    //         {currentHabit.title}
-    //       </Title>
-    //     )}
-    //     {currentHabit.description && (
-    //       <Description>{currentHabit.description}</Description>
-    //     )}
-    //     <MetaGrid>
-    //       <MetaItem>
-    //         <MetaLabel>Tipo</MetaLabel>
-    //         <MetaValue>
-    //           {currentHabit.type === HabitType.BOM ? 'Bom Hábito' : 'Mau Hábito'}
-    //         </MetaValue>
-    //       </MetaItem>
-    //       <MetaItem>
-    //         <MetaLabel>Método</MetaLabel>
-    //         <MetaValue>{getMethodLabel(currentHabit.method)}</MetaValue>
-    //       </MetaItem>
-    //       <MetaItem>
-    //         <MetaLabel>Frequência</MetaLabel>
-    //         <MetaValue>{getFrequencyLabel(currentHabit.frequency)}</MetaValue>
-    //       </MetaItem>
-    //       <MetaItem>
-    //         <MetaLabel>Meta</MetaLabel>
-    //         <MetaValue>
-    //           {currentHabit.title || 'Não especificado'}
-    //           {currentHabit.method === HabitMethod.QUANTIDADE ? ' minutos' : ''}
-    //         </MetaValue>
-    //       </MetaItem>
-    //       <MetaItem>
-    //         <MetaLabel>Pontos</MetaLabel>
-    //         <MetaValue>
-    //           +{currentHabit.successPoints} / -{currentHabit.failurePoints}
-    //         </MetaValue>
-    //       </MetaItem>
-    //       <MetaItem>
-    //         <MetaLabel>Criado em</MetaLabel>
-    //         <MetaValue>{formatDate(currentHabit.createdAt)}</MetaValue>
-    //       </MetaItem>
-    //     </MetaGrid>
-    //   </InfoSection>
-
-    //   {stats && (
-    //     <StatsSection>
-    //       <SectionTitle>Estatísticas</SectionTitle>
-    //       <StatsGrid>
-    //         <StatItem>
-    //           <StatValue>{stats.currentStreak}</StatValue>
-    //           <StatLabel>Sequência Atual</StatLabel>
-    //         </StatItem>
-    //         <StatItem>
-    //           <StatValue>{stats.longestStreak}</StatValue>
-    //           <StatLabel>Melhor Sequência</StatLabel>
-    //         </StatItem>
-    //         <StatItem>
-    //           <ProgressRing
-    //             progress={stats.completionRate}
-    //             size={100}
-    //             strokeWidth={4}
-    //             color={stats.completionRate > 50 ? "rgb(52, 211, 153)" : "rgb(248, 113, 113)"}
-    //           >
-    //             <RingContent>
-    //               <RingValue>{Math.round(stats.completionRate)}%</RingValue>
-    //               <RingLabel>Taxa de Conclusão</RingLabel>
-    //             </RingContent>
-    //           </ProgressRing>
-
-    //         </StatItem>
-    //         {/* <StatItem>
-    //           <StatValue>{`${Math.round(stats.completionRate)}%`}</StatValue>
-    //           <StatLabel>Taxa de Conclusão</StatLabel>
-    //         </StatItem> */}
-    //         <StatItem>
-    //           <StatValue>{stats.totalCompletions}</StatValue>
-    //           <StatLabel>Total Completado</StatLabel>
-    //         </StatItem>
-    //       </StatsGrid>
-    //     </StatsSection>
-    //   )}
-
-    //   <ProgressSection>
-    //     <SectionTitle>Registrar Progresso</SectionTitle>
-    //     <ProgressForm onSubmit={handleProgressSubmit}>
-    //       <FormGroup>
-    //         <Label htmlFor="date">Data</Label>
-    //         <Input
-    //           type="date"
-    //           id="date"
-    //           name="date"
-    //           value={progressForm.date}
-    //           onChange={handleProgressChange}
-    //           required
-    //         />
-    //       </FormGroup>
-
-    //       <FormGroup>
-    //         <Label htmlFor="value">
-    //           {currentHabit.method === HabitMethod.INSTANTANEO
-    //             ? 'Completado'
-    //             : currentHabit.method === HabitMethod.QUANTIDADE
-    //               ? 'Duração (minutos)'
-    //               : 'Quantidade'}
-    //         </Label>
-    //         {currentHabit.method === HabitMethod.INSTANTANEO ? (
-    //           <ButtonGroup>
-    //             <Button
-    //               type="button"
-    //               variant={progressForm.value === 1 ? 'success' : 'default'}
-    //               onClick={() => setProgressForm(prev => ({ ...prev, value: 1 }))}
-    //             >
-    //               Sim
-    //             </Button>
-    //             <Button
-    //               type="button"
-    //               variant={progressForm.value === 0 ? 'danger' : 'default'}
-    //               onClick={() => setProgressForm(prev => ({ ...prev, value: 0 }))}
-    //             >
-    //               Não
-    //             </Button>
-    //           </ButtonGroup>
-    //         ) : (
-    //           <Input
-    //             type="number"
-    //             id="value"
-    //             name="value"
-    //             min={0}
-    //             step={currentHabit.method === HabitMethod.QUANTIDADE ? 1 : 1}
-    //             value={progressForm.value}
-    //             onChange={handleProgressChange}
-    //             required
-    //           />
-    //         )}
-    //       </FormGroup>
-
-    //       <FormGroup>
-    //         <Label>Resultado</Label>
-    //         <ButtonGroup>
-    //           <Button
-    //             type="button"
-    //             variant={progressForm.isSuccess ? 'success' : 'default'}
-    //             onClick={() => handleSuccessChange(true)}
-    //           >
-    //             Sucesso (+{currentHabit.successPoints} pontos)
-    //           </Button>
-    //           <Button
-    //             type="button"
-    //             variant={!progressForm.isSuccess ? 'danger' : 'default'}
-    //             onClick={() => handleSuccessChange(false)}
-    //           >
-    //             Falha (-{currentHabit.failurePoints} pontos)
-    //           </Button>
-    //         </ButtonGroup>
-    //       </FormGroup>
-
-    //       <FormGroup>
-    //         <Label htmlFor="notes">Observações</Label>
-    //         <TextArea
-    //           id="notes"
-    //           name="notes"
-    //           value={progressForm.notes}
-    //           onChange={handleProgressChange}
-    //           placeholder="Adicione observações (opcional)"
-    //         />
-    //       </FormGroup>
-
-    //       <ButtonGroup>
-    //         <Button type="submit" variant='save' disabled={loading}>
-    //           {loading ? 'Salvando...' : 'Salvar Progresso'}
-    //         </Button>
-    //         <Button
-    //           type="button"
-    //           variant="danger"
-    //           onClick={handleDeleteHabit}
-    //         >
-    //           Excluir Hábito
-    //         </Button>
-    //       </ButtonGroup>
-    //     </ProgressForm>
-
-    //     <ProgressList>
-    //       <SectionTitle>Histórico de Progresso</SectionTitle>
-    //       {progress.length > 0 ? (
-    //         progress.map((item, index) => (
-    //           <ProgressItem key={index} $isSuccess={item.isSuccess}>
-    //             <div>
-    //               <ProgressDate>{formatDate(item.date)}</ProgressDate>
-    //               {item.habitId && <ProgressNotes></ProgressNotes>}
-    //             </div>
-    //             <ProgressValue>
-    //               {currentHabit.method === HabitMethod.INSTANTANEO
-    //                 ? item.value === 1 ? 'Sim' : 'Não'
-    //                 : `${item.value}${currentHabit.method === HabitMethod.QUANTIDADE
-    //                   ? ' min'
-    //                   : ''
-    //                 }`}
-    //               <StatusBadge $isSuccess={item.isSuccess}>
-    //                 {item.isSuccess ? 'Sucesso' : 'Falha'}
-    //               </StatusBadge>
-    //             </ProgressValue>
-    //           </ProgressItem>
-    //         ))
-    //       ) : (
-    //         <NoData>Nenhum progresso registrado ainda.</NoData>
-    //       )}
-    //     </ProgressList>
-    //   </ProgressSection>
-    // </Container>
   );
 };
 

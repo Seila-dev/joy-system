@@ -77,7 +77,7 @@ export enum HabitMethod {
   export interface RecordProgress {
     isSuccess: boolean;
     value?: number;
-    date?: string;
+    date: string | null;
     notes?: string;
     joyPoints?: number;
   }
