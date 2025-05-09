@@ -47,6 +47,10 @@ const Container = styled.div`
     max-width: 1200px;
     width: 100%;
     color: #e0e4ff;
+
+    @media(max-width: 550px){
+        padding: 10px;
+    }
 `
 
 const Introduction = styled.header`
@@ -84,18 +88,6 @@ const Introduction = styled.header`
         align-items: center;
         gap: 15px;
     }
-    .btn{
-        padding: 12px 16px;
-        border: none;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        width: fit-content;
-        border-radius: 5px;
-        color: var(--background);
-        background: var(--tertiary);
-        font-weight: 700;
-    }
     .btn .icon{
         font-size: 20px;
         margin-right: 5px;
@@ -104,27 +96,40 @@ const Introduction = styled.header`
     @media(max-width: 530px){
         flex-direction: column;
         .title{
-            font-size: 25px;
+            font-size: 15px;
         }
         .description{
+            font-size: 12px;
             margin-top: 5px;
-        }
-        .btn{
-            width: fit-content;
         }
         .rightSide{
             margin-top: 10px;
             width: 100%;
+        }
+        .btn .icon{
+            font-size: 10px;
+        }
+        .prevPage{
+            font-size: 10px;
+            margin: 0;
+        }
+        .prevPage span{
+            font-size: 15px;
         }
     }
 `
 
 const IntroductionWrapper = styled.div`
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     width: 100%;
     margin-top: 30px;
+
+    @media(max-width: 550px){
+        flex-direction: column;
+        gap: 20px;
+    }
 `
 
 const ButtonCTA = styled.button`
@@ -132,8 +137,11 @@ const ButtonCTA = styled.button`
   color: white;
   font-weight: 600;
   padding: 12px 24px;
-  border-radius: 8px;
+  border-radius: 5px;
   border: none;
+  display: flex;
+  align-items: center;
+  min-width: 170px;
   font-size: 1rem;
   box-shadow: 0 4px 14px rgba(0, 114, 255, 0.4);
   transition: all 0.3s ease;
@@ -147,6 +155,12 @@ const ButtonCTA = styled.button`
   &:active {
     transform: scale(0.98);
   }
+
+  @media(max-width: 550px){
+    width: 100%;
+    font-size: 10px;
+    justify-content: center;
+    }
 `
 
 const HabitNotfound = styled.section`

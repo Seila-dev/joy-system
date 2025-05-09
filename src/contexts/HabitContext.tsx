@@ -173,7 +173,6 @@ export function HabitProvider({ children }: { children: React.ReactNode }) {
   };
 
   const fetchHabitProgress = useCallback(async (habitId: number, startDate?: string, endDate?: string) => {
-    setLoading(true);
     const params = new URLSearchParams();
   
     if (startDate) params.append('startDate', startDate);
@@ -197,13 +196,10 @@ export function HabitProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       console.error('Erro ao buscar progresso do hábito:', error);
       throw error;
-    } finally {
-      setLoading(false);
     }
   }, [token]);
   
   const fetchHabitStats = useCallback(async (habitId: number) => {
-    setLoading(true);
     try {
       const response = await api.get(`/habits/${habitId}/stats`, {
         headers: {
@@ -220,9 +216,7 @@ export function HabitProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       console.error('Erro ao buscar status do hábito:', error);
       throw error;
-    } finally {
-      setLoading(false);
-    }
+    } 
   }, [token]);
   
 

@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import { useHabit } from '../../contexts/hooks/useHabit';
-import { Habit, HabitType } from '../../types/habitData';
+import { HabitType } from '../../types/habitData';
 import { Link } from 'react-router-dom';
 import { remainingDays } from '../../utils/dateUtils';
 import { ProgressRing } from '../ProgressRing';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import { HabitListSkeleton } from '../../skeleton/habitListLoading';
 
 interface HabitListProps {
   onHabitClick?: (habitId: number) => void;
@@ -13,31 +14,19 @@ interface HabitListProps {
 export const HabitList: React.FC<HabitListProps> = ({ onHabitClick }) => {
   const { habits, habitStats, loading, error, fetchHabitStats, fetchHabitProgress } = useHabit();
 
-  if (loading) {
-    return <LoadingMessage>Carregando hábitos...</LoadingMessage>;
-  }
+  const fetchedHabitsRef = useRef<Set<number>>(new Set());
 
-  if (error) {
-    return <ErrorMessage>{error}</ErrorMessage>;
-  }
+  useEffect(() => {
+  if (!habits) return;
 
-  if (habits?.length === 0) {
-    return <EmptyState>Nenhum hábito encontrado. Comece criando seu primeiro hábito!</EmptyState>;
-  }
-
-  const [currentHabit, setCurrentHabit] = useState<Habit | null>(null);
-  
-  // useEffect(() => {
-  //   if (!hasFetched.current ) {
-  //     hasFetched.current = true;
-  //     habits?.forEach(habit => {
-  //       fetchHabitProgress(habit.id);
-  //       fetchHabitStats(habit.id);
-  //     });
-  //   }
-  // }, [habits]);
-
-
+  habits.forEach((habit) => {
+    if (!fetchedHabitsRef.current.has(habit.id)) {
+      fetchedHabitsRef.current.add(habit.id);
+      fetchHabitStats(habit.id);
+      fetchHabitProgress(habit.id);
+    }
+  });
+}, [habits]);
 
   const handleHabitClick = (habitId: number) => {
     if (onHabitClick) {
@@ -52,30 +41,47 @@ export const HabitList: React.FC<HabitListProps> = ({ onHabitClick }) => {
     return habitStats[habitId].currentStreak || 0;
   }
 
+  if (loading) {
+    return <HabitListSkeleton />;
+  }
+
+  if (error) {
+    return <ErrorMessage>{error}</ErrorMessage>;
+  }
+
+  if (habits?.length === 0) {
+    return <EmptyState>Nenhum hábito encontrado. Comece criando seu primeiro hábito!</EmptyState>;
+  }
+
+
   return (
     <Container>
       <HabitGrid>
         {habits?.map(habit => (
           <HabitCard
             key={habit.id}
+            to={'/dashboard/habits/' + habit.id}
             $habitType={habit.type}
             onClick={() => handleHabitClick(habit.id)}
           >
             <HabitHeaderType>
-              <LeftHeader
-                $habitType={habit.type}
-              >
-                <span className="material-symbols-outlined icon">
-                  {habit.type === 'BOM' ? 'thumb_up' : 'thumb_down'}
-                </span>
-                {habit.type}
-              </LeftHeader>
-              <RightHeader>{habit.method}</RightHeader>
-            </HabitHeaderType>
-            <Link to={'/dashboard/habits/' + habit.id}>
-              <HabitTitle>{habit.title}</HabitTitle>
+              
+              <HeaderGroup>
+                <LeftHeader
+                  $habitType={habit.type}
+                >
+                  <span className="material-symbols-outlined icon">
+                    {habit.type === 'BOM' ? 'thumb_up' : 'thumb_down'}
+                  </span>
+                  {habit.type}
+                </LeftHeader>
+                <RightHeader>{habit.method}</RightHeader>
+              </HeaderGroup>
+                            <HabitTitle>{habit.title}</HabitTitle>
 
               <HabitDesc>{habit.description || 'Sem descrição'}</HabitDesc>
+            </HabitHeaderType>
+
               <HabitMeta>
                 <Badge>
                   <BadgeText>
@@ -124,29 +130,25 @@ export const HabitList: React.FC<HabitListProps> = ({ onHabitClick }) => {
                   {getCurrentStreak(habit.id)}
                 </Badge>
                 {habitStats[habit.id] && (
-  <>
-    <Divisor>
-      <div className="line b1"></div>
-      <span className="span-pin">Saúde do Hábito</span>
-      <div className="line b2"></div>
-    </Divisor>
-    <Badge>
-      {}
-      <ProgressRing
-        progress={habitStats[habit.id].completionRate}
-        size={100}
-        variant="bar"
-        strokeWidth={5}
-        color={habitStats[habit.id].completionRate > 50 ? "rgb(52, 211, 153)" : "rgb(248, 113, 113)"}
-      />
-    </Badge>
-  </>
-)}
+                  <>
+                    <Divisor>
+                      <div className="line b1"></div>
+                      <span className="span-pin">Saúde do Hábito</span>
+                      <div className="line b2"></div>
+                    </Divisor>
+                    <Badge>
+                      { }
+                      <ProgressRing
+                        progress={habitStats[habit.id].completionRate}
+                        size={100}
+                        variant="bar"
+                        strokeWidth={5}
+                        color={habitStats[habit.id].completionRate > 50 ? "rgb(52, 211, 153)" : "rgb(248, 113, 113)"}
+                      />
+                    </Badge>
+                  </>
+                )}
               </HabitMeta>
-            </Link>
-            <HabitButtons>
-
-            </HabitButtons>
           </HabitCard>
         ))}
       </HabitGrid>
@@ -167,30 +169,34 @@ const HabitGrid = styled.div`
 
   @media(max-width: 768px) {
     grid-template-columns: 1fr 1fr;
+    gap: 5px;
   }
 
-  @media(max-width: 480px) {
+  @media(max-width: 330px) {
     grid-template-columns: 1fr;
   }
 `;
 
-const HabitCard = styled.div<{ $habitType: HabitType }>`
+const HabitCard = styled(Link)<{ $habitType: HabitType }>`
   background: linear-gradient(to right, ${props => props.$habitType === HabitType.BOM ? '#027148' : '#8b0000'},
   ${props => props.$habitType === HabitType.BOM ? '#013220' : '#200'}
 );
-  border-radius: 8px;
+  border-radius: 5px;
   padding: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   color: white;
   transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 
   &:hover {
     transform: translateY(-4px);
   }
 `;
 
-const HabitHeaderType = styled.span`
+const HeaderGroup = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -200,6 +206,18 @@ const HabitHeaderType = styled.span`
     align-items: center;
     font-size: 16px;
   }
+
+  @media(max-width: 550px){
+    .icon{
+      font-size: 10px;
+    }
+  }
+`
+
+const HabitHeaderType = styled.span`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: auto;
 `
 
 const LeftHeader = styled.div< { $habitType: HabitType }>`
@@ -220,17 +238,29 @@ const RightHeader = styled.div`
   border-radius: 10px;
   border: 1px solid var(--tertiary);
   padding: 3px 6px;
+
+  @media(max-width: 550px){
+    font-size: 5px;
+  }
 `
 
 const HabitTitle = styled.h3`
   font-size: 18px;
   margin-bottom: 8px;
+
+  @media(max-width: 550px){
+    font-size: 12px;
+  }
 `;
 
 const HabitDesc = styled.p`
   font-size: 14px;
   opacity: 0.8;
   margin-bottom: 16px;
+
+  @media(max-width: 550px){
+    font-size: 10px;
+  }
 `;
 
 const HabitMeta = styled.div`
@@ -241,6 +271,10 @@ const HabitMeta = styled.div`
   gap: 10px;
   font-size: 12px;
   color: white;
+
+  @media(max-width: 550px){
+    font-size: 8px;
+  }
 `;
 
 const Badge = styled.span`
@@ -255,6 +289,13 @@ const Badge = styled.span`
   .icon{
     font-size: 20px;
   }
+
+  @media(max-width: 550px){
+    font-size: 8px;
+    .icon{
+      font-size: 12px;
+    }
+  }
 `;
 
 const BadgeText = styled.p`
@@ -264,6 +305,10 @@ const BadgeText = styled.p`
   margin-right: 5px;
   font-size: 12px;
   color: #ccc;
+
+  @media(max-width: 550px){
+    font-size: 8px;
+  }
 `
 const Divisor = styled.div`
   display: flex;
@@ -280,43 +325,42 @@ const Divisor = styled.div`
   }
     `
 
-  
 
-const WrapperLine = styled.div`
-  width: 100%;
-  background: #244;
-  color: white;
-  margin: 10px 0;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
+// const WrapperLine = styled.div`
+//   width: 100%;
+//   background: #244;
+//   color: white;
+//   margin: 10px 0;
+//   border-radius: 10px;
+//   display: flex;
+//   justify-content: center;
 
-  span{
-    display: flex;
-    width: 100%;
-  }
+//   span{
+//     display: flex;
+//     width: 100%;
+//   }
 
-  &::before {
-    content: '';
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    border: 1px solid #CCC;
-  }
-  &::after {
-    content: '';
-    width: 100%;
-    display: block;
-    border: 1px solid #CCC;
-  }
-`;
+//   &::before {
+//     content: '';
+//     width: 100%;
+//     height: 100%;
+//     display: flex;
+//     align-items: center;
+//     border: 1px solid #CCC;
+//   }
+//   &::after {
+//     content: '';
+//     width: 100%;
+//     display: block;
+//     border: 1px solid #CCC;
+//   }
+// `;
 
-const LoadingMessage = styled.div`
-  text-align: center;
-  margin: 40px 0;
-  color: #666;
-`;
+// const LoadingMessage = styled.div`
+//   text-align: center;
+//   margin: 40px 0;
+//   color: #666;
+// `;
 
 const ErrorMessage = styled.div`
   padding: 12px;
@@ -332,7 +376,3 @@ const EmptyState = styled.div`
   padding: 40px 0;
   color: #999;
 `;
-
-const HabitButtons = styled.div`
-
-`
