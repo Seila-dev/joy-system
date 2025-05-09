@@ -248,6 +248,7 @@ const GridDetailedContainer = styled.main`
   "RecordProgressComponent HabitInfoModal"
   "RecordProgressComponent StatsAnalysis"
   ;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
   width: 100%;
 

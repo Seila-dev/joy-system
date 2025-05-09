@@ -17,12 +17,13 @@ export const ProgressHistory = ({ currentHabit }: ProgressHistoryProps) => {
     id: index,
     label: formatDate(item.date),
     toggled: false,
+    notes: item.notes,
     isSuccess: item.isSuccess,
     renderContent: () => (
       <AccordionContent>
         <ContentHeader>
           {currentHabit.method === HabitMethod.INSTANTANEO
-              ? 'Resultado' : 'Contagem'}:{" "}
+            ? 'Resultado' : 'Contagem'}:{" "}
           {currentHabit.method === HabitMethod.INSTANTANEO
             ? item.value === 1
               ? "Sim"
@@ -32,7 +33,11 @@ export const ProgressHistory = ({ currentHabit }: ProgressHistoryProps) => {
         <StatusBadge $isSuccess={item.isSuccess}>
           {item.isSuccess ? "Sucesso" : "Falha"}
         </StatusBadge>
-        {item.habitId && <Notes>Anotação do hábito</Notes>}
+        {item.notes ? (
+          <Notes>{item.notes}</Notes>
+        ) : (
+          <Notes>Sem observações</Notes>
+        )}
       </AccordionContent>
     ),
   }));
@@ -55,6 +60,7 @@ const ProgressSection = styled.section`
   background-color: var(--background);
   grid-area: RecordProgressComponent;
   width: 100%;
+  max-width: 500px;
   padding: 20px;
 
   @media(max-width: 768px) {
@@ -83,10 +89,13 @@ const AccordionContainer = styled.div`
 const AccordionContent = styled.div`
   background-color: var(--lightGray);
   padding: 15px;
+    max-width: inherit;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
 `;
 
 const StatusBadge = styled.span<{ $isSuccess: boolean }>`
@@ -100,8 +109,10 @@ const StatusBadge = styled.span<{ $isSuccess: boolean }>`
 
 const Notes = styled.p`
   font-size: 0.875rem;
-  color: #666;
+  color: #a9a9a9;
   margin-top: 0.5rem;
+  width: 100%;
+  display: flex;
 `;
 
 const NoData = styled.p`

@@ -1,5 +1,5 @@
 import { ptBR } from "date-fns/locale"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import DatePicker from "react-datepicker"
 import styled from "styled-components"
 import { Habit, HabitMethod, RecordProgress } from "../../types/habitData"
@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { DateTime } from "luxon"
 import useHabit from "../../contexts/hooks/useHabit"
 import { toast } from "sonner"
+import { JoysContext } from "../../contexts/JoysContext"
 
 interface HabitProps {
     habit: Habit;
@@ -63,18 +64,18 @@ export const RecordProgressComponent: React.FC<HabitProps> = ({
         }
     })
 
-    const { habitProgress } = useHabit();
+    const { habitProgress, recordProgress, viewProgress, fetchHabitProgress, fetchHabitStats } = useHabit();
     const progress = habitProgress[habit.id] || [];
+
+    const { getBalance } = useContext(JoysContext);
 
     const [chooseOption, setChooseOption] = useState<boolean>(
         !(initialData?.isSuccess === false)
     );
 
     useEffect(() => {
-        setValue("isSuccess", chooseOption); // sincroniza com react-hook-form
+        setValue("isSuccess", chooseOption); 
     }, [chooseOption, setValue]);
-
-    const { recordProgress, viewProgress, fetchHabitProgress, fetchHabitStats } = useHabit();
 
     const alreadyExistsProgressForDate = (date: string) => {
         const selectedDay = DateTime.fromISO(date).toFormat('yyyy-MM-dd');
@@ -99,6 +100,7 @@ export const RecordProgressComponent: React.FC<HabitProps> = ({
             ...data,
             isSuccess,
             date: data.date,
+            notes: data.notes,
             joyPoints: isSuccess ? habit.successPoints : -habit.failurePoints,
             value: habit.method === HabitMethod.INSTANTANEO
                 ? (isSuccess ? 1 : 0)
@@ -110,6 +112,7 @@ export const RecordProgressComponent: React.FC<HabitProps> = ({
                 console.log('Sending to API:', progressData);
                 await recordProgress(habit.id, progressData);
                 await viewProgress(habit.id);
+                getBalance()    
             }
     
             fetchHabitProgress(habit.id);

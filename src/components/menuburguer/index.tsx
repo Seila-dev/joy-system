@@ -23,12 +23,6 @@ export const MenuBurguer = ({ active, toggleMenu }: MenuBurguerProps) => {
                     </span>
                     <li>Home</li>
                 </Link>
-                <Link to="user" onClick={toggleMenu}>
-                    <span className="material-symbols-outlined close-icon" >
-                        person
-                    </span>
-                    <li>Perfil</li>
-                </Link>
                 <Link to="quests" onClick={toggleMenu}>
                     <span className="material-symbols-outlined close-icon" >
                         stack
@@ -47,11 +41,23 @@ export const MenuBurguer = ({ active, toggleMenu }: MenuBurguerProps) => {
                     </span>
                     <li>Anotações</li>
                 </Link>
+                <Link to="habits" onClick={toggleMenu}>
+                    <span className="material-symbols-outlined close-icon" >
+                        switch_access
+                    </span>
+                    <li>Hábitos</li>
+                </Link>
                 <Link to="calendar" onClick={toggleMenu}>
                     <span className="material-symbols-outlined close-icon" >
                         calendar_today
                     </span>
                     <li>Calendário</li>
+                </Link>
+                <Link to="user" onClick={toggleMenu}>
+                    <span className="material-symbols-outlined close-icon" >
+                        person
+                    </span>
+                    <li>Perfil</li>
                 </Link>
             </ul>
         </MenuContainer>

@@ -39,6 +39,7 @@ export enum HabitMethod {
     joyPoints: number;
     date: string;
     createdAt: string;
+    notes?: string;
     joyTransactionId?: number;
     joyTransaction?: JoyTransactionType;
   }

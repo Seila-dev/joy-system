@@ -127,7 +127,7 @@ const ContentArea = styled.div`
   transition: max-height 0.3s ease, padding 0.3s ease;
 
   &.open {
-    max-height: 500px;
+    max-height: 100%;
     padding: 0.2rem;
   }
 `;

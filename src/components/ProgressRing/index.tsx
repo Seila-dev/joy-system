@@ -50,7 +50,7 @@ export function ProgressRing({
   size = 120,
   strokeWidth = 8,
   color = 'rgb(139, 92, 246)',
-  bgColor = 'rgba(139, 92, 246, 0.3)',
+  bgColor = 'hsl(338 100% 25%)',
   children,
   variant = 'circle'
 }: ProgressRingProps) {

@@ -27,6 +27,7 @@ export const Introduction = () => {
                             <div>
                                 <Link to="quests" className="btn cta">Ir para Painel de tarefas</Link>
                                 <Link to="notes" className="btn noCta">Ir para Anotações</Link>
+                                <Link to="habits" className="btn noCta">Ir para Gestão de hábitos</Link>
                             </div>
                             <CalendarButton />
                         </div>
