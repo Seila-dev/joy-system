@@ -1,16 +1,18 @@
 import styled from 'styled-components';
 import { useHabit } from '../../contexts/hooks/useHabit';
-import { HabitType } from '../../types/habitData';
+import { Habit, HabitType } from '../../types/habitData';
 import { Link } from 'react-router-dom';
 import { remainingDays } from '../../utils/dateUtils';
+import { ProgressRing } from '../ProgressRing';
+import { useEffect, useRef, useState } from 'react';
 
 interface HabitListProps {
   onHabitClick?: (habitId: number) => void;
 }
 
 export const HabitList: React.FC<HabitListProps> = ({ onHabitClick }) => {
-  const { habits, habitStats, loading, error } = useHabit();
-  
+  const { habits, habitStats, loading, error, fetchHabitStats, fetchHabitProgress } = useHabit();
+
   if (loading) {
     return <LoadingMessage>Carregando hábitos...</LoadingMessage>;
   }
@@ -22,6 +24,20 @@ export const HabitList: React.FC<HabitListProps> = ({ onHabitClick }) => {
   if (habits?.length === 0) {
     return <EmptyState>Nenhum hábito encontrado. Comece criando seu primeiro hábito!</EmptyState>;
   }
+
+  const [currentHabit, setCurrentHabit] = useState<Habit | null>(null);
+  
+  // useEffect(() => {
+  //   if (!hasFetched.current ) {
+  //     hasFetched.current = true;
+  //     habits?.forEach(habit => {
+  //       fetchHabitProgress(habit.id);
+  //       fetchHabitStats(habit.id);
+  //     });
+  //   }
+  // }, [habits]);
+
+
 
   const handleHabitClick = (habitId: number) => {
     if (onHabitClick) {
@@ -59,55 +75,74 @@ export const HabitList: React.FC<HabitListProps> = ({ onHabitClick }) => {
             <Link to={'/dashboard/habits/' + habit.id}>
               <HabitTitle>{habit.title}</HabitTitle>
 
-            <HabitDesc>{habit.description || 'Sem descrição'}</HabitDesc>
-            <HabitMeta>
-              <Badge>
-                <BadgeText>
-                  <span className="material-symbols-outlined icon">
-                    calendar_month
-                  </span>
-                  Frequência:
-                </BadgeText>
-                {habit.frequency}
-              </Badge>
-              <Badge>
-                <BadgeText>
-                  <span className="material-symbols-outlined icon">
-                    schedule
-                  </span>
-                  Duração:
-                </BadgeText>
-                {habit.duration} {habit.duration === 1 ? 'dia' : 'dias'}
-              </Badge>
-              <Badge>
-                <BadgeText>
-                  <span className="material-symbols-outlined icon">
-                    calendar_today
-                  </span>
-                  Dias restantes:
-                </BadgeText>
-                {remainingDays(habit)} {remainingDays(habit) === 1 ? 'dia' : 'dias'}
-              </Badge>
+              <HabitDesc>{habit.description || 'Sem descrição'}</HabitDesc>
+              <HabitMeta>
+                <Badge>
+                  <BadgeText>
+                    <span className="material-symbols-outlined icon">
+                      calendar_month
+                    </span>
+                    Frequência:
+                  </BadgeText>
+                  {habit.frequency}
+                </Badge>
+                <Badge>
+                  <BadgeText>
+                    <span className="material-symbols-outlined icon">
+                      schedule
+                    </span>
+                    Duração:
+                  </BadgeText>
+                  {habit.duration} {habit.duration === 1 ? 'dia' : 'dias'}
+                </Badge>
+                <Badge>
+                  <BadgeText>
+                    <span className="material-symbols-outlined icon">
+                      calendar_today
+                    </span>
+                    Dias restantes:
+                  </BadgeText>
+                  {remainingDays(habit)} {remainingDays(habit) === 1 ? 'dia' : 'dias'}
+                </Badge>
 
-              <Badge>
-                <BadgeText>
-                  <span className="material-symbols-outlined icon">
-                    add_circle
-                  </span>
-                  Pontos:
-                </BadgeText>
-                + {habit.successPoints} / - {habit.failurePoints}
-              </Badge>
-              <Badge>
-                <BadgeText>
-                  <span className="material-symbols-outlined icon">
-                    star
-                  </span>
-                  Sequência atual:
-                </BadgeText>
-                {getCurrentStreak(habit.id)}
-              </Badge>
-            </HabitMeta>
+                <Badge>
+                  <BadgeText>
+                    <span className="material-symbols-outlined icon">
+                      add_circle
+                    </span>
+                    Pontos:
+                  </BadgeText>
+                  + {habit.successPoints} / - {habit.failurePoints}
+                </Badge>
+                <Badge>
+                  <BadgeText>
+                    <span className="material-symbols-outlined icon">
+                      star
+                    </span>
+                    Sequência atual:
+                  </BadgeText>
+                  {getCurrentStreak(habit.id)}
+                </Badge>
+                {habitStats[habit.id] && (
+  <>
+    <Divisor>
+      <div className="line b1"></div>
+      <span className="span-pin">Saúde do Hábito</span>
+      <div className="line b2"></div>
+    </Divisor>
+    <Badge>
+      {}
+      <ProgressRing
+        progress={habitStats[habit.id].completionRate}
+        size={100}
+        variant="bar"
+        strokeWidth={5}
+        color={habitStats[habit.id].completionRate > 50 ? "rgb(52, 211, 153)" : "rgb(248, 113, 113)"}
+      />
+    </Badge>
+  </>
+)}
+              </HabitMeta>
             </Link>
             <HabitButtons>
 
@@ -230,6 +265,52 @@ const BadgeText = styled.p`
   font-size: 12px;
   color: #ccc;
 `
+const Divisor = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 20px 0;
+
+  .line {
+    flex-grow: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #aaa, transparent);
+    animation: pulse 2s infinite ease-in-out;
+  }
+    `
+
+  
+
+const WrapperLine = styled.div`
+  width: 100%;
+  background: #244;
+  color: white;
+  margin: 10px 0;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+
+  span{
+    display: flex;
+    width: 100%;
+  }
+
+  &::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    border: 1px solid #CCC;
+  }
+  &::after {
+    content: '';
+    width: 100%;
+    display: block;
+    border: 1px solid #CCC;
+  }
+`;
 
 const LoadingMessage = styled.div`
   text-align: center;

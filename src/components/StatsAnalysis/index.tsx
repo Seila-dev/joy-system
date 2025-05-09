@@ -23,6 +23,7 @@ export const StatsAnalysis = ({ id, habit }: StatsProps) => {
                 <StatsGridContainer>
                     <StatItem>
                         <ProgressRing
+                            variant="circle"
                             progress={stats.completionRate}
                             size={100}
                             strokeWidth={8}
