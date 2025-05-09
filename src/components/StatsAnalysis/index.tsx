@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { ProgressRing } from "../ProgressRing"
 import useHabit from "../../contexts/hooks/useHabit";
 import { Habit } from "../../types/habitData";
-import { passedDays, remainingDays } from "../../utils/dateUtils";
+import { passedDays } from "../../utils/dateUtils";
 
 interface StatsProps {
     id: number;
@@ -18,6 +18,7 @@ export const StatsAnalysis = ({ id, habit }: StatsProps) => {
 
     return (
         <Element>
+            <Title>Análise Geral</Title>
             {stats && (
                 <StatsGridContainer>
                     <StatItem>
@@ -73,9 +74,25 @@ export const StatsAnalysis = ({ id, habit }: StatsProps) => {
 const Element = styled.section`
     background: var(--background);
     min-width: 200px;
-    max-width: 500px;
+    max-width: 600px;
+    padding: 20px;
+    border-radius: 10px;
     width: 100%:
-    display: flex;
+    display: grid;
+    grid-area: StatsAnalysis;
+
+    @media(max-width: 768px){
+        *{
+            font-size: 18px !important;
+        }
+        padding: 5px;
+    }
+`
+
+const Title = styled.h2`
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 20px;
 `
 
 const StatsGridContainer = styled.div`
@@ -106,6 +123,9 @@ const RingLabel = styled.div`
   font-size: 15px;
   color: #f2f2f2;
   margin-top: 10px;
+   @media(max-width: 768px){
+        font-size: 10px !important;
+    }
 `;
 
 const StatItem = styled.div`

@@ -33,6 +33,7 @@ export const RecordProgressComponent = ({ habit }: HabitProps) => {
                     timeCaption='Hora'
                     placeholderText='Selecione a data e hora'
                     isClearable
+                    maxDate={new Date()}
                     customInput={
                         <Input />
                     }
@@ -104,6 +105,9 @@ const FormElement = styled.form`
     background: var(--background);
     padding: 20px;
     border-radius: 10px;
+    display: grid;
+    width: 100%;
+    grid-area: RecordProgressComponent;
 
     @media(max-width: 768px){
         *{

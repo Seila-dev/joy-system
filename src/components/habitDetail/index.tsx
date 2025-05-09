@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useHabit } from '../../contexts/hooks/useHabit';
-import { HabitMethod, HabitFrequency, HabitType, Habit } from '../../types/habitData';
+import { HabitType, Habit, HabitProgress } from '../../types/habitData';
 import { RecordProgress } from '../../types/habitData';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { ProgressRing } from '../ProgressRing';
 import { RecordProgressComponent } from '../RecordProgressComponent';
 import { HabitInfoModal } from '../HabitInfoModal';
 import { StatsAnalysis } from '../StatsAnalysis';
+import { ProgressHistory } from '../ProgressHistory';
 
 export const HabitDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -26,6 +26,7 @@ export const HabitDetail: React.FC = () => {
     fetchHabitProgress,
     fetchHabitStats,
     recordProgress,
+    habitProgress,
     deleteHabit,
     error,
     //loading: contextLoading
@@ -44,6 +45,7 @@ export const HabitDetail: React.FC = () => {
   useEffect(() => {
     if (habitId) {
       const habit = habits?.find(habit => habit.id === habitId);
+
       if (habit) {
         setCurrentHabit(habit);
       }
@@ -140,17 +142,23 @@ export const HabitDetail: React.FC = () => {
           <Description>{currentHabit.description}</Description>
         )}
         <FilterNavigation>
-          <NavItem className={habitInfo === false ? 'active' : ''} onClick={() => toggleWindow()}>
+          <NavItem className={!habitInfo ? 'active' : ''} onClick={() => setHabitInfo(false)}>
             Registrar progresso
           </NavItem>
-          <NavItem className={habitInfo === true ? 'active' : ''} onClick={() => toggleWindow()}>
+          <NavItem className={habitInfo ? 'active' : ''} onClick={() => setHabitInfo(true)}>
             Histórico
           </NavItem>
         </FilterNavigation>
       </InfoSection>
-      <RecordProgressComponent habit={currentHabit} />
-      <HabitInfoModal habit={currentHabit} />
-      <StatsAnalysis id={habitId} habit={currentHabit} />
+      <GridDetailedContainer>
+        {habitInfo ? (
+          <ProgressHistory currentHabit={currentHabit} progress={habitProgress[habitId] || []} />
+        ) : (
+          <RecordProgressComponent habit={currentHabit} />
+        )}
+        <HabitInfoModal habit={currentHabit} />
+        <StatsAnalysis id={habitId} habit={currentHabit} />
+      </GridDetailedContainer>
     </Container>
     // <Container>
     //   <Header>
@@ -429,6 +437,14 @@ const Title = styled.h1<{ habitType: HabitType | undefined }>`
   font-size: 25px;
   margin-bottom: 20px;
   color: white;
+
+  @media(max-width: 768px){
+    font-size: 20px;
+  }
+
+  @media(max-width: 550px){
+    font-size: 16px;
+  }
 `;
 
 const Description = styled.p`
@@ -445,6 +461,11 @@ const FilterNavigation = styled.ul`
   justify-content: center;
   align-items: center;
   gap: 10px;
+
+  @media(max-width: 768px){
+    font-size: 10px;
+    text-align: center;
+  }
 `
 
 const NavItem = styled.li`
@@ -458,222 +479,23 @@ const NavItem = styled.li`
   }
 `
 
-const MetaGrid = styled.div`
+const GridDetailedContainer = styled.main`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 16px;
-`;
+  grid-template-areas: 
+  "RecordProgressComponent HabitInfoModal"
+  "RecordProgressComponent StatsAnalysis"
+  ;
+  gap: 10px;
+  width: 100%;
 
-const MetaItem = styled.div`
-  background-color: var(--primary);
-  padding: 12px;
-  border-radius: 6px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-`;
-
-const MetaLabel = styled.div`
-  font-size: 12px;
-  //color: #888;
-  color: white;
-  margin-bottom: 4px;
-`;
-
-const MetaValue = styled.div`
-  font-size: 16px;
-  color: var(--tertiary);
-  opacity: 0.8;
-  //color: #333;
-  font-weight: 500;
-`;
-
-const StatsSection = styled.div`
-  background-color: var(--background);
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 24px;
-`;
-
-const StatsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  align-items: center;
-  gap: 16px;
-`;
-
-const StatItem = styled.div`
-  text-align: center;
-  padding: 12px;
-`;
-
-const StatValue = styled.div`
-  font-size: 24px;
-  font-weight: bold;
-  color: #1890ff;
-  margin-bottom: 4px;
-`;
-
-const StatLabel = styled.div`
-  font-size: 12px;
-  color: #666;
-`;
-
-const RingContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #1890ff;
-  padding: 10px;
-  font-size: 12px;
-  text-align: center;
-`;
-
-const RingValue = styled.div`
-  font-size: 16px;
-  font-weight: bold;
-`;
-
-const RingLabel = styled.div`
-  font-size: 10px;
-  color: #666;
-`;
-
-const ProgressSection = styled.div`
-  background-color: var(--background);
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-`;
-
-const SectionTitle = styled.h2`
-  font-size: 20px;
-  color: white;
-  margin-bottom: 16px;
-`;
-
-const ProgressForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`;
-
-const FormGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Label = styled.label`
-  font-size: 14px;
-  color: white;
-  margin-bottom: 6px;
-`;
-
-const Input = styled.input`
-  padding: 8px 12px;
-  border: 1px solid gray;
-  border-radius: 4px;
-  font-size: 16px;
-  background: var(--background);
-  color: white;
-  &:focus {
-    border-color: #1890ff;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  @media(max-width: 550px){
+    grid-template-areas: 
+    "RecordProgressComponent"
+    "HabitInfoModal"
+    "StatsAnalysis"
+    ;
   }
-`;
-
-const ButtonGroup = styled.div`
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  
-  @media(max-width: 480px) {
-    flex-direction: column;
-  }
-`;
-
-const Button = styled.button<{ variant?: 'success' | 'danger' | 'save' | 'default' }>`
-  padding: 10px 16px;
-  border-radius: 4px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  border: none;
-  transition: all 0.2s;
-  background-color: ${props => {
-    switch (props.variant) {
-      case 'success': return '#52c41a';
-      case 'danger': return '#f5222d';
-      case 'save': return 'var(--secondary)';
-      default: return '#b2b2b2';
-    }
-  }};
-  color: white;
-  &:hover {
-    opacity: 0.8;
-  }
-  &:disabled {
-    background-color: #d9d9d9;
-    cursor: not-allowed;
-  }
-`;
-
-const TextArea = styled.textarea`
-  padding: 8px 12px;
-  border: 1px solid gray;
-  border-radius: 4px;
-  font-size: 16px;
-  min-height: 80px;
-  background: var(--background);
-  resize: vertical;
-  &:focus {
-    border-color: #1890ff;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
-  }
-`;
-
-const ProgressList = styled.div`
-  margin-top: 24px;
-`;
-
-const ProgressItem = styled.div<{ $isSuccess: boolean }>`
-  padding: 16px;
-  border-left: 4px solid ${props => props.$isSuccess ? '#52c41a' : '#f5222d'};
-  border-bottom: 1px solid #f0f0f0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: ${props => props.$isSuccess ? 'rgba(82, 196, 26, 0.05)' : 'rgba(245, 34, 45, 0.05)'};
-`;
-
-const ProgressDate = styled.div`
-  font-size: 14px;
-  color: #f2f2f2;
-`;
-
-const ProgressValue = styled.div`
-  font-size: 16px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-`;
-
-const StatusBadge = styled.span<{ $isSuccess: boolean }>`
-  padding: 4px 8px;
-  border-radius: 10px;
-  font-size: 12px;
-  background-color: ${props => props.$isSuccess ? '#52c41a' : '#f5222d'};
-  color: white;
-`;
-
-const ProgressNotes = styled.div`
-  font-size: 14px;
-  color: white;
-  margin-top: 4px;
-`;
+`
 
 const NoData = styled.div`
   text-align: center;

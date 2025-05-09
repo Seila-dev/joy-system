@@ -17,7 +17,9 @@ export const HabitInfoModal = ({ habit }: HabitProps) => {
                         Tipo
                     </ItemLeft>
                     <ItemRight>
-                        <HabitTypeSpan $habitType={habit.type}>{habit.type === habit.type ? 'Bom' : 'Ruim'}</HabitTypeSpan>
+                        <HabitTypeSpan $habitType={habit.type}>
+                            {habit.type === 'BOM' ? 'Bom' : 'Ruim'}
+                        </HabitTypeSpan>
                     </ItemRight>
                 </ItemRow>
                 <ItemRow>
@@ -83,9 +85,11 @@ const Element = styled.section`
     background: var(--background);
     padding: 20px;
     border-radius: 10px;
-    max-width: 500px;
+    max-width: 600px;
     width: 100%;
     height: 100%;
+    display: grid;
+    grid-area: HabitInfoModal;
 
     @media(max-width: 768px){
         *{
