@@ -20,12 +20,12 @@ export const Header = ({ showMenuButton, onMenuClick }: HeaderProps) => {
     return (
         <HeaderElement>
             <div className="leftColumn">
-                <h1 className="headerTitle">JOY <span className="logo">System</span></h1>
                 {showMenuButton && (
                     <MenuButton onClick={onMenuClick} aria-label="Toggle menu">
                         <span className="material-symbols-outlined">menu</span>
                     </MenuButton>
                 )}
+                <h1 className="headerTitle">JOY <span className="logo">System</span></h1>
             </div>
             <nav className="rightColumn">
                 {isAuthenticated && user?.username ? (
