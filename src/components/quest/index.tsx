@@ -478,14 +478,14 @@ const CardsContainer = styled.section`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
-    height: 100%;
+    height: fit-content;
     width: 100%;
 
     .warn{
         color: white;
     }
 
-    @media(max-width: 900px){
+    @media(max-width: 1180px){
         grid-template-columns: 1fr 1fr;
         .card .footer .status{
             font-size: 12px;

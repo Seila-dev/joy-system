@@ -77,9 +77,9 @@ export const HabitList: React.FC<HabitListProps> = ({ onHabitClick }) => {
                 </LeftHeader>
                 <RightHeader>{habit.method}</RightHeader>
               </HeaderGroup>
-                            <HabitTitle>{habit.title}</HabitTitle>
+                            <Title>{habit.title}</Title>
 
-              <HabitDesc>{habit.description || 'Sem descrição'}</HabitDesc>
+              <Description className='description'>{habit.description || 'Sem descrição'}</Description>
             </HabitHeaderType>
 
               <HabitMeta>
@@ -158,22 +158,34 @@ export const HabitList: React.FC<HabitListProps> = ({ onHabitClick }) => {
 
 const Container = styled.div`
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 `;
-
 const HabitGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  height: 100%;
-  //grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 
-  @media(max-width: 768px) {
-    grid-template-columns: 1fr 1fr;
-    gap: 5px;
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  @media(max-width: 330px) {
-    grid-template-columns: 1fr;
+  @media (max-width: 550px) {
+    grid-template-columns: repeat(2, 1fr); // mantém 2 mesmo em celulares pequenos
+    gap: 10px;
+  }
+`;
+
+const Title = styled.h3`
+  margin-bottom: 8px;
+`;
+
+const Description = styled.p`
+  opacity: 0.8;
+  margin-bottom: 16px;
+
+  @media(max-width: 500px) {
+    display: none;
   }
 `;
 
@@ -193,6 +205,10 @@ const HabitCard = styled(Link)<{ $habitType: HabitType }>`
 
   &:hover {
     transform: translateY(-4px);
+  }
+
+  @media(max-width: 375px){
+    padding: 15px 10px;
   }
 `;
 
@@ -244,24 +260,24 @@ const RightHeader = styled.div`
   }
 `
 
-const HabitTitle = styled.h3`
-  font-size: 18px;
-  margin-bottom: 8px;
+// const HabitTitle = styled.h3`
+//   font-size: 18px;
+//   margin-bottom: 8px;
 
-  @media(max-width: 550px){
-    font-size: 12px;
-  }
-`;
+//   @media(max-width: 550px){
+//     font-size: 12px;
+//   }
+// `;
 
-const HabitDesc = styled.p`
-  font-size: 14px;
-  opacity: 0.8;
-  margin-bottom: 16px;
+// const HabitDesc = styled.p`
+//   font-size: 14px;
+//   opacity: 0.8;
+//   margin-bottom: 16px;
 
-  @media(max-width: 550px){
-    font-size: 10px;
-  }
-`;
+//   @media(max-width: 550px){
+//     font-size: 10px;
+//   }
+// `;
 
 const HabitMeta = styled.div`
   display: flex;

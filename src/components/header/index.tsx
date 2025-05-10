@@ -1,109 +1,74 @@
-import { useContext, useEffect, useState } from "react";
-import styled from "styled-components"
-import { MenuBurguer } from "../menuburguer";
-import { Link, useLocation } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { JoysContext } from "../../contexts/JoysContext";
 
-export const Header = () => {
-    const [openMenu, setOpenMenu] = useState<boolean>(false);
-
-    const toggleMenu = () => {
-        setOpenMenu(!openMenu);
-    }
-
-    const location = useLocation()
-
-    const { isAuthenticated, user } = useContext(AuthContext)
-    const { getBalance, balance, loadingJoy } = useContext(JoysContext)
-
-    useEffect(() => {
-        getBalance()
-    }, [balance])
-
-
-    return (
-        <>
-            {openMenu && <Overlay onClick={toggleMenu} />}
-            <HeaderElement >
-                <div className="leftColumn">
-                    <div className="menuBtn" onClick={toggleMenu}>
-                        <span className="material-symbols-outlined icon">
-                            menu
-                        </span>
-                    </div>
-                    <h1 className="headerTitle">JOY <span className="logo">System</span></h1>
-                    <nav className="navBar">
-                        <ul>
-                            <Link to="/dashboard">
-                                <li
-                                    className={location.pathname === '/dashboard' ? 'highlight' : '/dashboard'}
-                                >
-                                    Home
-                                </li>
-                            </Link>
-                            <Link to="quests">
-                                <li
-                                    className={location.pathname === '/dashboard/quests' ? 'highlight' : ''}
-                                >
-                                    Tarefas
-                                </li>
-                            </Link>
-                            <Link to="notes">
-                                <li
-                                    className={location.pathname === '/dashboard/notes' ? 'highlight' : ''}
-                                >
-                                    Notas
-                                </li>
-                            </Link>
-                            <Link to="store">
-                                <li
-                                    className={location.pathname === '/dashboard/store' ? 'highlight' : ''}
-                                >
-                                    Loja
-                                </li>
-                            </Link>
-                            <Link to="calendar">
-                                <li
-                                    className={location.pathname === '/dashboard/calendar' ? 'highlight' : ''}
-                                >
-                                    Calendário
-                                </li>
-                            </Link>
-                        </ul>
-                    </nav>
-                </div>
-                <nav className="rightColumn">
-                    {isAuthenticated && user?.username ? (
-                        <Link className="userSetup" to="user">{loadingJoy ? '0' : balance}<span className="material-symbols-outlined icon">
-                            paid
-                        </span> {user?.username} </Link>
-                    ) : (
-                        <Link className="signIn" to="/login">Sign In</Link>
-                    )}
-                    <Link to="user" className="settingsLink">
-                        <span className="material-symbols-outlined icon userProfile">
-                            person
-                        </span>
-                    </Link>
-                </nav>
-
-                <MenuBurguer active={openMenu} toggleMenu={toggleMenu} />
-            </HeaderElement>
-        </>
-    )
+interface HeaderProps {
+    showMenuButton?: boolean;
+    onMenuClick?: () => void;
 }
 
-const Overlay = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); 
-    z-index: 4; 
-    pointer-events: all; 
-`
+export const Header = ({ showMenuButton, onMenuClick }: HeaderProps) => {
+    const { isAuthenticated, user } = useContext(AuthContext);
+    const { getBalance, balance, loadingJoy } = useContext(JoysContext);
+
+    useEffect(() => {
+        getBalance();
+    }, [balance]);
+
+    return (
+        <HeaderElement>
+            <div className="leftColumn">
+                <h1 className="headerTitle">JOY <span className="logo">System</span></h1>
+                {showMenuButton && (
+                    <MenuButton onClick={onMenuClick} aria-label="Toggle menu">
+                        <span className="material-symbols-outlined">menu</span>
+                    </MenuButton>
+                )}
+            </div>
+            <nav className="rightColumn">
+                {isAuthenticated && user?.username ? (
+                    <Link className="userSetup" to="user">
+                        {loadingJoy ? '#' : balance}
+                        <span className="material-symbols-outlined icon">paid</span> 
+                        {user?.username}
+                    </Link>
+                ) : (
+                    <Link className="signIn" to="/login">Sign In</Link>
+                )}
+                <Link to="user" className="settingsLink">
+                    <span className="material-symbols-outlined icon userProfile">person</span>
+                </Link>
+            </nav>
+        </HeaderElement>
+    );
+};
+
+const MenuButton = styled.button`
+    background: none;
+    border: none;
+    color: var(--secondary, #fff);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+    
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    &:active {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .material-symbols-outlined {
+        font-size: 24px;
+    }
+`;
 
 const HeaderElement = styled.header`
     display: flex;
@@ -113,99 +78,125 @@ const HeaderElement = styled.header`
     transition: 0.25s ease-in-out;
     background: #00041a;
     color: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 
-    .headerTitle{
+    .headerTitle {
         font-size: 1.5rem;
-        color: var(--secondary);
+        color: var(--secondary, #fff);
+        margin: 0;
     }
-    .logo{
+    
+    .logo {
         opacity: 0.5;
         font-size: 15px;
     }
-    .menuBtn{
-        cursor: pointer;
-        color: var(--secondary)
-    }
-    .leftColumn{
-        display: flex;
-        align-items: center;
-        gap: 40px;
-    }
-    .leftColumn .navBar{
-        display: flex;
-    }
-    .leftColumn .navBar ul{
+    
+    .leftColumn {
         display: flex;
         align-items: center;
         gap: 20px;
     }
-    .leftColumn .navBar ul li{
+    
+    .leftColumn .navBar {
+        display: flex;
+    }
+    
+    .leftColumn .navBar ul {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .leftColumn .navBar ul li {
         cursor: pointer;
         opacity: 0.7;
-        &:hover{
+        &:hover {
             opacity: 1;
         }
     }
 
-    .leftColumn .navBar ul li.highlight{
+    .leftColumn .navBar ul li.highlight {
         opacity: 1;
     }
-    .rightColumn{
+    
+    .rightColumn {
         align-items: center;
         display: flex;
-        gap: 10px;
-        margin-left: 10px;
+        gap: 15px;
     }
-    .rightColumn .icon{
+    
+    .rightColumn .icon {
         cursor: pointer;
-        color: var(--secondary);
+        color: var(--secondary, #fff);
     }
-    .rightColumn .userProfile{
-        background: var(--secondary);
+    
+    .rightColumn .userProfile {
+        background: var(--secondary, #fff);
         border-radius: 50%;
         font-size: 18px;
         font-weight: 400;
-        color: white;
+        color: #00041a;
         transform: translateY(0);
         padding: 5px;
         display: flex;
         align-items: center;
+        justify-content: center;
     }
-    .rightColumn .signIn{
+    
+    .rightColumn .signIn {
         background: black;
         color: white;
         padding: 10px 28px;
         font-size: 14px;
         border-radius: 5px;
-        border: none;
+        text-decoration: none;
         cursor: pointer;
+        transition: background-color 0.2s ease;
+        
+        &:hover {
+            background-color: #222;
+        }
     }
-    .rightColumn .userSetup{
+    
+    .rightColumn .userSetup {
         display: flex;
         align-items: center;
         gap: 10px;
         color: white;
+        text-decoration: none;
     }
     
-    @media(max-width: 850px){
+    .rightColumn .settingsLink {
+        text-decoration: none;
+    }
+    
+    @media(max-width: 850px) {
         .leftColumn .navBar {
             display: none;
         }
     }
-    @media(max-width: 768px){
-        .headerTitle{
-            font-size: 15px;
+    
+    @media(max-width: 768px) {
+        padding: 15px 25px;
+        
+        .headerTitle {
+            font-size: 18px;
         }
     }
 
-    @media(max-width: 450px){
+    @media(max-width: 450px) {
         padding: 15px;
 
-        .logo{
+        .logo {
             font-size: 10px;
         }
-        .userSetup{
+        
+        .userSetup {
             display: none !important;
         }
     }
-`
+`;
