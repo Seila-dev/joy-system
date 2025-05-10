@@ -258,6 +258,7 @@ const GridDetailedContainer = styled.main`
     "HabitInfoModal"
     "StatsAnalysis"
     ;
+    grid-template-columns: 1fr;
   }
 `
 
