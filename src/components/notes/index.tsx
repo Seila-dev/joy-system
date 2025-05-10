@@ -167,6 +167,10 @@ const CardsContainer = styled.section`
       }
       @media (max-width: 580px) {
         grid-template-columns: 1fr;
+
+        .warn{
+          font-size: 13px;
+        }
       }
     `;
 

@@ -74,11 +74,19 @@ export const GlobalStyle = createGlobalStyle`
     
     h3{
         font-size: var(--h3-desktop-fontsize);
+
+        @media(max-width: 450px){
+        font-size: 12px;
+    }
     }
     
     p.description{
         font-size: var(--description-fontsize);
         opacity: var(--description-opacity);
+
+        @media(max-width: 500px){
+            font-size: 12px;
+        }
     }
     span.secondary{
         color: var(--secondary);
