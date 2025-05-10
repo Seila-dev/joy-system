@@ -8,6 +8,7 @@ import { QuestProvider } from './contexts/QuestContext.tsx'
 import { JoysProvider } from './contexts/JoysContext.tsx'
 import { ProductProvider } from './contexts/ProductContext.tsx'
 import { NoteProvider } from './contexts/NotesContext.tsx'
+import { HabitProvider } from './contexts/HabitContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -17,8 +18,10 @@ createRoot(document.getElementById('root')!).render(
           <NoteProvider>
             <QuestProvider>
               <ProductProvider>
+                <HabitProvider>
                 <GlobalStyle />
                 <AppRoutes />
+                </HabitProvider>
               </ProductProvider>
             </QuestProvider>
           </NoteProvider>

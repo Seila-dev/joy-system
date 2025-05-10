@@ -46,6 +46,12 @@ const { 'joysystem.token': token } = parseCookies();
     }
   }, [token])
 
+//   useEffect(() => {
+//   if (joyTransactions && joyTransactions.length > 0) {
+//     getBalance();
+//   }
+// }, [joyTransactions]);
+
 
 
   const getTransactions = async (limit: number) => {

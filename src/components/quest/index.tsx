@@ -181,7 +181,7 @@ export const QuestItem = ({ selectedTimeline, filterDifficulty, filterStatus, fi
         return text.length > limit ? text.substring(0, limit) + "..." : text;
     }
 
-    if (loading) return <div>Loading..</div>
+    if (loading) return <div>Carregando..</div>
 
     return (
         <>
@@ -497,6 +497,10 @@ const CardsContainer = styled.section`
     }
     @media(max-width: 580px){
         grid-template-columns: 1fr;
+
+        .warn{
+          font-size: 13px;
+        }
     }
 `
 
