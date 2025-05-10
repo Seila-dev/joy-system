@@ -58,7 +58,7 @@ export const Introduction = () => {
             title: "Calendário",
             description: "Coloque seus planos em dia",
             icon: "calendar_today",
-            link: "notes",
+            link: "calendar",
             background: "#1A2A40", // Azul escuro profundo
             color: "#D0E7FF",       // Azul claro suave
             new: false
