@@ -17,16 +17,16 @@ export const HabitList: React.FC<HabitListProps> = ({ onHabitClick }) => {
   const fetchedHabitsRef = useRef<Set<number>>(new Set());
 
   useEffect(() => {
-  if (!habits) return;
+    if (!habits) return;
 
-  habits.forEach((habit) => {
-    if (!fetchedHabitsRef.current.has(habit.id)) {
-      fetchedHabitsRef.current.add(habit.id);
-      fetchHabitStats(habit.id);
-      fetchHabitProgress(habit.id);
-    }
-  });
-}, [habits]);
+    habits.forEach((habit) => {
+      if (!fetchedHabitsRef.current.has(habit.id)) {
+        fetchedHabitsRef.current.add(habit.id);
+        fetchHabitStats(habit.id);
+        fetchHabitProgress(habit.id);
+      }
+    });
+  }, [habits]);
 
   const handleHabitClick = (habitId: number) => {
     if (onHabitClick) {
@@ -65,7 +65,7 @@ export const HabitList: React.FC<HabitListProps> = ({ onHabitClick }) => {
             onClick={() => handleHabitClick(habit.id)}
           >
             <HabitHeaderType>
-              
+
               <HeaderGroup>
                 <LeftHeader
                   $habitType={habit.type}
@@ -77,78 +77,95 @@ export const HabitList: React.FC<HabitListProps> = ({ onHabitClick }) => {
                 </LeftHeader>
                 <RightHeader>{habit.method}</RightHeader>
               </HeaderGroup>
-                            <Title>{habit.title}</Title>
+              <Title>{habit.title}</Title>
 
               <Description className='description'>{habit.description || 'Sem descrição'}</Description>
             </HabitHeaderType>
+            {habitStats[habit.id] && (
+              <div>
+                <ProgressRing
+                  progress={habitStats[habit.id].completionRate}
+                  size={100}
+                  variant="bar"
+                  strokeWidth={5}
+                  color={habitStats[habit.id].completionRate > 50 ? "rgb(52, 211, 153)" : "rgb(248, 113, 113)"}
+                />
+                <ExtendHabit>
+                  <span className="material-symbols-outlined">
+                    zoom_out_map
+                  </span>
+                  Clique para expandir
+                </ExtendHabit>
+              </div>
+            )}
 
-              <HabitMeta>
-                <Badge>
-                  <BadgeText>
-                    <span className="material-symbols-outlined icon">
-                      calendar_month
-                    </span>
-                    Frequência:
-                  </BadgeText>
-                  {habit.frequency}
-                </Badge>
-                <Badge>
-                  <BadgeText>
-                    <span className="material-symbols-outlined icon">
-                      schedule
-                    </span>
-                    Duração:
-                  </BadgeText>
-                  {habit.duration} {habit.duration === 1 ? 'dia' : 'dias'}
-                </Badge>
-                <Badge>
-                  <BadgeText>
-                    <span className="material-symbols-outlined icon">
-                      calendar_today
-                    </span>
-                    Dias restantes:
-                  </BadgeText>
-                  {remainingDays(habit)} {remainingDays(habit) === 1 ? 'dia' : 'dias'}
-                </Badge>
+            <HabitMeta>
+              <Badge>
+                <BadgeText>
+                  <span className="material-symbols-outlined icon">
+                    calendar_month
+                  </span>
+                  Frequência:
+                </BadgeText>
+                {habit.frequency}
+              </Badge>
+              <Badge>
+                <BadgeText>
+                  <span className="material-symbols-outlined icon">
+                    schedule
+                  </span>
+                  Duração:
+                </BadgeText>
+                {habit.duration} {habit.duration === 1 ? 'dia' : 'dias'}
+              </Badge>
+              <Badge>
+                <BadgeText>
+                  <span className="material-symbols-outlined icon">
+                    calendar_today
+                  </span>
+                  Dias restantes:
+                </BadgeText>
+                {remainingDays(habit)} {remainingDays(habit) === 1 ? 'dia' : 'dias'}
+              </Badge>
 
-                <Badge>
-                  <BadgeText>
-                    <span className="material-symbols-outlined icon">
-                      add_circle
-                    </span>
-                    Pontos:
-                  </BadgeText>
-                  + {habit.successPoints} / - {habit.failurePoints}
-                </Badge>
-                <Badge>
-                  <BadgeText>
-                    <span className="material-symbols-outlined icon">
-                      star
-                    </span>
-                    Sequência atual:
-                  </BadgeText>
-                  {getCurrentStreak(habit.id)}
-                </Badge>
-                {habitStats[habit.id] && (
-                  <>
-                    <Divisor>
-                      <div className="line b1"></div>
-                      <span className="span-pin">Saúde do Hábito</span>
-                      <div className="line b2"></div>
-                    </Divisor>
-                    <Badge>
-                      { }
-                      <ProgressRing
-                        progress={habitStats[habit.id].completionRate}
-                        size={100}
-                        variant="bar"
-                        strokeWidth={5}
-                        color={habitStats[habit.id].completionRate > 50 ? "rgb(52, 211, 153)" : "rgb(248, 113, 113)"}
-                      />
-                    </Badge>
-                  </>
-                )}
-              </HabitMeta>
+              <Badge>
+                <BadgeText>
+                  <span className="material-symbols-outlined icon">
+                    add_circle
+                  </span>
+                  Pontos:
+                </BadgeText>
+                + {habit.successPoints} / - {habit.failurePoints}
+              </Badge>
+              <Badge>
+                <BadgeText>
+                  <span className="material-symbols-outlined icon">
+                    star
+                  </span>
+                  Sequência atual:
+                </BadgeText>
+                {getCurrentStreak(habit.id)}
+              </Badge>
+              {habitStats[habit.id] && (
+                <>
+                  <Divisor>
+                    <div className="line b1"></div>
+                    <span className="span-pin">Saúde do Hábito</span>
+                    <div className="line b2"></div>
+                  </Divisor>
+                  <Badge>
+                    { }
+                    <ProgressRing
+                      progress={habitStats[habit.id].completionRate}
+                      size={100}
+                      variant="bar"
+                      strokeWidth={5}
+                      color={habitStats[habit.id].completionRate > 50 ? "rgb(52, 211, 153)" : "rgb(248, 113, 113)"}
+                    />
+                  </Badge>
+                </>
+              )}
+            </HabitMeta>
           </HabitCard>
         ))}
       </HabitGrid>
@@ -189,7 +206,7 @@ const Description = styled.p`
   }
 `;
 
-const HabitCard = styled(Link)<{ $habitType: HabitType }>`
+const HabitCard = styled(Link) <{ $habitType: HabitType }>`
   background: linear-gradient(to right, ${props => props.$habitType === HabitType.BOM ? '#027148' : '#8b0000'},
   ${props => props.$habitType === HabitType.BOM ? '#013220' : '#200'}
 );
@@ -280,7 +297,7 @@ const RightHeader = styled.div`
 // `;
 
 const HabitMeta = styled.div`
-  display: flex;
+  display: none;
   justify-content: space-between;
   align-items: flex-end;
   flex-direction: column;
@@ -392,3 +409,13 @@ const EmptyState = styled.div`
   padding: 40px 0;
   color: #999;
 `;
+
+const ExtendHabit = styled.div`
+      padding: 20px 10px 10px 10px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+      opacity: 0.8;
+    `
