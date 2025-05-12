@@ -91,7 +91,7 @@ export const HabitList: React.FC<HabitListProps> = ({ onHabitClick }) => {
                   color={habitStats[habit.id].completionRate > 50 ? "rgb(52, 211, 153)" : "rgb(248, 113, 113)"}
                 />
                 <ExtendHabit>
-                  <span className="material-symbols-outlined">
+                  <span className="material-symbols-outlined icon">
                     zoom_out_map
                   </span>
                   Clique para expandir
@@ -414,8 +414,20 @@ const ExtendHabit = styled.div`
       padding: 20px 10px 10px 10px;
       width: 100%;
       display: flex;
+      font-size: 14px;
       align-items: center;
       gap: 10px;
       justify-content: center;
       opacity: 0.8;
+
+      .icon {
+        font-size: 20px;
+      }
+
+      @media(max-width: 768px) {
+        font-size: 10px;
+        .icon{
+          font-size: 15px;
+        }
+      }
     `
